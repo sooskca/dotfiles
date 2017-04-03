@@ -1,0 +1,10 @@
+
+alias run-help=man
+
+alias which-command=whence
+
+alias reload!='. /home/jack/.zshrc'
+alias ll='ls -lahF --color=auto'
+alias ls='ls -hF --color=auto'
+alias lsl='ls -lhF --color=auto'
+alias vim='nvim'

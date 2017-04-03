@@ -1,0 +1,254 @@
+# .i3/config - My i3 configuration
+# Maintainer:   José Araújo <sooskca@gmail.com>
+# Version:      0.1
+
+
+# = Startup # {{{
+
+  # Background
+  exec_always --no-startup-id xsetroot -solid '#65737E' &
+
+  # CapsOff
+  exec_always xmodmap -e "clear lock" #disable caps lock switch
+  exec_always xmodmap -e "keysym Caps_Lock = Escape" #set caps_lock as escape
+
+  # Set startup volume
+  exec --no-startup-id pactl set-sink-volume 0 '20%' &
+
+  # Disable beeps
+  exec --no-startup-id xset -b &
+
+  # DPMS monitor setting (standby -> suspend -> off) (seconds)
+  exec --no-startup-id xset dpms 300 600 900 &
+
+  # Scratchpad
+  exec --no-startup-id termite -t scratchpad
+
+  # Browser
+  exec --no-startup-id firefox
+
+  # Network Manager
+  exec --no-startup-id nm-applet
+
+# }}}
+
+# = Bindings {{{
+
+  # Modifier
+  set $Mod Mod4
+
+  # Browser
+  bindsym $Mod+Shift+F exec firefox
+
+  # Terminal
+  bindsym $Mod+Return exec termite
+
+  # Take screenshot
+  bindsym Print exec scrot '%Y-%m-%d_$wx$h.png' -e 'mv $f ~/Pictures/Screenshots/'
+
+  # Run
+  bindsym $Mod+D exec rofi -show run -lines 3 -eh 2 -width 100 -padding 450 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "Roboto Black 18"
+
+  # Volume
+  bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
+  bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
+  bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+
+  # Playback
+  bindsym XF86AudioPlay exec playerctl play-pause
+  bindsym XF86AudioPause exec playerctl play-pause
+  bindsym XF86AudioNext exec playerctl next
+  bindsym XF86AudioPrev exec playerctl previous
+
+  # Kill focused container
+  bindsym $Mod+Shift+Q kill
+
+  # Reload the configuration file
+  bindsym $Mod+Shift+C reload
+
+  # Restart i3 inplace
+  bindsym $Mod+Shift+r restart
+
+  # Exit i3
+  bindsym $Mod+Shift+e exec /home/jack/.i3/scripts/exit.py
+
+  # Lock screen
+  bindsym $Mod+Shift+x i3lock --color 475263
+
+  # Resize Mode
+  bindsym $Mod+R mode "resize"
+
+# = }}}
+
+# = Containers {{{
+
+  # Switch focus
+  bindsym $Mod+H focus left
+  bindsym $Mod+J focus down
+  bindsym $Mod+K focus up
+  bindsym $Mod+L focus right
+
+  bindsym $Mod+Left focus left
+  bindsym $Mod+Down focus down
+  bindsym $Mod+Up focus up
+  bindsym $Mod+Right focus right
+
+  # Focus the parent container
+  bindsym $Mod+A focus parent
+
+  # Move focused container
+  bindsym $Mod+Shift+H move left
+  bindsym $Mod+Shift+J move down
+  bindsym $Mod+Shift+K move up
+  bindsym $Mod+Shift+L move right
+
+  bindsym $Mod+Shift+Left move left
+  bindsym $Mod+Shift+Down move down
+  bindsym $Mod+Shift+Up move up
+  bindsym $Mod+Shift+Right move right
+
+  # Move focused container to workspace
+  bindsym $Mod+Shift+1 move container to workspace $workspace1
+  bindsym $Mod+Shift+2 move container to workspace $workspace2
+  bindsym $Mod+Shift+3 move container to workspace $workspace3
+  bindsym $Mod+Shift+4 move container to workspace $workspace4
+  bindsym $Mod+Shift+5 move container to workspace $workspace5
+  bindsym $Mod+Shift+6 move container to workspace $workspace6
+  bindsym $Mod+Shift+7 move container to workspace $workspace7
+  bindsym $Mod+Shift+8 move container to workspace $workspace8
+  bindsym $Mod+Shift+9 move container to workspace $workspace9
+  bindsym $Mod+Shift+0 move container to workspace $workspace10
+
+  # Default workspaces
+  #assign [class="{title}"] $workspace{#}
+
+# = }}}
+
+# = Workspaces {{{
+
+  # Cycle container in workspace
+  bindsym Mod1+Tab focus right
+  bindsym Mod1+Shift+Tab focus left
+  bindsym $Mod+Tab workspace back_and_forth
+
+  # Labels
+  set $workspace1  "1 "
+  set $workspace2  "2 "
+  set $workspace3  "3 "
+  set $workspace4  "4 "
+  set $workspace5  "5 "
+  set $workspace6  "6 "
+  set $workspace7  "7 "
+  set $workspace8  "8 "
+  set $workspace9  "9 "
+  set $workspace10 "10 "
+
+  # Switch to workspace
+  bindsym $Mod+1 workspace $workspace1
+  bindsym $Mod+2 workspace $workspace2
+  bindsym $Mod+3 workspace $workspace3
+  bindsym $Mod+4 workspace $workspace4
+  bindsym $Mod+5 workspace $workspace5
+  bindsym $Mod+6 workspace $workspace6
+  bindsym $Mod+7 workspace $workspace7
+  bindsym $Mod+8 workspace $workspace8
+  bindsym $Mod+9 workspace $workspace9
+  bindsym $Mod+0 workspace $workspace10
+
+# = }}}
+
+# = Look & Feel {{{
+
+  # Font
+  font pango: Roboto 10
+
+  # Border
+  hide_edge_borders both
+
+  # Color
+  set $bg-color            #2f343f
+  set $inactive-bg-color   #2f343f
+  set $text-color          #f3f4f5
+  set $inactive-text-color #676E7D
+  set $urgent-bg-color     #E53935
+
+  # Theme
+  #                       border              background         text                 indicator
+  client.focused          $bg-color           $bg-color          $text-color          #00ff00
+  client.unfocused        $inactive-bg-color  $inactive-bg-color $inactive-text-color #00ff00
+  client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-color #00ff00
+  client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          #00ff00
+
+  # Bar
+  bar {
+    position top
+    mode hide
+    modifier $mod
+    status_command i3blocks -c ~/.i3/i3blocks.conf
+    colors {
+      background $bg-color
+      #                         border             background          text
+      focused_workspace         $bg-color          $bg-color           $text-color
+      inactive_workspace        $inactive-bg-color $inactive-bg-color  $inactive-text-color
+      urgent_workspace          $urgent-bg-color   $urgent-bg-color    $text-color
+    }
+  }
+
+# = }}}
+
+# = Behaviour {{{
+
+  # Scratchpad
+  bindsym $mod+m move scratchpad
+  bindsym $mod+o scratchpad show
+
+  for_window [class="^Termite$" title="scratchpad"] border 1pixel; move scratchpad
+
+  # Drag with mouse
+  floating_Modifier $Mod
+
+  # Enter fullscreen
+  bindsym $Mod+F fullscreen
+
+  # Split in horizontal orientation
+  bindsym $Mod+B split h
+
+  # Split in vertical orientation
+  bindsym $Mod+V split v
+
+  # Change container layout
+  bindsym $Mod+S layout stacking
+  bindsym $Mod+W layout tabbed
+  bindsym $Mod+E layout toggle split
+
+  # Switch focus between tiling / floating windows
+  bindsym $mod+space focus mode_toggle
+
+  # Toggle tiling / floating
+  bindsym $Mod+Shift+space floating toggle
+
+  # Always float certain containers
+  #for_window [class="{title}"] floating enable
+
+  # Sticky window
+  bindsym $Mod+Shift+S sticky toggle
+
+  # Resize containers
+  Mode "resize" {
+      bindsym H resize shrink width 10 px or 10 ppt
+      bindsym J resize grow height 10 px or 10 ppt
+      bindsym K resize shrink height 10 px or 10 ppt
+      bindsym L resize grow width 10 px or 10 ppt
+
+      bindsym Lefj resize shrink width 10 px or 10 ppt
+      bindsym Down resize grow height 10 px or 10 ppt
+      bindsym Up resize shrink height 10 px or 10 ppt
+      bindsym Right resize grow width 10 px or 10 ppt
+
+      bindsym Return Mode "default"
+      bindsym Escape Mode "default"
+  }
+
+# = }}}
+
+# vim: fdm=marker:ft=conf
