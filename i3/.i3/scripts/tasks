@@ -1,0 +1,24 @@
+#!/usr/bin/env sh
+task=task
+cur=$($task active|tail -n +4|head -n -2|sed 's/^ //' |cut -d ' ' -f1|xargs)
+active=""
+for c in $cur
+do
+	active="$active$c) $($task _get $c.description) "
+done
+due=$($task overdue|tail -n +4|head -n -2|sed 's/^ //' |cut -d ' ' -f1|xargs)
+
+echo $task > /tmp/t
+
+if [ -z $active ]
+then
+	active='???'
+fi
+
+echo -n " ($active) "
+echo " ($due)"
+
+if [ $(echo $due|wc -l) != '0' ]
+then
+	echo "#FF0000"
+fi

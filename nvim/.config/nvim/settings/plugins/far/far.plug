@@ -1,0 +1,1 @@
+Plug 'brooth/far.vim'
