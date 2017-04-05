@@ -3,6 +3,7 @@
 " Version:      0.1
 
 " Use global clipboard
+if has('unnamedplus')
   set clipboard& clipboard=unnamedplus
 else
   set clipboard& clipboard=unnamed

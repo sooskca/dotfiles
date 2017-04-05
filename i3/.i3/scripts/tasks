@@ -15,8 +15,8 @@ then
 	active='???'
 fi
 
-echo -n " ($active) "
-echo " ($due)"
+echo -n " $active"
+echo "    $due"
 
 if [ $(echo $due|wc -l) != '0' ]
 then

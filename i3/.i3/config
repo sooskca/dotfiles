@@ -24,14 +24,14 @@
   # Scratchpad
   exec --no-startup-id termite -r scratchpad
 
-  # Browser
-  exec --no-startup-id firefox
-
-  # Network Manager
-  exec --no-startup-id nm-applet
-
   # Dropbox(rclone)
   exec --no-startup-id rclone mount Dropbox: /home/jack/Dropbox &
+
+  # Network Manager
+  exec --no-startup-id nm-applet &
+
+  # Network Manager
+  exec --no-startup-id keychain &
 
 # }}}
 
@@ -196,13 +196,6 @@
 
 # = Behaviour {{{
 
-  # Scratchpad
-  bindsym $mod+m move scratchpad
-  bindsym $mod+o scratchpad show
-
-  bindsym $mod+p [class="omate"] scratchpad show
-  bindsym $mod+t [class="ermite"] scratchpad show
-
   # Drag with mouse
   floating_Modifier $Mod
 
@@ -250,29 +243,35 @@
 
 # = Container assignment {{{
 
+  ## Workspaces
+
+  # Coding
+  assign [class="(~i)firefox"] $workspace1
+
+  # Coding
+  assign [class="(?i)termite"] $workspace2
+
+  # Documents
+  assign [class="(?i)pcmanfm"]  $workspace3
+
   # == Floating {{{
   #for_window [class="{title}"] floating enable
+  for_window [title="Variety Preferences"] floating enable
 
   # == }}}
 
   # == Scratchpad {{{
 
+  bindsym $mod+m move scratchpad
+  bindsym $mod+o scratchpad show
+
   # Terminal
-  for_window [class="ermite" window_role="scratchpad"] border 1pixel; move scratchpad
+  for_window [window_role="scratchpad"] border 1pixel; move scratchpad
 
   # Pomodoro
-
-  for_window [class="omate"] border 1pixel; move scratchpad
+  for_window [class="(?i)tomate"] border 1pixel; move scratchpad
 
   # == }}}
-
-  ## Workspaces
-
-  # Coding
-  assign [class="ermite"] $workspace2
-
-  # Writing
-  assign [class="cmanfm"]  $workspace3
 
 # = }}}
 
