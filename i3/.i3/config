@@ -7,10 +7,14 @@
 
   # Background
   exec_always --no-startup-id xsetroot -solid '#65737E' &
+  exec --no-startup-id variety &
 
   # CapsOff
   exec_always xmodmap -e "clear lock" #disable caps lock switch
   exec_always xmodmap -e "keysym Caps_Lock = Escape" #set caps_lock as escape
+
+  # AltGr Intl
+  exec --no-startup-idsetxkbmap -variant altgr-intl &
 
   # Set startup volume
   exec --no-startup-id pactl set-sink-volume 0 '20%' &
@@ -22,7 +26,10 @@
   exec --no-startup-id xset dpms 300 600 900 &
 
   # Scratchpad
-  exec --no-startup-id termite -r scratchpad
+  exec --no-startup-id termite -r scratchpad &
+
+  # Pomodoro
+  exec --no-startup-id tomate-gtk &
 
   # Dropbox(rclone)
   exec --no-startup-id rclone mount Dropbox: /home/jack/Dropbox &
@@ -30,8 +37,17 @@
   # Network Manager
   exec --no-startup-id nm-applet &
 
-  # Network Manager
+  # SSH Agent
   exec --no-startup-id keychain &
+
+  # Clipboard Manager
+  exec --no-startup-id parcellite &
+
+  # Composition Manager
+  exec --no-startup-id compton -f &
+
+  # Notification Manager
+  exec --no-startup-id dunst &
 
 # }}}
 
@@ -44,14 +60,13 @@
   bindsym $Mod+Shift+F exec firefox
 
   # Terminal
-  bindsym $Mod+Return exec termite
-
+  bindsym $Mod+Return exec termite -e 'tmux new-session -A -s dev'
 
   # Take screenshot
   bindsym Print exec scrot '%Y-%m-%d_$wx$h.png' -e 'mv $f ~/Pictures/Screenshots/'
 
   # Run
-  bindsym $Mod+D exec rofi -show run -lines 3 -eh 2 -width 100 -padding 450 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "Roboto Black 18"
+  bindsym $Mod+D exec rofi -show run -lines 3 -eh 2 -width 100 -padding 450 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "SFNS Display 18"
 
   # Volume
   bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% #increase sound volume
@@ -77,7 +92,7 @@
   bindsym $Mod+Shift+e exec python2 /home/jack/.i3/scripts/exit
 
   # Lock screen
-  bindsym $Mod+Shift+x i3lock --color 475263
+  bindsym $Mod+Shift+x i3lock --color #475263
 
   # Resize Mode
   bindsym $Mod+R mode "resize"
@@ -161,7 +176,7 @@
 # = Look & Feel {{{
 
   # Font
-  font pango: Roboto 10
+  font pango: SFNS 10
 
   # Border
   hide_edge_borders both
@@ -249,14 +264,16 @@
   assign [class="(~i)firefox"] $workspace1
 
   # Coding
-  assign [class="(?i)termite"] $workspace2
+  assign [class="(?i)tmux"] $workspace2
 
   # Documents
-  assign [class="(?i)pcmanfm"]  $workspace3
+  assign [title="(?i)pcmanfm"]  $workspace3
 
   # == Floating {{{
   #for_window [class="{title}"] floating enable
-  for_window [title="Variety Preferences"] floating enable
+  for_window [title="(?i)variety"] floating enable
+  for_window [title="(?i)transmission"] floating enable
+  for_window [title="(?i)mpv"] floating enable
 
   # == }}}
 
@@ -265,8 +282,11 @@
   bindsym $mod+m move scratchpad
   bindsym $mod+o scratchpad show
 
+  bindsym $mod+grave [window_role="scratchpad"] scratchpad show
+  bindsym $mod+p [class="(?i)tomate"] scratchpad show
+
   # Terminal
-  for_window [window_role="scratchpad"] border 1pixel; move scratchpad
+  for_window [window_role="scratchpad"] border 1pixel; floating enable; move scratchpad
 
   # Pomodoro
   for_window [class="(?i)tomate"] border 1pixel; move scratchpad

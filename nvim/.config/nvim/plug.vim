@@ -12,14 +12,11 @@ endif
 " Initialize
 call plug#begin('~/.local/share/nvim/plugged')
 
-" Before
-runtime! settings/plugins/**/*.plug.before
-
 " Load
 runtime! settings/plugins/**/*.plug
 
-" After
-runtime! settings/plugins/**/*.plug.after
-
 " Commit
 call plug#end()
+
+" Highlight .plugfiles
+autocmd BufRead,BufNewFile *.plug setlocal filetype=vim

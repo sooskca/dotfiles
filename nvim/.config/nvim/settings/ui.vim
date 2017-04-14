@@ -19,9 +19,11 @@ set foldcolumn=1 " Width of the column used to indicate folds
 
 set foldenable " Set to display all folds open
 
-set foldlevel=10 " Start unfolded
+set foldlevelstart=1 " Start folded
 
-set foldmethod=indent " Folding type
+set foldnestmax=10 " Avoid excessive nesting
+
+set foldmethod=indent " How to fold
 
 set ignorecase " Ignore case in search patterns
 

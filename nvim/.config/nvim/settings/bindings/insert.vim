@@ -6,3 +6,5 @@
 inoremap jk <esc>
 inoremap kj <esc>
 
+" <TAB> Expands
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
