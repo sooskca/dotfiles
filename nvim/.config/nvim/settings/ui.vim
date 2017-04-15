@@ -37,7 +37,9 @@ set mouse=a " Enable the use of mouse clicks
 
 set nowrap " Do not wrap long lines
 
-set number " TODO: setup relative line numbers
+set number " Show line numbers in gutter
+
+set relativenumber " Show relative numbers in gutter
 
 set scrolloff=7 " Minimum number of lines above and below cursor
 

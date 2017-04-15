@@ -2,6 +2,8 @@
 " Maintainer:   José Araújo <sooskca@gmail.com>
 " Version:      0.1
 
+cd $HOME/Code
+
 " Plugins
 if filereadable(expand('~/.config/nvim/plugins.vim'))
     source ~/.config/nvim/plugins.vim

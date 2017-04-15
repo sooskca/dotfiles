@@ -1,1 +1,3 @@
 Plug 'vimwiki/vimwiki', {'branch': 'dev'}
+	\|Plug 'tbabej/taskwiki'
+		\|Plug 'blindFS/vim-taskwarrior'

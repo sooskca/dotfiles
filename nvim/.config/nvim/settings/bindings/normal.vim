@@ -68,3 +68,7 @@ noremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 " <Leader>p -- Copy the full path of the current file to the clipboard
 nnoremap <silent> <Leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
       \ path '".expand("%:p")."' to clipboard"<cr>
+
+" <Leader>r -- Cycle though relative line number + number, number (only), and
+" no numbers.
+nnoremap <silent> <Leader>r :call functions#cycle_line_numbers#do()<CR>
