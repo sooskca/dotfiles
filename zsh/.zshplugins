@@ -1,0 +1,9 @@
+djui/alias-tips
+
+zsh-users/zsh-completions
+zsh-users/zsh-syntax-highlighting
+zsh-users/zsh-history-substring-search
+
+# Oh My Zsh
+robbyrussell/oh-my-zsh folder:plugins/aws
+

@@ -1,16 +1,18 @@
-# SSH Keys
-eval $(keychain --eval --quiet github)
+# vim: fdm=marker ts=2 sts=2 sw=2
+# init.vim - My neovim configuration
+# Maintainer:   José Araújo <sooskca@gmail.com>
+# Version:      0.1
+#
+# Plugins {{{
 
-# Utilities
-# Zulu plugin manager
-source "${ZULU_DIR:-"${ZDOTDIR:-$HOME}/.zulu"}/core/zulu"
-zulu init
+source <(antibody init)
 
-# Base16 shell colors
-BASE16_SHELL=$HOME/.config/base16-shell/
-[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+antibody bundle < ~/.zshplugins
 
-## Keybindings
+# }}}
+
+# Keybindings {{{
+
 bindkey -v
 
 bindkey '^ ' autosuggest-accept
@@ -22,4 +24,7 @@ bindkey -M emacs '^P' history-substring-search-up
 bindkey -M emacs '^N' history-substring-search-down
 
 bindkey -M vicmd 'k' history-substring-search-up
+
 bindkey -M vicmd 'j' history-substring-search-down
+
+# }}}

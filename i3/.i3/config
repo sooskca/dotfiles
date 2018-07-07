@@ -57,7 +57,7 @@
   set $Mod Mod4
 
   # Browser
-  bindsym $Mod+Shift+F exec firefox
+  bindsym $Mod+c exec chromium
 
   # Terminal
   bindsym $Mod+Return exec termite -e 'tmux new-session -A -s dev'
@@ -66,7 +66,7 @@
   bindsym Print exec scrot '%Y-%m-%d_$wx$h.png' -e 'mv $f ~/Pictures/Screenshots/'
 
   # Run
-  bindsym $Mod+D exec rofi -show run -lines 3 -eh 2 -width 100 -padding 450 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "SFNS Display 18"
+  bindsym $Mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 450 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "SFNS Display 18"
 
   # Volume
   bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% #increase sound volume
@@ -80,10 +80,10 @@
   bindsym XF86AudioPrev exec playerctl previous
 
   # Kill focused container
-  bindsym $Mod+Shift+Q kill
+  bindsym $Mod+Shift+q kill
 
   # Reload the configuration file
-  bindsym $Mod+Shift+C reload
+  bindsym $Mod+Shift+c reload
 
   # Restart i3 inplace
   bindsym $Mod+Shift+r restart
@@ -95,17 +95,17 @@
   bindsym $Mod+Shift+x i3lock --color #475263
 
   # Resize Mode
-  bindsym $Mod+R mode "resize"
+  bindsym $Mod+r mode "resize"
 
 # = }}}
 
 # = Containers {{{
 
   # Switch focus
-  bindsym $Mod+H focus left
-  bindsym $Mod+J focus down
-  bindsym $Mod+K focus up
-  bindsym $Mod+L focus right
+  bindsym $Mod+h focus left
+  bindsym $Mod+j focus down
+  bindsym $Mod+k focus up
+  bindsym $Mod+l focus right
 
   bindsym $Mod+Left focus left
   bindsym $Mod+Down focus down
@@ -113,13 +113,13 @@
   bindsym $Mod+Right focus right
 
   # Focus the parent container
-  bindsym $Mod+A focus parent
+  bindsym $Mod+a focus parent
 
   # Move focused container
-  bindsym $Mod+Shift+H move left
-  bindsym $Mod+Shift+J move down
-  bindsym $Mod+Shift+K move up
-  bindsym $Mod+Shift+L move right
+  bindsym $Mod+Shift+h move left
+  bindsym $Mod+Shift+j move down
+  bindsym $Mod+Shift+k move up
+  bindsym $Mod+Shift+l move right
 
   bindsym $Mod+Shift+Left move left
   bindsym $Mod+Shift+Down move down
@@ -173,7 +173,7 @@
 
 # = }}}
 
-# = Look & Feel {{{
+# Look & Feel {{{
 
   # Font
   font pango: SFNS 10
@@ -181,21 +181,27 @@
   # Border
   hide_edge_borders both
 
-  # Color
+  # Color {{{
+
   set $bg-color            #2f343f
   set $inactive-bg-color   #2f343f
   set $text-color          #f3f4f5
   set $inactive-text-color #676E7D
   set $urgent-bg-color     #E53935
 
-  # Theme
-  #                       border              background         text                 indicator
+  # }}}
+
+  # Theme {{{
+  ##                       border              background         text                 indicator
   client.focused          $bg-color           $bg-color          $text-color          #00ff00
   client.unfocused        $inactive-bg-color  $inactive-bg-color $inactive-text-color #00ff00
   client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-color #00ff00
   client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          #00ff00
 
-  # Bar
+  # }}}
+
+  # Status Bar {{{
+
   bar {
     status_command i3blocks -c ~/.i3/i3blocks.conf
     colors {
@@ -207,26 +213,28 @@
     }
   }
 
-# = }}}
+  # }}}
 
-# = Behaviour {{{
+# }}}
+
+# Behaviour {{{
 
   # Drag with mouse
   floating_Modifier $Mod
 
   # Enter fullscreen
-  bindsym $Mod+F fullscreen
+  bindsym $Mod+f fullscreen
 
   # Split in horizontal orientation
-  #bindsym $Mod+B split h
+  bindsym $Mod+b split h
 
   # Split in vertical orientation
-  bindsym $Mod+V split v
+  bindsym $Mod+v split v
 
   # Change container layout
-  bindsym $Mod+S layout stacking
-  bindsym $Mod+W layout tabbed
-  bindsym $Mod+E layout toggle split
+  bindsym $Mod+s layout stacking
+  bindsym $Mod+w layout tabbed
+  bindsym $Mod+e layout toggle split
 
   # Switch focus between tiling / floating windows
   bindsym $mod+space focus mode_toggle
@@ -235,9 +243,9 @@
   bindsym $Mod+Shift+space floating toggle
 
   # Sticky window
-  bindsym $Mod+Shift+S sticky toggle
+  bindsym $Mod+Shift+s sticky toggle
 
-  # Resize containers
+  # Resize containers {{{
   Mode "resize" {
       bindsym H resize shrink width 10 px or 10 ppt
       bindsym J resize grow height 10 px or 10 ppt
@@ -252,16 +260,16 @@
       bindsym Return Mode "default"
       bindsym Escape Mode "default"
   }
+  # }}}
 
-# = }}}
+# }}}
 
+# Containers {{{
 
-# = Container assignment {{{
+  # Workspaces {{{
 
-  ## Workspaces
-
-  # Coding
-  assign [class="(~i)firefox"] $workspace1
+  # Browsing
+  assign [class="(~i)chromium"] $workspace1
 
   # Coding
   assign [class="(?i)tmux"] $workspace2
@@ -269,15 +277,17 @@
   # Documents
   assign [title="(?i)pcmanfm"]  $workspace3
 
-  # == Floating {{{
-  #for_window [class="{title}"] floating enable
+  # }}}
+
+  # Floating {{{
+
   for_window [title="(?i)variety"] floating enable
   for_window [title="(?i)transmission"] floating enable
   for_window [title="(?i)mpv"] floating enable
 
   # == }}}
 
-  # == Scratchpad {{{
+  # Scratchpad {{{
 
   bindsym $mod+m move scratchpad
   bindsym $mod+o scratchpad show
@@ -291,8 +301,8 @@
   # Pomodoro
   for_window [class="(?i)tomate"] border 1pixel; move scratchpad
 
-  # == }}}
+  # }}}
 
-# = }}}
+# }}}
 
 # vim: fdm=marker:ft=conf
