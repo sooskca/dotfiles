@@ -1,2 +1,2 @@
-*.private
-nvim/.config/nvim/.netrwhist
+/vim/.vim/backup/
+/vim/.vim/undo/

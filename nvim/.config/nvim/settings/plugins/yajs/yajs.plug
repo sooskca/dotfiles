@@ -1,1 +1,0 @@
-Plug 'othree/yajs.vim', { 'for': ['javascript', 'javascript.jsx'] }
