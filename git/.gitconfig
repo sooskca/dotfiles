@@ -38,7 +38,7 @@
   last = log -1 --stat
   unstage = reset HEAD --
   cached = diff --cached
-  d = difftool
+	d = difftool
 [mergetool]
   prompt = false
 [diff]
