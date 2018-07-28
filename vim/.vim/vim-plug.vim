@@ -6,6 +6,12 @@
 call plug#begin('~/.cache/plugged')
 
 " Editing {{{
+
+Plug 'kana/vim-textobj-user' "{{{
+Plug 'fvictorio/vim-textobj-backticks'
+Plug 'saaguero/vim-textobj-pastedtext'
+"}}}
+
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
@@ -14,62 +20,77 @@ Plug 'thaerkh/vim-workspace'
 Plug 'junegunn/vim-easy-align'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'lifepillar/vim-mucomplete'
-Plug 'kana/vim-textobj-user'
-Plug 'fvictorio/vim-textobj-backticks'
-Plug 'saaguero/vim-textobj-pastedtext'
 " }}}
 
 " Programming {{{
-Plug 'mhinz/vim-signify'
-Plug 'junegunn/gv.vim'
+
+" Source Control {{{
 Plug 'tpope/vim-fugitive'
-Plug 'w0rp/ale'
-Plug 'tpope/vim-commentary'
-Plug 'sheerun/vim-polyglot'
-Plug 'honza/vim-snippets'
-Plug 'justinj/vim-react-snippets'
-Plug 'janko-m/vim-test'
-Plug 'raimondi/delimitmate'
+Plug 'junegunn/gv.vim'
 Plug 'AndrewRadev/linediff.vim'
+Plug 'mhinz/vim-signify'
+" }}}
+" Code Quality {{{
+Plug 'w0rp/ale'
+Plug 'janko-m/vim-test'
 Plug 'sbdchd/neoformat'
+" }}}
+" Languages {{{
+Plug 'sheerun/vim-polyglot'
+" }}}
+" JavaScript {{{
+Plug 'justinj/vim-react-snippets'
+"}}}
+
+Plug 'mattn/emmet-vim'
+Plug 'tpope/vim-commentary'
+Plug 'raimondi/delimitmate'
+Plug 'honza/vim-snippets'
+
 " }}}
 
 " Interface {{{
 
-" Appearance
-Plug 'sjl/badwolf'
+" Appearance {{{
+Plug 'joshdick/onedark.vim'
+"}}}
+" Status Line "{{{
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'edkolev/tmuxline.vim'
-
-" File Navigation
+"}}}
+" File Navigation "{{{
 Plug 'ctrlpvim/ctrlp.vim'
-  Plug 'tacahiroy/ctrlp-funky'
-  Plug 'sgur/ctrlp-extensions.vim'
+Plug 'tacahiroy/ctrlp-funky'
+Plug 'sgur/ctrlp-extensions.vim'
+Plug 'scrooloose/nerdtree' "{{{
+Plug 'Xuyuanp/nerdtree-git-plugin'
+"}}}
+"}}}
 
 Plug 'psychollama/further.vim'
 
-Plug 'scrooloose/nerdtree'
-  Plug 'Xuyuanp/nerdtree-git-plugin'
-
-" Motion
+" Motion {{{
 Plug 'easymotion/vim-easymotion'
 Plug 'vim-scripts/matchit.zip'
+"}}}
 
-" Highlighting
+" Highlighting {{{
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'yggdroot/indentline'
 Plug 'vasconcelloslf/vim-interestingwords'
 Plug 'xtal8/traces.vim'
-
+"}}}
 
 " }}}
 
 " Utilities {{{
+
 Plug 'Valloric/ListToggle'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'konfekt/fastfold'
 Plug 'tpope/vim-unimpaired'
+
 " }}}
 
 call plug#end()

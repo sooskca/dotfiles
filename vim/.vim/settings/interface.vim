@@ -16,7 +16,7 @@ set scrolloff=7 " minimum number of lines above and below cursor
 
 " colors
 set background=dark
-colorscheme badwolf
+colorscheme onedark
 
 " show whitespace
 set list listchars=tab:>-,nbsp:.,trail:.,extends:>,precedes:<
@@ -51,8 +51,13 @@ set modeline " enable modeline
 set display+=lastline " always  show a paragraph’s last line.
 
 " gui/terminal
-if has("gui_running") " we have a gui
-  set guifont=FuraCode\ Nerd\ Font\ Mono:h14
+if has('gui_running') || exists('GuiLoaded') " we have a gui
+  if g:is_nvim
+    GuiFont! Iosevka:h12
+  else
+    set guifont=Iosevka:h12
+  endif
+
   set guioptions= " disable all UI options
   set guicursor+=a:blinkon0 " disable blinking cursor
   autocmd GUIEnter * set novisualbell t_vb=
@@ -64,6 +69,7 @@ else " we are in the terminal
   set t_ut= " look properly in tmux
   set t_BE= " disable bracketed-paste mode
   let &t_Co = 256 " terminal colors
+  set termguicolors
 
   if g:is_windows " support 256 colors and scroll in conemu
     let &t_AF="\e[38;5;%dm"

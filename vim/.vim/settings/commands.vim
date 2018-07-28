@@ -1,6 +1,6 @@
 augroup user-commands
-	autocmd!
-	" Open the file placing the cursor where it was
+  autocmd!
+  " Open the file placing the cursor where it was
 	autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
 				\| exe "normal! g'\"" | endif
 

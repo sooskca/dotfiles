@@ -6,7 +6,7 @@
 " 'vim-airline/vim-airline' {{{
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
-let g:airline_theme='badwolf'
+let g:airline_theme='onedark'
 " }}}
 
 " 'w0rp/ale' {{{
@@ -34,7 +34,7 @@ let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
 if executable('ag')
   "let g:ctrlp_user_command='ag %s -l --nocolor -g ""'
   "let g:ctrlp_user_command='ag %s -l --nocolor --hidden -g ""'
-  "let g:ctrlp_user_command = 'pt --nocolor -g "\\*" %s'
+  let g:ctrlp_user_command = 'pt --nocolor -g "\\*" %s'
 endif
 
 

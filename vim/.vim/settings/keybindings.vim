@@ -116,9 +116,9 @@ xnoremap p "0p
 " Terminal {{{
 
 " Easy navigation
-if has('terminal') || s:is_nvim
-	tnoremap <esc><esc> <C-\><C-n>
-	tnoremap <PageUp> <C-W>N<C-U>
+if has('terminal') || g:is_nvim
+  tnoremap <esc><esc> <C-\><C-n>
+  tnoremap <PageUp> <C-W>N<C-U>
 endif
 
 " }}}

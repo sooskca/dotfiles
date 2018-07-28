@@ -8,8 +8,12 @@ let mapleader="\<Space>" | let maplocalleader="\\"
 let g:is_windows = has('win32') || has('win64')
 let g:is_nvim = has('nvim')
 
-if s:is_windows
+if g:is_windows
   set rtp+=~/.vim
+endif
+
+if g:is_nvim
+  let g:python3_host_prog='~/virtualenv/nvim3/Scripts/python.exe'
 endif
 
 " Setup
@@ -21,7 +25,9 @@ if !filereadable(expand("~/.vim/autoload/plug.vim"))
 else
 
   " Load Plugins
-  source ~/.vim/vim-plug.vim
+  if !exists('g:GtkGuiLoaded')
+    source ~/.vim/vim-plug.vim
+  endif
 
   " Global Settings
   source ~/.vim/settings/base.vim
