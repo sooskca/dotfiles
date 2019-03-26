@@ -14,9 +14,11 @@ set nonumber " hide line numbers in gutter
 
 set scrolloff=7 " minimum number of lines above and below cursor
 
+set noerrorbells novisualbell t_vb= " be silent
+
 " colors
 set background=dark
-colorscheme onedark
+colorscheme badwolf
 
 " show whitespace
 set list listchars=tab:>-,nbsp:.,trail:.,extends:>,precedes:<
@@ -50,34 +52,21 @@ set showmode showcmd " displays active mode and typed commands
 set modeline " enable modeline
 set display+=lastline " always  show a paragraph’s last line.
 
-" gui/terminal
-if has('gui_running') || exists('GuiLoaded') " we have a gui
-  if g:is_nvim
-    GuiFont! Iosevka:h12
-  else
-    set guifont=Iosevka:h12
-  endif
+" terminal
+if !g:is_nvim
+  set term=xterm
+endif
+set t_ut= " look properly in tmux
+set t_BE= " disable bracketed-paste mode
+let &t_Co = 256 " terminal colors
+set termguicolors
 
-  set guioptions= " disable all UI options
-  set guicursor+=a:blinkon0 " disable blinking cursor
-  autocmd GUIEnter * set novisualbell t_vb=
-else " we are in the terminal
-  set noerrorbells novisualbell t_vb= " be silent
-  if !g:is_nvim
-    set term=xterm
-  endif
-  set t_ut= " look properly in tmux
-  set t_BE= " disable bracketed-paste mode
-  let &t_Co = 256 " terminal colors
-  set termguicolors
-
-  if g:is_windows " support 256 colors and scroll in conemu
-    let &t_AF="\e[38;5;%dm"
-    let &t_AB="\e[48;5;%dm"
-    inoremap <esc>[62~ <c-x><c-e>
-    inoremap <esc>[63~ <c-x><c-y>
-    nnoremap <esc>[62~ 3<c-e>
-    nnoremap <esc>[63~ 3<c-y>
-  endif
+if g:is_windows " support 256 colors and scroll in conemu
+  let &t_AF="\e[38;5;%dm"
+  let &t_AB="\e[48;5;%dm"
+  inoremap <esc>[62~ <c-x><c-e>
+  inoremap <esc>[63~ <c-x><c-y>
+  nnoremap <esc>[62~ 3<c-e>
+  nnoremap <esc>[63~ 3<c-y>
 endif
 

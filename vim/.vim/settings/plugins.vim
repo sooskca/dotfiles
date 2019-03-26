@@ -6,7 +6,7 @@
 " 'vim-airline/vim-airline' {{{
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
-let g:airline_theme='onedark'
+let g:airline_theme='badwolf'
 " }}}
 
 " 'w0rp/ale' {{{
@@ -18,7 +18,7 @@ autocmd BufEnter * EnableStripWhitespaceOnSave
 " }}}
 
 " 'ctrlpvim/ctrlp.vim' "{{{
-"let g:ctrlp_clear_cache_on_exit=1
+let g:ctrlp_clear_cache_on_exit=1
 let g:ctrlp_max_height=40
 let g:ctrlp_follow_symlinks=1
 let g:ctrlp_max_files=20000
@@ -100,6 +100,12 @@ inoremap <silent> <plug>(MUcompleteFwdKey) <right>
 imap <right> <plug>(MUcompleteCycFwd)
 inoremap <silent> <plug>(MUcompleteBwdKey) <left>
 imap <left> <plug>(MUcompleteCycBwd)
+
+let g:mucomplete#chains = {}
+let g:mucomplete#chains.default = ['path', 'nsnp', 'keyn']
+inoremap <silent> <expr> <plug><MyCR>
+      \ mucomplete#neosnippet#expand_snippet("\<cr>")
+imap <cr> <plug><MyCR>
 " }}}
 
 " 'terryma/vim-multiple-cursors' {{{
@@ -107,10 +113,12 @@ let g:multi_cursor_exit_from_insert_mode = 0
 " }}}
 
 " 'sbdchd/neoformat' "{{{
+
 nnoremap <leader>f :Neoformat<cr>
 xnoremap <leader>f :Neoformat<cr>
 
 autocmd BufWritePre *.js Neoformat
+
 " }}}
 
 " 'scrooloose/nerdtree'"{{{
@@ -154,11 +162,7 @@ endif
 " 'christoomey/vim-tmux-navigator' {{{
 let g:tmux_navigator_save_on_switch = 1
 " }}}
-"
-" 'SirVer/ultisnips' {{{
-let g:UltiSnipsExpandTrigger="<C-j>"
-" }}}
-"
+
 "'tpope/vim-unimpaired' {{{
 nnoremap coa :ALEToggle<cr>
 " }}}
@@ -166,4 +170,3 @@ nnoremap coa :ALEToggle<cr>
 " 'thaerkh/vim-workspace' {{{
 nnoremap <leader>s :ToggleWorkspace<CR>
 " }}}
-

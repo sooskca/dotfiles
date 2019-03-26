@@ -46,8 +46,9 @@ set noswapfile " avoid creating a swapfile
 set backup " enable backups
 set undofile " persistent undo history
 set history=1000 " increase the undo limit
-set backupdir=~/.vim/backup undodir=~/.vim/undo
 
+" undo & backup directories
+set backupdir=~/.vim/backup undodir=~/.vim/undo
 if !isdirectory(&backupdir)
   call mkdir(&backupdir, "p")
 endif

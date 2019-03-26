@@ -3,6 +3,6 @@
 " Maintainer:   José Araújo <sooskca@gmail.com>
 " Version:      1.0
 
-if !filereadable(expand("~/.vimrc"))
-  source "~/.vimrc"
-endif 
+set runtimepath+=~/.vim,~/.vim/after
+set packpath+=~/.vim
+source ~/.vimrc

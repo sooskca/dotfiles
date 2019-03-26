@@ -37,7 +37,7 @@ map 0 ^
 " - -- Like vim-vinegar.
 nnoremap <silent> - :silent edit <C-R>=empty(expand('%')) ? '.' : expand('%:p:h')<CR><CR>
 
-" , - Togles fold
+" , - Toggles fold
 nnoremap , za
 
 " j|k -- Move vertically by visual line
