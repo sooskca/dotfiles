@@ -8,10 +8,6 @@ let mapleader="\<Space>" | let maplocalleader="\\"
 let g:is_windows = has('win32') || has('win64')
 let g:is_nvim = has('nvim')
 
-if g:is_nvim
-  let g:python3_host_prog='~/virtualenv/nvim3/Scripts/python.exe'
-endif
-
 " Setup
 if !filereadable(expand("~/.vim/autoload/plug.vim"))
   if !executable("curl")
@@ -19,7 +15,7 @@ if !filereadable(expand("~/.vim/autoload/plug.vim"))
     execute "q!"
   endif
   echo "Installing Vim-Plug..."
-  silent exec "!\curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+  silent exec "!curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
   autocmd VimEnter * PlugInstall
 else
 
@@ -40,5 +36,3 @@ else
   endif
 
 endif
-
-

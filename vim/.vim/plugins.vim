@@ -5,77 +5,124 @@
 
 call plug#begin('~/.cache/plugged')
 
-" Editing {{{
-Plug 'kana/vim-textobj-user' "{{{
-Plug 'fvictorio/vim-textobj-backticks'
-Plug 'saaguero/vim-textobj-pastedtext'
+" Requirements  {{{
+Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 "}}}
-Plug 'editorconfig/editorconfig-vim'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-repeat'
-Plug 'mbbill/undotree'
-Plug 'thaerkh/vim-workspace'
-Plug 'junegunn/vim-easy-align'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'lifepillar/vim-mucomplete'
+
+" Editing {{{
+
+  Plug 'kana/vim-textobj-user' "{{{
+  Plug 'fvictorio/vim-textobj-backticks'
+  Plug 'saaguero/vim-textobj-pastedtext'
+  "}}}
+  Plug 'junegunn/vim-easy-align'
+  Plug 'terryma/vim-multiple-cursors'
+  Plug 'mbbill/undotree'
+  Plug 'tpope/vim-repeat'
+  Plug 'mtth/scratch.vim'
+  Plug 'tpope/vim-surround'
+  Plug 'thaerkh/vim-workspace'
+
+  "" Completion {{{
+
+    """ 'Shougo/deoplete.nvim' {{{
+    if has('nvim')
+      Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    else
+      Plug 'Shougo/deoplete.nvim'
+      Plug 'roxma/nvim-yarp'
+      Plug 'roxma/vim-hug-neovim-rpc'
+    endif
+
+    Plug 'carlitux/deoplete-ternjs'
+    """}}}
+  "" }}}
+
 " }}}
 
 " Programming {{{
 
-"" Source Control {{{
-Plug 'tpope/vim-fugitive'
-Plug 'junegunn/gv.vim'
-Plug 'AndrewRadev/linediff.vim'
-Plug 'mhinz/vim-signify'
-" }}}
-"" Code Quality {{{
-Plug 'w0rp/ale'
-Plug 'janko-m/vim-test'
-Plug 'sbdchd/neoformat'
-" }}}
-"" Languages {{{
-Plug 'sheerun/vim-polyglot'
-" }}}
-""" JavaScript {{{
-"Plug 'posva/vim-vue'
-"}}}
+  "" Source Control {{{
+  Plug 'tpope/vim-fugitive'
+  Plug 'junegunn/gv.vim'
+  Plug 'AndrewRadev/linediff.vim'
+  Plug 'mhinz/vim-signify'
+  " }}}
 
-Plug 'mattn/emmet-vim'
-Plug 'tpope/vim-commentary'
-Plug 'raimondi/delimitmate'
-Plug 'shougo/neosnippet-snippets'
-Plug 'shougo/neosnippet.vim'
+  "" Code Quality {{{
+  Plug 'editorconfig/editorconfig-vim'
+  Plug 'w0rp/ale'
+  Plug 'janko-m/vim-test'
+  Plug 'tpope/vim-dispatch'
+  " }}}
+
+  "" Libraries {{{
+  Plug 'posva/vim-vue'
+  "}}}
+
+  "" Languages {{{
+
+    """ HTML & CSS {{{
+    Plug 'mattn/emmet-vim'
+    " }}}
+
+    """ JavaScript/TypeScript {{{
+    Plug 'HerringtonDarkholme/yats.vim'
+    " Plug 'Quramy/tsuquyomi-vue'
+    " Plug 'Quramy/tsuquyomi'
+    Plug 'ternjs/tern_for_vim'
+    " }}}
+
+    """ Godot {{{
+    Plug 'calviken/vim-gdscript3'
+    "}}}
+
+  Plug 'sheerun/vim-polyglot'
+
+  " }}}
+
+  Plug 'metakirby5/codi.vim'
+  Plug 'tpope/vim-commentary'
+  Plug 'raimondi/delimitmate'
+  Plug 'shougo/neosnippet-snippets'
+  Plug 'shougo/neosnippet.vim'
+
 " }}}
 
 " Interface {{{
-" Appearance {{{
-Plug 'flazz/vim-colorschemes'
-Plug 'ryanoasis/vim-devicons'
-"}}}
-" Status Line "{{{
-Plug 'vim-airline/vim-airline' "{{{
-Plug 'vim-airline/vim-airline-themes'
-"}}}
-if !g:is_windows
-  Plug 'edkolev/tmuxline.vim'
-endif
-"}}}
-" File Navigation "{{{
-Plug 'ctrlpvim/ctrlp.vim'"{{{
-Plug 'tacahiroy/ctrlp-funky'
-Plug 'sgur/ctrlp-extensions.vim'
-"}}}
-Plug 'scrooloose/nerdtree' "{{{
-Plug 'Xuyuanp/nerdtree-git-plugin'
-"}}}
-"}}}
+  " Appearance {{{
+  Plug 'chriskempson/base16-vim'
+  " Plug 'flazz/vim-colorschemes'
+  " Plug 'connorholyday/vim-snazzy'
+  Plug 'ryanoasis/vim-devicons'
+  "}}}
 
-Plug 'psychollama/further.vim'
+  " Status Line "{{{
+  " Plug 'itchyny/lightline.vim'
+
+  Plug 'vim-airline/vim-airline' "{{{
+  Plug 'vim-airline/vim-airline-themes'
+  "}}}
+
+  "}}}
+
+  " File Navigation "{{{
+  Plug 'ctrlpvim/ctrlp.vim'"{{{
+  Plug 'tacahiroy/ctrlp-funky'
+  Plug 'sgur/ctrlp-extensions.vim'
+  "}}}
+  Plug 'farmergreg/vim-lastplace'
+  Plug 'scrooloose/nerdtree' "{{{
+  Plug 'Xuyuanp/nerdtree-git-plugin'
+  "}}}
+"}}}
 
 " Motion {{{
+Plug 'justinmk/vim-sneak'
 Plug 'easymotion/vim-easymotion'
 Plug 'vim-scripts/matchit.zip'
 "}}}
+
 " Highlighting {{{
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'yggdroot/indentline'
@@ -83,17 +130,20 @@ Plug 'vasconcelloslf/vim-interestingwords'
 Plug 'xtal8/traces.vim'
 "}}}
 
+Plug 'psychollama/further.vim'
+
 " }}}
 
 " Utilities {{{
-Plug 'octref/rootignore'
-Plug 'mhinz/vim-startify'
-Plug 'Valloric/ListToggle'
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'konfekt/fastfold'
-Plug 'tpope/vim-unimpaired'
+
+  Plug 'octref/rootignore'
+  Plug 'mhinz/vim-startify'
+  Plug 'Valloric/ListToggle'
+  Plug 'wellle/tmux-complete.vim'
+  Plug 'christoomey/vim-tmux-navigator'
+  Plug 'konfekt/fastfold'
+  Plug 'tpope/vim-unimpaired'
 
 " }}}
 
 call plug#end()
-

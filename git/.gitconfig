@@ -30,31 +30,32 @@
   excludesfile = ~/.gitignore
   quotepath = false
   trustctime = false
-  pager = less -FRSX
-  editor = nvim
+  pager = less
+  editor = vim
+  autocrlf = false
 [alias]
   graph = log --graph --color --pretty=format:"%C(yellow)%H%C(green)%d%C(reset)%n%x20%cd%n%x20%cn%x20(%ce)%n%x20%s%n"
   stat = status -sb
   last = log -1 --stat
   unstage = reset HEAD --
   cached = diff --cached
-	d = difftool
-	append = town append
-	hack = town hack
-	kill = town kill
-	new-pull-request = town new-pull-request
-	prepend = town prepend
-	prune-branches = town prune-branches
-	rename-branch = town rename-branch
-	repo = town repo
-	ship = town ship
-	sync = town sync
+  d = difftool
+  append = town append
+  hack = town hack
+  kill = town kill
+  new-pull-request = town new-pull-request
+  prepend = town prepend
+  prune-branches = town prune-branches
+  rename-branch = town rename-branch
+  repo = town repo
+  ship = town ship
+  sync = town sync
 [mergetool]
   prompt = false
 [diff]
-	tool = vimdiff
+  tool = vimdiff
 [difftool]
-	prompt = false
+  prompt = false
 [github]
   user = sooskca
 [grep]
@@ -68,7 +69,7 @@
 [commit]
   template = ~/.gitmessage
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true

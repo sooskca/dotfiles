@@ -6,7 +6,7 @@
 " Command {{{
 
 " W - Saves the file using sudo
-cabbrev w!! w !sudo tee "%"
+cabbrev W !sudo tee "%"
 
 " <C-a/e> - Go to the beginning and end of line
 cnoremap <C-a> <Home>

@@ -18,7 +18,13 @@ set noerrorbells novisualbell t_vb= " be silent
 
 " colors
 set background=dark
-colorscheme badwolf
+let base16colorspace=256
+
+if filereadable(expand("~/.vimrc_background"))
+  source ~/.vimrc_background
+else
+  colorscheme base16-gruvbox-dark-pale
+endif
 
 " show whitespace
 set list listchars=tab:>-,nbsp:.,trail:.,extends:>,precedes:<
@@ -69,4 +75,3 @@ if g:is_windows " support 256 colors and scroll in conemu
   nnoremap <esc>[62~ 3<c-e>
   nnoremap <esc>[63~ 3<c-y>
 endif
-

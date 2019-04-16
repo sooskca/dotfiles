@@ -3,14 +3,34 @@
 " Maintainer:   José Araújo <sooskca@gmail.com>
 " Version:      1.0
 
-" 'vim-airline/vim-airline' {{{
+"'vim-airline/vim-airline' "{{{
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
-let g:airline_theme='badwolf'
-" }}}
+let g:airline_theme='base16'
+"}}}
 
 " 'w0rp/ale' {{{
-let g:ale_javascript_eslint_suppress_missing_config = 1
+" Disable realtime linting due to performance issue
+let g:ale_lint_on_text_changed = 'normal'
+" Ensure ale use location list
+let g:ale_set_loclist = 1
+let g:ale_open_list = 1
+let g:ale_list_window_size = 8
+" Check on bufenter
+let g:ale_lint_on_enter = 1
+let g:ale_set_signs = 1
+let g:ale_sign_column_always = 1
+
+" Fixing
+let g:ale_fixers = {
+      \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+      \   'html': ['prettier'],
+      \   'javascript': ['prettier'],
+      \   'typescript': ['prettier'],
+      \   'css': ['prettier'],
+      \}
+
+let g:ale_fix_on_save = 1
 "}}}
 
 " 'ntpeters/vim-better-whitespace' {{{
@@ -32,9 +52,7 @@ let g:ctrlp_custom_ignore = {
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
 
 if executable('ag')
-  "let g:ctrlp_user_command='ag %s -l --nocolor -g ""'
-  "let g:ctrlp_user_command='ag %s -l --nocolor --hidden -g ""'
-  let g:ctrlp_user_command = 'pt --nocolor -g "\\*" %s'
+  let g:ctrlp_user_command='ag %s -l --nocolor --hidden -g ""'
 endif
 
 
@@ -93,36 +111,42 @@ let g:lt_location_list_toggle_map = '<leader>Q'
 let g:lt_quickfix_list_toggle_map = '<leader>q'
 " }}}
 
-" 'lifepillar/vim-mucomplete' {{{
-set completeopt-=preview
-set completeopt+=longest,menuone,noselect
-inoremap <silent> <plug>(MUcompleteFwdKey) <right>
-imap <right> <plug>(MUcompleteCycFwd)
-inoremap <silent> <plug>(MUcompleteBwdKey) <left>
-imap <left> <plug>(MUcompleteCycBwd)
+" 'Shougo/deoplete.nvim' {{{
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_smart_case = 1
+let g:deoplete#auto_complete_start_length = 2
+inoremap <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 
-let g:mucomplete#chains = {}
-let g:mucomplete#chains.default = ['path', 'nsnp', 'keyn']
-inoremap <silent> <expr> <plug><MyCR>
-      \ mucomplete#neosnippet#expand_snippet("\<cr>")
-imap <cr> <plug><MyCR>
-" }}}
+let g:deoplete#sources#ternjs#filetypes = [
+                \ 'html',
+                \ 'jsx',
+                \ 'javascript.jsx',
+                \ 'vue',
+                \ ]
+"}}}
 
 " 'terryma/vim-multiple-cursors' {{{
 let g:multi_cursor_exit_from_insert_mode = 0
 " }}}
 
-" 'sbdchd/neoformat' "{{{
+" Shougo/neosnippet.vim {{{
+let g:neosnippet#enable_snipmate_compatibility = 1
+call deoplete#custom#option('smart_case', v:true)
 
-nnoremap <leader>f :Neoformat<cr>
-xnoremap <leader>f :Neoformat<cr>
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
 
-autocmd BufWritePre *.js Neoformat
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
-" }}}
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+endif
+"}}}
 
 " 'scrooloose/nerdtree'"{{{
-
 let NERDTreeShowHidden=1
 let NERDTreeQuitOnOpen=0
 let NERDTreeShowLineNumbers=1
@@ -156,8 +180,12 @@ if has('autocmd')
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
   augroup END
 endif
-
 " }}}
+
+" 'ternjs/tern_for_vim'{{{
+let g:tern#command = ["tern"]
+let g:tern#arguments = ["--persistent"]
+"}}}
 
 " 'christoomey/vim-tmux-navigator' {{{
 let g:tmux_navigator_save_on_switch = 1
@@ -165,7 +193,12 @@ let g:tmux_navigator_save_on_switch = 1
 
 "'tpope/vim-unimpaired' {{{
 nnoremap coa :ALEToggle<cr>
+
 " }}}
+"
+" 'mhinz/vim-signify' {{{
+" let g:signify_realtime = 1
+"}}}
 
 " 'thaerkh/vim-workspace' {{{
 nnoremap <leader>s :ToggleWorkspace<CR>
