@@ -6,6 +6,7 @@
 call plug#begin('~/.cache/plugged')
 
 " Requirements  {{{
+Plug 'roxma/nvim-yarp'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 "}}}
 
@@ -18,6 +19,10 @@ Plug 'Shougo/vimproc.vim', {'do' : 'make'}
   Plug 'junegunn/vim-easy-align'
   Plug 'terryma/vim-multiple-cursors'
   Plug 'mbbill/undotree'
+
+  Plug 'tpope/vim-abolish'
+  Plug 'bfredl/nvim-miniyank'
+  Plug 'moll/vim-bbye'
   Plug 'tpope/vim-repeat'
   Plug 'mtth/scratch.vim'
   Plug 'tpope/vim-surround'
@@ -25,16 +30,21 @@ Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 
   "" Completion {{{
 
-    """ 'Shougo/deoplete.nvim' {{{
-    if has('nvim')
-      Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    else
-      Plug 'Shougo/deoplete.nvim'
-      Plug 'roxma/nvim-yarp'
-      Plug 'roxma/vim-hug-neovim-rpc'
-    endif
+    """ 'ncm2/ncm2' {{{
+    Plug 'ncm2/ncm2'
 
-    Plug 'carlitux/deoplete-ternjs'
+    """ }}}
+
+    """ 'Shougo/deoplete.nvim' {{{
+    " if has('nvim')
+    "   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    " else
+    "   Plug 'Shougo/deoplete.nvim'
+    "   Plug 'roxma/nvim-yarp'
+    "   Plug 'roxma/vim-hug-neovim-rpc'
+    " endif
+
+    " Plug 'carlitux/deoplete-ternjs'
     """}}}
   "" }}}
 
@@ -56,49 +66,60 @@ Plug 'Shougo/vimproc.vim', {'do' : 'make'}
   Plug 'tpope/vim-dispatch'
   " }}}
 
-  "" Libraries {{{
-  Plug 'posva/vim-vue'
-  "}}}
-
   "" Languages {{{
 
     """ HTML & CSS {{{
     Plug 'mattn/emmet-vim'
     " }}}
 
-    """ JavaScript/TypeScript {{{
+    """ PHP {{{
+    Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install'}
+    Plug 'phpactor/ncm2-phpactor'
+    " }}}
+
+    """ JavaScript {{{
+    Plug 'ncm2/ncm2-tern',  {'do': 'npm install'}
+    " }}}
+
+    """ TypeScript {{{
     Plug 'HerringtonDarkholme/yats.vim'
-    " Plug 'Quramy/tsuquyomi-vue'
-    " Plug 'Quramy/tsuquyomi'
-    Plug 'ternjs/tern_for_vim'
     " }}}
 
     """ Godot {{{
     Plug 'calviken/vim-gdscript3'
     "}}}
 
+    "" Libraries {{{
+    Plug 'posva/vim-vue'
+    "}}}
+
+  Plug 'autozimu/LanguageClient-neovim', {
+        \ 'branch': 'next',
+        \ 'do': 'bash install.sh',
+        \ }
   Plug 'sheerun/vim-polyglot'
 
   " }}}
 
+  Plug 'sirver/UltiSnips' "{{{
+  Plug 'ncm2/ncm2-ultisnips'
+  Plug 'honza/vim-snippets'
+  "}}}
+
   Plug 'metakirby5/codi.vim'
   Plug 'tpope/vim-commentary'
   Plug 'raimondi/delimitmate'
-  Plug 'shougo/neosnippet-snippets'
-  Plug 'shougo/neosnippet.vim'
+  Plug 'ludovicchabant/vim-gutentags'
 
 " }}}
 
 " Interface {{{
   " Appearance {{{
   Plug 'chriskempson/base16-vim'
-  " Plug 'flazz/vim-colorschemes'
-  " Plug 'connorholyday/vim-snazzy'
   Plug 'ryanoasis/vim-devicons'
   "}}}
 
   " Status Line "{{{
-  " Plug 'itchyny/lightline.vim'
 
   Plug 'vim-airline/vim-airline' "{{{
   Plug 'vim-airline/vim-airline-themes'
@@ -107,14 +128,20 @@ Plug 'Shougo/vimproc.vim', {'do' : 'make'}
   "}}}
 
   " File Navigation "{{{
-  Plug 'ctrlpvim/ctrlp.vim'"{{{
-  Plug 'tacahiroy/ctrlp-funky'
-  Plug 'sgur/ctrlp-extensions.vim'
-  "}}}
-  Plug 'farmergreg/vim-lastplace'
+  Plug 'wincent/ferret'
+  Plug 'junegunn/fzf.vim'
+
+  "Plug 'ctrlpvim/ctrlp.vim'"{{{
+  "Plug 'tacahiroy/ctrlp-funky'
+  "Plug 'sgur/ctrlp-extensions.vim'
+  ""}}}
+
   Plug 'scrooloose/nerdtree' "{{{
   Plug 'Xuyuanp/nerdtree-git-plugin'
   "}}}
+
+  Plug 'amiorin/vim-project'
+  Plug 'farmergreg/vim-lastplace'
 "}}}
 
 " Motion {{{
