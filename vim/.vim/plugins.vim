@@ -85,6 +85,10 @@ Plug 'Shougo/vimproc.vim', {'do' : 'make'}
     Plug 'HerringtonDarkholme/yats.vim'
     " }}}
 
+    """ Elm {{{
+    Plug 'ElmCast/elm-vim'
+    "}}}
+
     """ Godot {{{
     Plug 'calviken/vim-gdscript3'
     "}}}
@@ -130,10 +134,7 @@ Plug 'Shougo/vimproc.vim', {'do' : 'make'}
   " File Navigation "{{{
   Plug 'wincent/ferret'
   Plug 'junegunn/fzf.vim'
-
-  "Plug 'ctrlpvim/ctrlp.vim'"{{{
-  "Plug 'tacahiroy/ctrlp-funky'
-  "Plug 'sgur/ctrlp-extensions.vim'
+  Plug 'tpope/vim-projectionist'
   ""}}}
 
   Plug 'scrooloose/nerdtree' "{{{

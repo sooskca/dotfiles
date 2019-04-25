@@ -20,10 +20,12 @@ set noerrorbells novisualbell t_vb= " be silent
 set background=dark
 let base16colorspace=256
 
-if filereadable(expand("~/.vimrc_background"))
-  source ~/.vimrc_background
-else
-  colorscheme base16-gruvbox-dark-pale
+if !exists('veonim')
+  if filereadable(expand("~/.vimrc_background"))
+    source ~/.vimrc_background
+  else
+    colorscheme base16-gruvbox-dark-pale
+  endif
 endif
 
 " show whitespace

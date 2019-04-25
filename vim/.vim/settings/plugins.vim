@@ -12,10 +12,11 @@ let g:airline_theme='base16_oceanicnext'
 " 'w0rp/ale' {{{
 let g:ale_lint_on_text_changed = 'normal'
 let g:ale_set_loclist = 1
-let g:ale_open_list = 1
-let g:ale_list_window_size = 8
+" let g:ale_open_list = 1
+" let g:ale_list_window_size = 8
 let g:ale_lint_on_enter = 1
-let g:ale_set_signs = 1
+let g:ale_cursor_detail = 1
+let g:ale_close_preview_on_insert = 1
 let g:ale_sign_column_always = 1
 
 let g:ale_fixers = {
@@ -24,18 +25,32 @@ let g:ale_fixers = {
       \   'javascript': ['prettier'],
       \   'typescript': ['prettier'],
       \   'css': ['prettier'],
+      \   'elm': ['elm-format'],
       \}
 let g:ale_fix_on_save = 1
 
 nnoremap coa :ALEToggle<cr>
 "}}}
 
+" 'ElmCast/elm-vim {{{
+
+let g:elm_jump_to_error = 0
+let g:elm_make_output_file = "elm.js"
+let g:elm_make_show_warnings = 0
+let g:elm_syntastic_show_warnings = 0
+let g:elm_browser_command = ""
+let g:elm_detailed_complete = 0
+let g:elm_format_autosave = 1
+let g:elm_format_fail_silently = 0
+let g:elm_setup_keybindings = 1
+
+" }}}
 " 'junegunn/fzf.vim' "{{{
 
 nmap \ [fzf]
 nnoremap [fzf] <nop>
 nnoremap [fzf]f :Files<cr>
-nnoremap [fzf]F :GFiles<cr>
+nnoremap [fzf]f :GFiles<cr>
 nnoremap [fzf]t :BTags<cr>
 nnoremap [fzf]T :Tags<cr>
 nnoremap [fzf]l :BLines<cr>
@@ -51,8 +66,11 @@ let delimitMate_expand_cr = 1
 " }}}
 
 " 'junegunn/vim-easy-align' {{{
-xmap gl <">(LiveEasyAlign)
-nmap gl <">(LiveEasyAlign)
+" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+vmap <Enter> <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 
 let g:easy_align_ignore_groups = []
 let g:easy_align_delimiters = {
@@ -99,9 +117,11 @@ let g:lt_quickfix_list_toggle_map = '<leader>q'
 set completeopt=noinsert,menuone,noselect
 
 inoremap <c-c> <ESC>
-inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
 inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
 
 au BufEnter * call ncm2#enable_for_buffer()
@@ -220,6 +240,28 @@ let g:tmux_navigator_save_on_switch = 1
 let g:signify_realtime = 1
 "}}}
 
+" 'janko/vim-test' {{{
+let test#strategy = "dispatch"
+let test#javascript#jest#options = '--no-colors'
+
+nmap <silent> <leader>tn :TestNearest<CR>
+nmap <silent> <leader>tf :TestFile<CR>
+nmap <silent> <leader>ts :TestSuite<CR>
+nmap <silent> <leader>tl :TestLast<CR>
+nmap <silent> <leader>tg :TestVisit<CR>
+
+augroup test
+  autocmd!
+  autocmd BufWrite * if test#exists() |
+    \   TestFile |
+    \ endif
+augroup END
+" }}}
+
 " 'thaerkh/vim-workspace' {{{
 nnoremap <leader>s :ToggleWorkspace<CR>
+" }}}
+
+" sheerun/vim-polyglot {{{
+let g:polyglot_disabled = ['elm', 'typescript']
 " }}}

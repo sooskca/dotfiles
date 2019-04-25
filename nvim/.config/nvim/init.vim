@@ -5,4 +5,8 @@
 
 set runtimepath+=~/.vim,~/.vim/after
 set packpath+=~/.vim
+let g:is_windows = has('win32') || has('win64')
+if !g:is_windows
+  set shell=/usr/bin/zsh
+endif
 source ~/.vimrc

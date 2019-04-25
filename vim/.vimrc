@@ -5,7 +5,6 @@
 "
 let mapleader="\<Space>" | let maplocalleader="\\"
 
-let g:is_windows = has('win32') || has('win64')
 let g:is_nvim = has('nvim')
 
 " Setup
