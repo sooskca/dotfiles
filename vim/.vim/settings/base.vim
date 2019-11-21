@@ -21,5 +21,5 @@ set helpheight=30 " minimum height of help window
 if has('patch-7.4.2201') | set signcolumn=yes | endif
 
 filetype plugin indent on
-
 syntax on
+

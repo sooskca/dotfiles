@@ -74,7 +74,7 @@ nnoremap <Leader>o <C-^>
 nmap <Leader>w :w!<cr>
 
 " <Leader>c -- Close buffer
-noremap <Leader>c :Bdelete<CR>
+noremap <Leader>c :bd<CR>
 
 " <Leader>ev|sv -- Edits vimrc, zshrc and source vimrc
 nnoremap <Leader>ev :vsp $MYVIMRC<CR>
@@ -90,8 +90,8 @@ nnoremap <Leader>. :lcd %:p:h<CR>
 " <Leader>e -- Opens an edit command with the path of the currently edited file filled in
 noremap <Leader>ee :e <C-R>=expand("%:p:h") . "/" <CR>
 
-" <Leader>fp -- Copy the full path of the current file to the clipboard
-nnoremap <silent> <Leader>fp :let @+=expand("%:p")<cr>:echo "Copied current file
+" <Leader>p -- Copy the full path of the current file to the clipboard
+nnoremap <silent> <Leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
       \ path '".expand("%:p")."' to clipboard"<cr>
 
 " <Leader>r -- Cycle though relative line number + number, number (only), and
@@ -122,3 +122,4 @@ if has('terminal') || g:is_nvim
 endif
 
 " }}}
+

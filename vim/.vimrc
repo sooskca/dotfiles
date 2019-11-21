@@ -5,6 +5,7 @@
 "
 let mapleader="\<Space>" | let maplocalleader="\\"
 
+let g:is_windows = has('win32') || has('win64')
 let g:is_nvim = has('nvim')
 
 " Setup
@@ -18,20 +19,19 @@ if !filereadable(expand("~/.vim/autoload/plug.vim"))
   autocmd VimEnter * PlugInstall
 else
 
-  " Plugins
+  " Load Plugins
   source ~/.vim/plugins.vim
 
   " Global Settings
   source ~/.vim/settings/base.vim
-  source ~/.vim/settings/ui.vim
-  source ~/.vim/settings/gui.vim
   source ~/.vim/settings/editing.vim
+  source ~/.vim/settings/interface.vim
   source ~/.vim/settings/keybindings.vim
-  source ~/.vim/settings/commands.vim
   source ~/.vim/settings/plugins.vim
+  source ~/.vim/settings/commands.vim
 
   " Local Settings
-  if filereadable(expand( '~/.vim/local.vim '))
+  if filereadable('~/.vim/local.vim')
     source ~/.vim/local.vim
   endif
 

@@ -1,0 +1,88 @@
+set relativenumber
+
+set number
+
+set showmode
+
+" https://youtrack.jetbrains.com/issue/VIM-959
+set ideamarks
+
+" https://github.com/JetBrains/ideavim/wiki/%60ideajoin%60-examples
+set ideajoin
+
+" https://youtrack.jetbrains.com/issue/VIM-1521
+set commentary
+
+" https://github.com/JetBrains/ideavim/wiki/Select-mode
+" set selectmode-=template
+
+set surround
+
+set multiple-cursors
+
+let mapleader = ","
+
+nmap <Leader>= :action ReformatCode<CR>
+
+imap <C-c> <Esc>:action EditorCompleteStatement<CR>
+
+nmap Q :q<CR>
+nmap <C-s-q> :action ReopenClosedTab<CR>
+
+nmap <Leader>o :e<CR>
+
+nmap - :action ShowNavBar<CR>
+
+nmap <Leader>d :action QuickImplementations<CR>
+
+
+nmap \c :action GotoClass<CR>
+nmap \a :action GotoAction<CR>
+nmap \s :action GotoSymbol<CR>
+nmap \f :action GotoFile<CR>
+nmap \p :action PasteMultiple<CR>
+nmap \u :action RecentChanges<CR>
+nmap \r :action ChooseRunConfiguration<CR>
+
+nmap ]e :action GotoNextError<CR>
+nmap [e :action GotoPreviousError<CR>
+
+nmap <Leader>esv :source ~\.ideavimrc<CR>
+nmap <Leader>ev :e ~\.ideavimrc<CR>
+
+nmap <Leader>sw :action SurroundWith<CR>
+
+nmap gb :action SelectNextOccurrence<CR>
+
+" Ctrl + F12
+nmap <Leader>n :action FileStructurePopup<CR>
+
+nmap <leader>w :action SaveAll<cr>
+
+nmap <leader><leader>l :action KJumpAction.Line<cr>
+nmap <Leader>mu :action MoveStatementUp<CR>
+
+nmap <Leader>md :action MoveStatementDown<CR>
+
+" Alt + F7 in idea.
+
+nmap <Leader>f :action FindUsages<CR>
+nmap <Leader>r :action Refactorings.QuickListPopupAction<CR>
+
+" Alt + Insert in idea.
+nmap <Leader>g :action Generate<CR>
+
+" F12 
+nmap <Leader>w :action JumpToLastWindow<CR>
+
+" These shortcuts mimic the default Idea action for one edition mode, using the
+" Vim action for the other.
+
+nmap <C-h> :action TypeHierarchy<CR>
+imap <C-v> <Esc>:action $Paste<CR>
+
+nmap <Leader>[ :action EditorCodeBlockStart<CR>
+nmap <Leader>] :action EditorCodeBlockEnd<CR>
+
+" Ctrl-W
+nmap <C-k> :action EditorSelectWord<CR>

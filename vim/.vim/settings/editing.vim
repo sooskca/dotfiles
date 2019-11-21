@@ -34,7 +34,7 @@ set shiftround " round indent to multiple of 'shiftwidth'
 
 " files to ignore while autocompleting
 set wildignore=*.o,*~,*.pyc
-if !g:is_windows
+if has("win16") || has("win32")
   set wildignore+=.git\*,node_modules\**,*.min.js,dist\**
 else
   set wildignore+=*/.git/*,*/node_modules/**,*.min.js,*/dist/**
@@ -55,3 +55,4 @@ endif
 if !isdirectory(&undodir)
   call mkdir(&undodir, "p")
 endif
+
