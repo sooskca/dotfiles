@@ -19,20 +19,18 @@ if !filereadable(expand("~/.vim/autoload/plug.vim"))
   autocmd VimEnter * PlugInstall
 else
 
-  " Load Plugins
-  source ~/.vim/plugins.vim
 
-  " Global Settings
-  source ~/.vim/settings/base.vim
-  source ~/.vim/settings/editing.vim
-  source ~/.vim/settings/interface.vim
-  source ~/.vim/settings/keybindings.vim
-  source ~/.vim/settings/plugins.vim
-  source ~/.vim/settings/commands.vim
+" Global Settings
+source ~/.vim/settings/base.vim
+source ~/.vim/settings/plugins.vim
+source ~/.vim/settings/editing.vim
+source ~/.vim/settings/interface.vim
+source ~/.vim/settings/keybindings.vim
+source ~/.vim/settings/commands.vim
 
-  " Local Settings
-  if filereadable('~/.vim/local.vim')
-    source ~/.vim/local.vim
-  endif
+" Local Settings
+if filereadable('~/.vim/local.vim')
+  source ~/.vim/local.vim
+endif
 
 endif

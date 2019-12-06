@@ -55,4 +55,3 @@ endif
 if !isdirectory(&undodir)
   call mkdir(&undodir, "p")
 endif
-

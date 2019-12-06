@@ -1,8 +1,6 @@
 [user]
   name = José Araújo
   email = sooskca@gmail.com
-[credential]
-  helper = cache
 [apply]
   whitespace = nowarn
 [branch]
@@ -31,10 +29,9 @@
   quotepath = false
   trustctime = false
   pager = less
-  editor = vim
-  autocrlf = false
+  editor = nvim
 [alias]
-  graph = log --graph --color --pretty=format:"%C(yellow)%H%C(green)%d%C(reset)%n%x20%cd%n%x20%cn%x20(%ce)%n%x20%s%n"
+  graph = log --graph --color --pretty=format:%C(yellow)%H%C(green)%d%C(reset)%n%x20%cd%n%x20%cn%x20(%ce)%n%x20%s%n
   stat = status -sb
   last = log -1 --stat
   unstage = reset HEAD --
@@ -50,12 +47,19 @@
   repo = town repo
   ship = town ship
   sync = town sync
+[diff]
+tool = nvimdiff
+[difftool "nvimdiff"]
+    cmd = nvim -d $LOCAL $REMOTE
+[merge]
+	tool = nfugitive
 [mergetool]
   prompt = false
-[diff]
-  tool = vimdiff
-[difftool]
-  prompt = false
+  path = nvim
+[mergetool "nvimmerge"]
+  cmd = nvim -d $LOCAL $BASE $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+[mergetool "nfugitive"]
+  cmd = nvim -f -c "Gdiff" "$MERGED"
 [github]
   user = sooskca
 [grep]
@@ -66,6 +70,7 @@
   prune = true
 [rebase]
   autosquash = true
+  autoStash = false
 [commit]
   template = ~/.gitmessage
 [filter "lfs"]
@@ -73,3 +78,10 @@
   smudge = git-lfs smudge -- %f
   process = git-lfs filter-process
   required = true
+[pull]
+  rebase = false
+[credential "helperselector"]
+  selected = manager
+[gui]
+  encoding = UTF-8
+  editor = C:\\Tools\\Neovim\\bin\\nvim-qt.exe

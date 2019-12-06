@@ -122,4 +122,3 @@ if has('terminal') || g:is_nvim
 endif
 
 " }}}
-
