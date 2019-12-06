@@ -3,14 +3,14 @@
 " Maintainer:   José Araújo <sooskca@gmail.com>
 " Version:      1.0
 
-" if exists('GuiLoaded')
-"   GuiFont! Iosevka NF:h12
-" else
-"   call rpcnotify(1, 'Gui', 'Font', 'Iosevka 12')
-" endif
+if exists('GuiLoaded')
+  GuiFont! Iosevka NF:h12
+else
+  call rpcnotify(1, 'Gui', 'Font', 'Iosevka 12')
+endif
 
-" set guioptions= " disable all UI options
+set guioptions= " disable all UI options
 
-" set guicursor+=a:blinkon0 " disable blinking cursor
+set guicursor+=a:blinkon0 " disable blinking cursor
 
-" autocmd GUIEnter * set novisualbell t_vb= " be silent
+autocmd GUIEnter * set novisualbell t_vb= " be silent

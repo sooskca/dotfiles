@@ -1,7 +1,6 @@
 "source ~/.vim/settings/keybindings.vim
 
 set ignorecase smartcase
-"set hlsearch
 set showmode
 set scrolloff=5
 set history=1000
@@ -10,6 +9,12 @@ set relativenumber
 set smartcase
 set hlsearch
 
+set relativenumber
+
+set number
+
+set showmode
+
 " https://youtrack.jetbrains.com/issue/VIM-959
 set ideamarks
 
@@ -17,28 +22,33 @@ set ideamarks
 set ideajoin
 
 
+" https://youtrack.jetbrains.com/issue/VIM-1521
+set commentary
+
 " https://github.com/JetBrains/ideavim/wiki/Select-mode
-" set selectmode-=template
+set selectmode-=template
 
 set easymotion
 set commentary
 set surround
 set multiple-cursors
 
-imap <C-c> <Esc>:action EditorCompleteStatement<CR>
-
-nmap Q :q<CR>
-nmap <C-s-q> :action ReopenClosedTab<CR>
-
 let mapleader = ","
 
 nmap <Leader>= :action ReformatCode<CR>
+
+imap <C-c> <Esc>:action EditorCompleteStatement<CR>
+
+nmap Q :q<CR>
+
+nmap <C-s-q> :action ReopenClosedTab<CR>
 
 nmap <Leader>o :e<CR>
 
 nmap - :action ShowNavBar<CR>
 
 nmap <Leader>d :action QuickImplementations<CR>
+
 map <Leader>sv :source ~/.ideavimrc<CR>
 map <Leader>ev :e ~/.ideavimrc<CR>
 
@@ -55,7 +65,6 @@ map \p :action PasteMultiple<CR>
 map \u :action RecentChanges<CR>
 map \r :action ChooseRunConfiguration<CR>
 map \e :action RunAnything<CR>
-
 nmap ]e :action GotoNextError<CR>
 nmap [e :action GotoPreviousError<CR>
 
@@ -69,10 +78,43 @@ nmap <Leader>r :action Refactorings.QuickListPopupAction<CR>
 
 nmap <Leader>g :action Generate<CR>
 
+nmap <Leader>esv :source ~\.ideavimrc<CR>
+
+nmap <Leader>ev :e ~\.ideavimrc<CR>
+
+nmap <Leader>sw :action SurroundWith<CR>
+
+nmap gb :action SelectNextOccurrence<CR>
+
+" Ctrl + F12
+nmap <Leader>n :action FileStructurePopup<CR>
+
+nmap <leader>w :action SaveAll<cr>
+
+nmap <leader><leader>l :action KJumpAction.Line<cr>
+
+nmap <Leader>mu :action MoveStatementUp<CR>
+
+nmap <Leader>md :action MoveStatementDown<CR>
+
+" Alt + F7 in idea.
+
+nmap <Leader>f :action FindUsages<CR>
+
+nmap <Leader>r :action Refactorings.QuickListPopupAction<CR>
+
+" Alt + Insert in idea.
+nmap <Leader>g :action Generate<CR>
+
+" F12
+nmap <Leader>w :action JumpToLastWindow<CR>
+
 nmap <C-h> :action TypeHierarchy<CR>
+
 imap <C-v> <Esc>:action $Paste<CR>
 
 nmap <Leader>[ :action EditorCodeBlockStart<CR>
+
 nmap <Leader>] :action EditorCodeBlockEnd<CR>
 
 map <C-k> :action EditorSelectWord<CR>
@@ -118,7 +160,6 @@ nmap <Leader>nt :action ActivateProjectToolWindow<CR>
 "Coding Formating
 nnoremap <leader>cf :action ReformatCode<CR>
 
-
 " Some Git Shortcuts for view status, pull, and branches
 " Mapping mimic Fugitive in my native vim
 nmap <Leader>gs :action ChangesView.Commit<CR>
@@ -140,3 +181,6 @@ vnoremap K :m '<-2<CR>gv=gv
 " Put search results in the middle of the screen
 nnoremap n nzz
 nnoremap N Nzz
+
+" Ctrl-W
+nmap <C-k> :action EditorSelectWord<CR>

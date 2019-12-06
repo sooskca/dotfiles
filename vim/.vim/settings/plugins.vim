@@ -42,6 +42,7 @@ call plug#begin('~/.cache/plugged')
     "}}}
 
   "" Completion {{{
+
   Plug 'neoclide/coc.nvim', {'branch': 'release'} " {{{
     " make <tab> used for trigger completion, completion confirm, snippet expand and jump like VSCode.
     inoremap <silent><expr> <TAB>
@@ -82,6 +83,7 @@ call plug#begin('~/.cache/plugged')
     autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 
     "}}}
+
   "" }}}
 
 " }}}
@@ -120,6 +122,54 @@ call plug#begin('~/.cache/plugged')
   "" Code Quality {{{
 
   Plug 'editorconfig/editorconfig-vim'
+
+" 'terryma/vim-multiple-cursors' {{{
+let g:multi_cursor_exit_from_insert_mode = 0
+" }}}
+
+" /neoclide/coc.nvim{{{
+
+" make <tab> used for trigger completion, completion confirm, snippet expand and jump like VSCode.
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_snippet_next = '<tab>'
+
+" use <tab> for trigger completion and navigate to the next complete item
+" function! s:check_back_space() abort
+"   let col = col('.') - 1
+"   return !col || getline('.')[col - 1]  =~ '\s'
+" endfunction
+
+" inoremap <silent><expr> <Tab>
+"       \ pumvisible() ? "\<C-n>" :
+"       \ <SID>check_back_space() ? "\<Tab>" :
+"       \ coc#refresh()
+
+" use <Tab> and <S-Tab> to navigate the completion list:
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" use <cr> to confirm completion
+" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" make <cr> select the first completion item and confirm the completion when no item has been selected:
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+
+" Close the preview window when completion is done
+autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+
+"}}}
+
 
   Plug 'w0rp/ale' "{{{
     " Disable realtime linting due to performance issue

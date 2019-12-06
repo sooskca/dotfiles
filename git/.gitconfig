@@ -1,5 +1,5 @@
 [user]
-  name = JosÃ© AraÃºjo
+  name = José Araújo
   email = sooskca@gmail.com
 [apply]
   whitespace = nowarn
@@ -48,11 +48,11 @@
   ship = town ship
   sync = town sync
 [diff]
-tool = nvimdiff
+  tool = nvimdiff
 [difftool "nvimdiff"]
-    cmd = nvim -d $LOCAL $REMOTE
+  cmd = nvim -d $LOCAL $REMOTE
 [merge]
-	tool = nfugitive
+  tool = nfugitive
 [mergetool]
   prompt = false
   path = nvim
@@ -84,4 +84,4 @@ tool = nvimdiff
   selected = manager
 [gui]
   encoding = UTF-8
-  editor = C:\\Tools\\Neovim\\bin\\nvim-qt.exe
+  editor = nvim
