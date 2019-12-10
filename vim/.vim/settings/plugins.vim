@@ -413,8 +413,11 @@ autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
     nnoremap coa :ALEToggle<cr>
     " }}}
 
+  Plug 'edkolev/tmuxline.vim'
+
   Plug 'christoomey/vim-tmux-navigator' " {{{
     let g:tmux_navigator_save_on_switch = 1
+    "
     " }}}
 
 " }}}

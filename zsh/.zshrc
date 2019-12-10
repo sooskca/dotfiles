@@ -18,7 +18,6 @@ zplugin $load mafredri/zsh-async
 zplugin $load rupa/z
 zplugin $load sindresorhus/pure
 zplugin $load softmoth/zsh-vim-mode
-zplugin $load wyntau/fzf-zsh
 zplugin $load zpm-zsh/linuxbrew
 zplugin $load kiurchv/asdf.plugin.zsh
 
@@ -54,3 +53,5 @@ zplugin ice silent wait:1; zplugin $load supercrabtree/k
 
 zplugin ice silent wait!1 atload"ZPLGM[COMPINIT_OPTS]=-C; zpcompinit"
 zplugin $load zdharma/fast-syntax-highlighting
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
