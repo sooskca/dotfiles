@@ -37,9 +37,6 @@ map 0 ^
 " - -- Like vim-vinegar.
 nnoremap <silent> - :silent edit <C-R>=empty(expand('%')) ? '.' : expand('%:p:h')<CR><CR>
 
-" , - Toggles fold
-nnoremap , za
-
 " j|k -- Move vertically by visual line
 nnoremap j gj
 nnoremap k gk
@@ -112,13 +109,5 @@ xnoremap Q :'<,'>:normal @q<cr>
 xnoremap p "0p
 
 " }}}
-
-" Terminal {{{
-
-" Easy navigation
-if has('terminal') || g:is_nvim
-  tnoremap <esc><esc> <C-\><C-n>
-  tnoremap <PageUp> <C-W>N<C-U>
-endif
 
 " }}}

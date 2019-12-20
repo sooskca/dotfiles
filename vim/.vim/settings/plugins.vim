@@ -19,6 +19,7 @@ call plug#begin('~/.cache/plugged')
   Plug 'tpope/vim-surround'
 
 
+
   Plug 'junegunn/vim-easy-align' " {{{
     " Align everything, since by default it doesn't align inside a comment
     let g:easy_align_ignore_groups = []
@@ -44,43 +45,121 @@ call plug#begin('~/.cache/plugged')
   "" Completion {{{
 
   Plug 'neoclide/coc.nvim', {'branch': 'release'} " {{{
-    " make <tab> used for trigger completion, completion confirm, snippet expand and jump like VSCode.
+    " You will have bad experience for diagnostic messages when it's default 4000.
+    set updatetime=300
+
+    " don't give |ins-completion-menu| messages.
+    set shortmess+=c
+
+    " always show signcolumns
+    set signcolumn=yes
+
+    " Use tab for trigger completion with characters ahead and navigate.
+    " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
     inoremap <silent><expr> <TAB>
-          \ pumvisible() ? coc#_select_confirm() :
-          \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+          \ pumvisible() ? "\<C-n>" :
           \ <SID>check_back_space() ? "\<TAB>" :
           \ coc#refresh()
+    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
     function! s:check_back_space() abort
       let col = col('.') - 1
       return !col || getline('.')[col - 1]  =~# '\s'
     endfunction
 
-    let g:coc_snippet_next = '<tab>'
+    " Use <c-space> to trigger completion.
+    " inoremap <silent><expr> <c-space> coc#refresh()
 
-    " use <tab> for trigger completion and navigate to the next complete item
-    " function! s:check_back_space() abort
-    "   let col = col('.') - 1
-    "   return !col || getline('.')[col - 1]  =~ '\s'
-    " endfunction
+    " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+    " Coc only does snippet and additional edit on confirm.  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>" Or use `complete_info` if your vim support it, like:
+    inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 
-    " inoremap <silent><expr> <Tab>
-    "       \ pumvisible() ? "\<C-n>" :
-    "       \ <SID>check_back_space() ? "\<Tab>" :
-    "       \ coc#refresh()
+    " Use `[g` and `]g` to navigate diagnostics
+    nmap <silent> [g <Plug>(coc-diagnostic-prev)
+    nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
-    " use <Tab> and <S-Tab> to navigate the completion list:
-    inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+    " Remap keys for gotos
+    nmap <silent> gd <Plug>(coc-definition)
+    nmap <silent> gy <Plug>(coc-type-definition)
+    nmap <silent> gi <Plug>(coc-implementation)
+    nmap <silent> gr <Plug>(coc-references)
+    nmap <silent> gh :call <SID>show_documentation()<CR>
 
-    " use <cr> to confirm completion
-    " inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+    function! s:show_documentation()
+      if (index(['vim','help'], &filetype) >= 0)
+        execute 'h '.expand('<cword>')
+      else
+        call CocAction('doHover')
+      endif
+    endfunction
 
-    " make <cr> select the first completion item and confirm the completion when no item has been selected:
-    inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+    " Highlight symbol under cursor on CursorHold
+    autocmd CursorHold * silent call CocActionAsync('highlight')
 
-    " Close the preview window when completion is done
-    autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+    " Remap for rename current word
+    nmap <leader>rn <Plug>(coc-rename)
+
+    " Remap for format selected region
+    xmap <leader>f  <Plug>(coc-format-selected)
+    nmap <leader>f  <Plug>(coc-format-selected)
+
+    augroup settings-coc
+      autocmd!
+      " Setup formatexpr specified filetype(s).
+      autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+      " Update signature help on jump placeholder
+      autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+    augroup end
+
+    " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+    xmap <leader>a  <Plug>(coc-codeaction-selected)
+    nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+    " Remap for do codeAction of current line
+    nmap <leader>ac  <Plug>(coc-codeaction)
+    " Fix autofix problem of current line
+    nmap <leader>qf  <Plug>(coc-fix-current)
+
+    " Create mappings for function text object, requires document symbols feature of languageserver.
+    xmap if <Plug>(coc-funcobj-i)
+    xmap af <Plug>(coc-funcobj-a)
+    omap if <Plug>(coc-funcobj-i)
+    omap af <Plug>(coc-funcobj-a)
+
+    " Use <C-k> for select selections ranges, needs server support, like: coc-tsserver, coc-python
+    nmap <silent> <C-k> <Plug>(coc-range-select)
+    xmap <silent> <C-k> <Plug>(coc-range-select)
+
+    " Use `:Format` to format current buffer
+    command! -nargs=0 Format :call CocAction('format')
+
+    " Use `:Fold` to fold current buffer
+    command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+    " use `:OR` for organize import of current buffer
+    command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+    " Add status line support, for integration with other plugin, checkout `:h coc-status`
+    set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+    " Using CocList
+    " Show all diagnostics
+    nmap , [CocList]
+    nnoremap <silent> [CocList]a  :<C-u>CocList diagnostics<cr>
+    " Manage extensions
+    nnoremap <silent> [CocList]e  :<C-u>CocList extensions<cr>
+    " Show commands
+    nnoremap <silent> [CocList]c  :<C-u>CocList commands<cr>
+    " Find symbol of current document
+    nnoremap <silent> [CocList]o  :<C-u>CocList outline<cr>
+    " Search workspace symbols
+    nnoremap <silent> [CocList]s  :<C-u>CocList -I symbols<cr>
+    " Do default action for next item.
+    nnoremap <silent> [CocList]j  :<C-u>CocNext<CR>
+    " Do default action for previous item.
+    nnoremap <silent> [CocList]k  :<C-u>CocPrev<CR>
+    " Resume latest coc list
+  nnoremap <silent> [CocList]p  :<C-u>CocListResume<CR>
 
     "}}}
 
@@ -93,6 +172,7 @@ call plug#begin('~/.cache/plugged')
   Plug 'honza/vim-snippets'
   Plug 'metakirby5/codi.vim'
   Plug 'tpope/vim-commentary'
+  Plug 'mattn/emmet-vim'
 
   Plug 'raimondi/delimitmate' " {{{
     let delimitMate_expand_cr = 1
@@ -123,53 +203,7 @@ call plug#begin('~/.cache/plugged')
 
   Plug 'editorconfig/editorconfig-vim'
 
-" 'terryma/vim-multiple-cursors' {{{
-let g:multi_cursor_exit_from_insert_mode = 0
-" }}}
-
-" /neoclide/coc.nvim{{{
-
-" make <tab> used for trigger completion, completion confirm, snippet expand and jump like VSCode.
-
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-let g:coc_snippet_next = '<tab>'
-
-" use <tab> for trigger completion and navigate to the next complete item
-" function! s:check_back_space() abort
-"   let col = col('.') - 1
-"   return !col || getline('.')[col - 1]  =~ '\s'
-" endfunction
-
-" inoremap <silent><expr> <Tab>
-"       \ pumvisible() ? "\<C-n>" :
-"       \ <SID>check_back_space() ? "\<Tab>" :
-"       \ coc#refresh()
-
-" use <Tab> and <S-Tab> to navigate the completion list:
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-" use <cr> to confirm completion
-" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-" make <cr> select the first completion item and confirm the completion when no item has been selected:
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
-
-" Close the preview window when completion is done
-autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
-
 "}}}
-
 
   Plug 'w0rp/ale' "{{{
     " Disable realtime linting due to performance issue
@@ -190,6 +224,7 @@ autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
           \   'javascript': ['prettier'],
           \   'typescript': ['prettier'],
           \   'css': ['prettier'],
+          \   'elm': ['elm-format'],
           \}
 
     let g:ale_fix_on_save = 1
@@ -204,27 +239,19 @@ autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
     "}}}
 
   Plug 'tpope/vim-dispatch'
+
   " }}}
 
-  "" Libraries {{{
-  " Plug 'posva/vim-vue'
-  "}}}
-
   "" Languages {{{
+    """ Elm {{{
+      Plug 'elm-tooling/elm-vim'
+      Plug 'andys8/vim-elm-syntax'
+    """ }}}
 
-    """ HTML & CSS {{{
-    Plug 'mattn/emmet-vim'
-    " }}}
+    """ Plug 'sheerun/vim-polyglot' {{{
+      let g:polyglot_disabled = ['elm']
+    """}}}
 
-    """ JavaScript/TypeScript {{{
-    Plug 'HerringtonDarkholme/yats.vim'
-    " }}}
-
-    """ Godot {{{
-    Plug 'calviken/vim-gdscript3'
-    "}}}
-
-  Plug 'sheerun/vim-polyglot'
 
   " }}}
 
@@ -234,7 +261,6 @@ autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 
   " Appearance {{{
     Plug 'chriskempson/base16-vim'
-    Plug 'ryanoasis/vim-devicons'
     "}}}
 
   " Status Line "{{{
@@ -245,48 +271,27 @@ autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
       let g:airline_powerline_fonts = 1
       let g:airline_theme='base16'
     "}}}
+
   "}}}
 
   " File Navigation "{{{
+
   Plug 'farmergreg/vim-lastplace'
 
-  " Plug 'ctrlpvim/ctrlp.vim' "{{{
-  "   Plug 'tacahiroy/ctrlp-funky'
-  "   Plug 'sgur/ctrlp-extensions.vim'
-
-  "   let g:ctrlp_clear_cache_on_exit=1
-  "   let g:ctrlp_max_height=40
-  "   let g:ctrlp_follow_symlinks=1
-  "   let g:ctrlp_max_files=20000
-  "   let g:ctrlp_extensions=['funky', 'undo']
-
-  "   let g:ctrlp_custom_ignore = {
-  "         \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-  "         \ 'file': '\v\.(exe|so|dll)$'
-  "         \ }
-
-  "   let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files']
-
-  "   if executable('ag')
-  "     let g:ctrlp_user_command='ag %s -l --nocolor --hidden -g ""'
-  "   endif
-
-
-  "   nmap \ [ctrlp]
-  "   nnoremap [ctrlp] <nop>
-  "   nnoremap [ctrlp]t :CtrlPBufTag<cr>
-  "   nnoremap [ctrlp]T :CtrlPTag<cr>
-  "   nnoremap [ctrlp]l :CtrlPLine<cr>
-  "   nnoremap [ctrlp]o :CtrlPFunky<cr>
-  "   nnoremap [ctrlp]b :CtrlPBuffer<cr>
-  "   nnoremap [ctrlp]y :CtrlPYankring<cr>
-  "   nnoremap [ctrlp]c :CtrlPCmdline<cr>
-  "   nnoremap [ctrlp]u :CtrlPUndo<cr>
-
-  "   let g:ctrlp_funky_syntax_highlight = 1
-  "   let g:ctrlp_funky_matchtype = 'path'
-
-  "   " }}}
+  Plug 'majutsushi/tagbar' "{{{
+    let g:tagbar_type_elm = {
+          \ 'kinds' : [
+          \ 'f:function:0:0',
+          \ 'm:modules:0:0',
+          \ 'i:imports:1:0',
+          \ 't:types:1:0',
+          \ 'a:type aliases:0:0',
+          \ 'c:type constructors:0:0',
+          \ 'p:ports:0:0',
+          \ 's:functions:0:0',
+          \ ]
+          \}
+  """ }}}
 
   Plug 'junegunn/fzf.vim' " {{{
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -378,9 +383,11 @@ autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 "}}}
 
 " Motion {{{
+
   Plug 'easymotion/vim-easymotion'
   Plug 'vim-scripts/matchit.zip'
   Plug 'justinmk/vim-sneak'
+
 "}}}
 
 " Highlighting {{{
@@ -400,9 +407,11 @@ autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 
   Plug 'konfekt/fastfold'
   Plug 'octref/rootignore'
-  Plug 'mhinz/vim-startify'
   Plug 'wellle/tmux-complete.vim'
 
+  Plug 'mhinz/vim-startify' "{{{
+    nnoremap <F1> :Startify<CR>
+  "}}}
   Plug 'Valloric/ListToggle' " {{{
     let g:lt_location_list_toggle_map = '<leader>Q'
     let g:lt_quickfix_list_toggle_map = '<leader>q'
@@ -417,7 +426,6 @@ autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 
   Plug 'christoomey/vim-tmux-navigator' " {{{
     let g:tmux_navigator_save_on_switch = 1
-    "
     " }}}
 
 " }}}
