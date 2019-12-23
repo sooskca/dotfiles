@@ -44,7 +44,10 @@
     zplugin $load sindresorhus/pure
 
     # colors
-    zplugin $load chriskempson/base16-shell
+
+    zplugin ice pick"shell/colors.sh" nocompile'!'
+    zplugin $load morhetz/gruvbox-contrib
+
     zplugin ice atclone"dircolors -b LS_COLORS > clrs.zsh" \
         atpull'%atclone' pick"clrs.zsh" nocompile'!' \
         atload'zstyle ":completion:*" list-colors “${(s.:.)LS_COLORS}”'

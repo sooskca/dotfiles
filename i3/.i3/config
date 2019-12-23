@@ -8,15 +8,23 @@
   exec --no-startup-id nm-applet
   exec --no-startup-id pamac-tray
   exec --no-startup-id clipit
+  exec --no-startup-id mate-power-manager
+
   exec_always --no-startup-id ff-theme-util
   exec_always --no-startup-id fix_xcursor
   exec_always --no-startup-id $HOME/.config/polybar/launch.sh
   exec_always --no-startup-id xrandr --output DP1 --auto --right-of HDMI1
-  exec_always --no-startup-id termite -e 'tmux new-session -A -s dev'
+
+
 
 # }}}
 
 # = Bindings {{{
+
+  # Volume
+  bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -c 0 -q set Master 2dB+ unmute
+  bindsym XF86AudioLowerVolume exec --no-startup-id amixer -c 0 -q set Master 2db- unmute
+  bindsym XF86AudioMute exec --no-startup-id amixer -q set Master toggle
 
   # Modifier
   set $Mod Mod4
@@ -25,7 +33,7 @@
   bindsym $Mod+c exec firefox
 
   # Terminal
-  bindsym $Mod+Return exec termite -e 'tmux new-session -A'
+  bindsym $Mod+Return exec i3-sensible-terminal
 
   # Run
   bindsym $Mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 450 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "SFNS Display 18"

@@ -103,7 +103,7 @@ call plug#begin('~/.cache/plugged')
     xmap <leader>f  <Plug>(coc-format-selected)
     nmap <leader>f  <Plug>(coc-format-selected)
 
-    augroup settings-coc
+    augroup settings-plugin-coc
       autocmd!
       " Setup formatexpr specified filetype(s).
       autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
@@ -159,7 +159,7 @@ call plug#begin('~/.cache/plugged')
     " Do default action for previous item.
     nnoremap <silent> [CocList]k  :<C-u>CocPrev<CR>
     " Resume latest coc list
-  nnoremap <silent> [CocList]p  :<C-u>CocListResume<CR>
+    nnoremap <silent> [CocList]p  :<C-u>CocListResume<CR>
 
     "}}}
 
@@ -260,7 +260,7 @@ call plug#begin('~/.cache/plugged')
 " Interface {{{
 
   " Appearance {{{
-    Plug 'chriskempson/base16-vim'
+    Plug 'morhetz/gruvbox'
     "}}}
 
   " Status Line "{{{
@@ -269,7 +269,7 @@ call plug#begin('~/.cache/plugged')
 
       let g:airline#extensions#tabline#enabled = 1
       let g:airline_powerline_fonts = 1
-      let g:airline_theme='base16'
+      let g:airline_theme='base16_gruvbox_dark_hard'
     "}}}
 
   "}}}
@@ -407,26 +407,25 @@ call plug#begin('~/.cache/plugged')
 
   Plug 'konfekt/fastfold'
   Plug 'octref/rootignore'
-  Plug 'wellle/tmux-complete.vim'
+  Plug 'tpope/vim-unimpaired'
 
   Plug 'mhinz/vim-startify' "{{{
     nnoremap <F1> :Startify<CR>
   "}}}
+
   Plug 'Valloric/ListToggle' " {{{
     let g:lt_location_list_toggle_map = '<leader>Q'
     let g:lt_quickfix_list_toggle_map = '<leader>q'
     let g:lt_height = 10
     " }}}
 
-  Plug 'tpope/vim-unimpaired' " {{{
-    nnoremap coa :ALEToggle<cr>
-    " }}}
-
+ "" Tmux {{{
+  Plug 'wellle/tmux-complete.vim'
   Plug 'edkolev/tmuxline.vim'
+  Plug 'christoomey/vim-tmux-navigator'
 
-  Plug 'christoomey/vim-tmux-navigator' " {{{
-    let g:tmux_navigator_save_on_switch = 1
-    " }}}
+  let g:tmux_navigator_save_on_switch = 1
+  "" }}}
 
 " }}}
 
