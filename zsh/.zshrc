@@ -32,6 +32,8 @@
 
     zplugin ice silent wait!1 atload"ZPLGM[COMPINIT_OPTS]=-C; zpcompinit"
     zplugin $load zdharma/fast-syntax-highlighting
+
+    zplugin $load axtl/gpg-agent.zsh
   ## }}}
 
   ## interface {{{
@@ -67,8 +69,11 @@
     zplugin ice silent wait:1
     zplugin $load micha/resty
 
-    zplugin ice silent wait:1
-    zplugin $load supercrabtree/k
+    zplugin ice as"program" pick"yank" make
+    zplugin light mptre/yank
+
+    zplugin ice as"command" from"gh-r" mv"fd* -> fd" pick"fd/fd"
+    zplugin light sharkdp/fd
 
     zplugin ice from"gh-r" as"program"
     zplugin $load junegunn/fzf-bin

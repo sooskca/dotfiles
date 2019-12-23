@@ -17,8 +17,7 @@ call plug#begin('~/.cache/plugged')
   Plug 'tpope/vim-repeat'
   Plug 'mtth/scratch.vim'
   Plug 'tpope/vim-surround'
-
-
+  Plug 'terryma/vim-expand-region'
 
   Plug 'junegunn/vim-easy-align' " {{{
     " Align everything, since by default it doesn't align inside a comment
@@ -38,9 +37,10 @@ call plug#begin('~/.cache/plugged')
     " }}}
 
   Plug 'kana/vim-textobj-user' "{{{
-    Plug 'fvictorio/vim-textobj-backticks'
     Plug 'saaguero/vim-textobj-pastedtext'
     "}}}
+    "
+  Plug 'wellle/targets.vim'
 
   "" Completion {{{
 
@@ -126,10 +126,6 @@ call plug#begin('~/.cache/plugged')
     omap if <Plug>(coc-funcobj-i)
     omap af <Plug>(coc-funcobj-a)
 
-    " Use <C-k> for select selections ranges, needs server support, like: coc-tsserver, coc-python
-    nmap <silent> <C-k> <Plug>(coc-range-select)
-    xmap <silent> <C-k> <Plug>(coc-range-select)
-
     " Use `:Format` to format current buffer
     command! -nargs=0 Format :call CocAction('format')
 
@@ -170,13 +166,70 @@ call plug#begin('~/.cache/plugged')
 " Programming {{{
 
   Plug 'honza/vim-snippets'
-  Plug 'metakirby5/codi.vim'
   Plug 'tpope/vim-commentary'
   Plug 'mattn/emmet-vim'
 
   Plug 'raimondi/delimitmate' " {{{
     let delimitMate_expand_cr = 1
     " }}}
+
+  Plug 'metakirby5/codi.vim' "{{{
+    " since it is fullscreen, I'd like a 50/50 split
+    let g:codi#width = 50.0
+
+    " instead of destroying buffers, hide them and
+    " index them by filetype into this dictionary
+    let s:codi_filetype_tabs = {}
+
+    fun! s:FullscreenScratch()
+      " store filetype and bufnr of current buffer
+      " for later reference
+      let current_buf_ft  = &ft
+      let current_buf_num = bufnr('%')
+
+      " check if a scratch buffer for this filetype already exists
+      let saved_scratch = get(s:codi_filetype_tabs, current_buf_ft, -1)
+
+      " if a tabpage exists for current_buf_ft, go to it instead of
+      " creating a new scratch buffer
+      if saved_scratch != -1
+        if index(map(gettabinfo(), 'v:val.tabnr'), saved_scratch) == -1
+          unlet s:codi_filetype_tabs[current_buf_ft]
+        else
+          exe 'tabn' saved_scratch
+          return
+        endif
+      endif
+
+      " create a new empty tab, set scratch options and give it a name
+      tabe
+      setlocal buftype=nofile noswapfile modifiable buflisted bufhidden=hide
+      exe ':file scratch::' . current_buf_ft
+
+      " set filetype to that of original source file
+      " e.g. ruby / python / w/e Codi supports
+      let &filetype = current_buf_ft
+
+      " store the tabpagenr per filetype so we can return
+      " to it later when re-opening from the same filetype
+      let s:codi_filetype_tabs[&filetype] = tabpagenr()
+
+      " create a buffer local mapping that overrides the
+      " outer one to delete the current scratch buffer instead
+      " when the buffer is destroyed, this mapping will be
+      " destroyed with it and the next <Leader><Leader>
+      " will spawn a new fullscreen scratch window again
+      nmap <silent><buffer> <Leader><Leader> :tabprevious<Cr>
+
+      " everything is setup, filetype is set
+      " let Codi do the rest :)
+      ALEDisable
+      Codi
+    endfun
+
+    " create a mapping to call the fullscreen scratch wrapper
+    nmap <silent> <leader><leader>f :call <SID>FullscreenScratch()<Cr>"}}}
+
 
   "" Source Control {{{
 
@@ -207,7 +260,7 @@ call plug#begin('~/.cache/plugged')
 
   Plug 'w0rp/ale' "{{{
     " Disable realtime linting due to performance issue
-    let g:ale_lint_on_text_changed = 'normal'
+    let g:ale_lint_on_text_changed = 'never'
     " Ensure ale use location list
     let g:ale_set_loclist = 1
     let g:ale_open_list = 1
@@ -216,6 +269,8 @@ call plug#begin('~/.cache/plugged')
     let g:ale_lint_on_enter = 1
     let g:ale_set_signs = 1
     let g:ale_sign_column_always = 1
+
+    let g:ale_disable_lsp = 1
 
     " Fixing
     let g:ale_fixers = {
@@ -396,10 +451,6 @@ call plug#begin('~/.cache/plugged')
   Plug 'yggdroot/indentline'
   Plug 'vasconcelloslf/vim-interestingwords'
   Plug 'xtal8/traces.vim'
-
-  Plug 'ntpeters/vim-better-whitespace' " {{{
-    autocmd BufEnter * EnableStripWhitespaceOnSave
-    " }}}
 
 "}}}
 
