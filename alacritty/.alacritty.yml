@@ -134,13 +134,6 @@ cursor_style: Block
 
 live_config_reload: true
 
-shell:
-  program: /bin/tmux
-  args:
-    - new
-    - -A
-    - -s dev
-
 key_bindings:
   - { key: V,        mods: Control|Shift,    action: Paste               }
   - { key: C,        mods: Control|Shift,    action: Copy                }
