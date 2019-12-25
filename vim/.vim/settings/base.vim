@@ -1,7 +1,6 @@
 "" base.vim - My essential vim configuration
 " Maintainer:   José Araújo <sooskca@gmail.com>
 " Version:      0.1
-"
 
 set nocompatible " be iMproved
 
@@ -22,4 +21,3 @@ if has('patch-7.4.2201') | set signcolumn=yes | endif
 
 filetype plugin indent on
 syntax on
-

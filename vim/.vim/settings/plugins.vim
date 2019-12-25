@@ -32,6 +32,10 @@ call plug#begin('~/.cache/plugged')
     let g:multi_cursor_exit_from_insert_mode = 0
     " }}}
 
+  Plug 'alok/notational-fzf-vim' "{{{
+    let g:nv_search_paths = ['~/Wiki', './Notes.md']
+  "}}}
+  "
   Plug 'thaerkh/vim-workspace' " {{{
     nnoremap <leader>s :ToggleWorkspace<CR>
     " }}}
@@ -353,15 +357,16 @@ call plug#begin('~/.cache/plugged')
     let g:fzf_nvim_statusline = 0 " disable statusline overwriting
 
     nmap \ [fzf]
-    nnoremap <silent> [fzf]<space> :Files<CR>
-    nnoremap <silent> [fzf]a :Buffers<CR>
-    nnoremap <silent> [fzf]A :Windows<CR>
-    nnoremap <silent> [fzf]; :BLines<CR>
-    nnoremap <silent> [fzf]o :BTags<CR>
-    nnoremap <silent> [fzf]O :Tags<CR>
-    nnoremap <silent> [fzf]? :History<CR>
-    nnoremap <silent> [fzf]/ :execute 'Ag ' . input('Ag/')<CR>
-    nnoremap <silent> [fzf]. :AgIn
+    nnoremap <silent> [fzf]f :Files<CR>
+    nnoremap <silent> [fzf]<space> :NV<CR>
+    nnoremap <silent> [fzf]b :Buffers<CR>
+    nnoremap <silent> [fzf]B :Windows<CR>
+    nnoremap <silent> [fzf]l :BLines<CR>
+    nnoremap <silent> [fzf]t :BTags<CR>
+    nnoremap <silent> [fzf]T :Tags<CR>
+    nnoremap <silent> [fzf]h :History<CR>
+    nnoremap <silent> [fzf]s :execute 'Ag ' . input('Ag/')<CR>
+    nnoremap <silent> [fzf]S :AgIn
 
     nnoremap <silent> K :call SearchWordWithAg()<CR>
     vnoremap <silent> K :call SearchVisualSelectionWithAg()<CR>

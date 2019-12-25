@@ -1,15 +1,32 @@
 [bar/sea]
-monitor = ${env:MONITOR:}
-width = 100%
-height = 27
-radius = 0
+monitor = ${env:MONITOR:DP1}
+
+monitor-strict = false
+
+monitor-exact = true
+
+override-redirect = false
+
+bottom = false
+
 fixed-center = false
 
-background = #1d1e26
-foreground = #b0b287
+width = 100%
+height = 27
+
+offset-x = 0
+offset-y = 0
+
+background = #282828
+#background = #1d1e26
+
+foreground = #ebdbb2
+#foreground = #b0b287
+
+radius = 0.0
 
 line-size = 3
-line-color =
+line-color = #f00
 
 border-size = 0
 border-color =
@@ -20,22 +37,57 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = "Source Code Pro Semibold:size=10;1"
+font-0 = "Iosevka:size=10;1"
 font-1 = "Font Awesome 5 Free:style=Solid:size=10;1"
 font-2 = "Font Awesome 5 Brands:size=10;1"
 
-modules-left = wlan eth
-modules-center = i3
+modules-left = i3
+modules-center = date
 modules-right = github pulseaudio date powermenu
 
-tray-position =
-;tray-padding =
+separator =
+
+spacing = 0
+
+dim-value = 1.0
+
+wm-name =
+
+locale = pt_BR
+
+tray-position = right
+
+tray-detached = true
+
+tray-maxsize = 20
+
+tray-background = ${root.background}
+
+tray-offset-x = -258
+tray-offset-y = 0
+
+tray-padding = 2
+
+tray-scale = 1.0
+
 wm-restack = i3
-override-redirect = true
+
+dpi-x = 0
+dpi-y = 0
+
+enable-ipc = false
+
+click-left =
+click-middle =
+click-right =
+scroll-up =
+scroll-down =
+double-click-left =
+double-click-middle =
+double-click-right =
 
 cursor-click = pointer
 cursor-scroll = ns-resize
-
 
 [module/pulseaudio]
 type = internal/pulseaudio
@@ -43,15 +95,15 @@ type = internal/pulseaudio
 use-ui-max = true
 
 format-volume = <ramp-volume>
-format-volume-foreground = #1d1e26
-format-volume-background = #789073
+format-volume-foreground = ${root.background}
+format-volume-background = #98971a
 format-volume-padding = 2
 
 format-muted = <label-muted>
 
 label-muted = 
-label-muted-foreground = #1d1e26
-label-muted-background = #789073
+label-muted-foreground = ${root.background}
+label-muted-background = #98971a
 label-muted-padding = 2
 
 ramp-volume-0 = 
@@ -77,6 +129,10 @@ interval = 10
 ; Github API URL (unreleased)
 api-url = https://api.github.com/
 
+format = <label>
+
+label =  %notifications%
+
 [module/i3]
 type = internal/i3
 format = <label-state> <label-mode>
@@ -84,22 +140,22 @@ index-sort = true
 wrapping-scroll = false
 
 label-mode-padding = 2
-label-mode-foreground = #1d1e26
-label-mode-background = #1d1e26
+label-mode-foreground = ${root.background}
+label-mode-background = ${root.background}
 
 label-focused = %index%
-label-focused-background = #789073
-label-focused-foreground = #ffffff
+label-focused-background = #98971a
+label-focused-foreground = ${root.foreground}
 label-focused-padding = 2
 
 label-unfocused = %index%
-label-unfocused-background = #789073
-label-unfocused-foreground = #1d1e26
+label-unfocused-background = #98971a
+label-unfocused-foreground = ${root.background}
 label-unfocused-padding = 2
 
 label-visible = %index%
-label-visible-background = #789073
-label-visible-foreground = #1d1e26
+label-visible-background = #98971a
+label-visible-foreground = ${root.background}
 label-visible-padding = 2
 
 label-urgent = %index%
@@ -112,8 +168,8 @@ interface = net1
 interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
-format-connected-foreground = #1d1e26
-format-connected-background = #789073
+format-connected-foreground = ${root.background}
+format-connected-background = #98971a
 format-connected-padding = 2
 label-connected = %essid%
 
@@ -124,7 +180,7 @@ ramp-signal-1 = 
 ramp-signal-2 = 
 ramp-signal-3 = 
 ramp-signal-4 = 
-ramp-signal-foreground = #1d1e26
+ramp-signal-foreground = ${root.background}
 
 [module/eth]
 type = internal/network
@@ -132,10 +188,10 @@ interface = enp2s0
 interval = 3.0
 
 format-connected-padding = 2
-format-connected-foreground = #1d1e26
-format-connected-background = #789073
+format-connected-foreground = ${root.background}
+format-connected-background = #98971a
 format-connected-prefix = " "
-format-connected-prefix-foreground = #1d1e26
+format-connected-prefix-foreground = ${root.background}
 label-connected = %local_ip%
 
 format-disconnected =
@@ -151,8 +207,8 @@ time = %H:%M
 time-alt = %H:%M:%S
 
 format-prefix = 
-format-foreground = #1d1e26
-format-background = #789073
+format-foreground = ${root.background}
+format-background = #98971a
 format-padding = 2
 
 label = %date% %time%
@@ -165,11 +221,11 @@ expand-right = true
 format-spacing = 1
 
 label-open = 
-label-open-foreground = #789073
+label-open-foreground = #98971a
 label-close =  cancel
-label-close-foreground = #789073
+label-close-foreground = #98971a
 label-separator = |
-label-separator-foreground = #789073
+label-separator-foreground = #98971a
 
 menu-0-0 = reboot
 menu-0-0-exec = menu-open-1

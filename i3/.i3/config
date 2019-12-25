@@ -125,9 +125,10 @@
 # = }}}
 
 # Look & Feel {{{
+  new_window 1pixel
 
   # Font
-  font pango: SFNS 10
+  font pango: Iosevka 13
 
   # Border
   hide_edge_borders both
@@ -158,7 +159,6 @@ client.background       #272827
 # }}}
 
 # Behaviour {{{
-
   # Drag with mouse
   floating_Modifier $Mod
 
@@ -217,7 +217,9 @@ client.background       #272827
 
   # Floating {{{
 
-  for_window [title="(?i)mpv"] floating enable
+  for_window [title="(?i)CopyQ"] floating enable
+
+  for_window [title="(?i)Anki"] floating enable
 
   # == }}}
 
