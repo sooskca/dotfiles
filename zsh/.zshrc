@@ -2,9 +2,10 @@
 # Maintainer:   José Araújo <sooskca@gmail.com>
 # Version:      0.1
 
-# setup {{{
 
-  ## zplugin {{{
+# plugins {{{
+
+  ## setup {{{
 
   export XDG_CACHE_HOME=${XDG_CACHE_HOME:=~/.cache}
 
@@ -21,10 +22,6 @@
   load=light
 
   ## }}}
-
-# }}}
-
-# plugins {{{
 
   ## dependencies {{{
 
@@ -59,27 +56,30 @@
     zplugin load zdharma/history-search-multi-word
 
     # gpg-agent
-    zplugin $load axtl/gpg-agent.zsh
-
+    zplugin $load axtl/gpg-agent.zsh; _gpg_agent_start
 
   ## }}}
 
   ## interface {{{
 
-    ### bindings
-    zplugin $load softmoth/zsh-vim-mode
-
-    zplugin $load mdumitru/fancy-ctrl-z
+    ### almostontop
+    zplugin $load Valiev/almostontop
 
     ### theme
-    PS1="READY >"
-    zplugin ice wait'!' lucid
-    zplugin $load sindresorhus/pure
+    PS1="READY..."; zplugin ice wait'!' lucid; zplugin $load sindresorhus/pure
 
     ### colors
+
+    # manpages
+    zplugin ice wait lucid
+    zplugin snippet OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh
+
+    # gruvbox
     zplugin ice pick"shell/colors.sh" nocompile'!'
     zplugin $load morhetz/gruvbox-contrib
 
+
+    # lscolors
     zplugin ice atclone"dircolors -b LS_COLORS > clrs.zsh" \
         atpull'%atclone' pick"clrs.zsh" nocompile'!' \
         atload'zstyle ":completion:*" list-colors “${(s.:.)LS_COLORS}”'
@@ -89,55 +89,27 @@
 
   ## programs {{{
 
-    # autopair
-    zplugin ice wait lucid
-    zplugin load hlissner/zsh-autopair
+    ### autopair
+    zplugin ice wait:1 lucid; zplugin $load hlissner/zsh-autopair
 
-    # asdf
-    zplugin ice silent wait:1
-    zplugin $load asdf-vm/asdf.git
+    ### asdf
+    zplugin ice silent wait:1 pick"asdf.sh" src"completions/asdf.bash"
+    zplugin $load asdf-vm/asdf
 
-    # bat
-    zplugin ice as"command" from"gh-r" mv"bat* -> bat" pick"bat/bat"
-    zplugin $load sharkdp/bat
+    ### cd-gitroot
+    zplugin ice silent wait:1; zplugin $load mollifier/cd-gitroot
 
-    # cd-gitroot
-    zplugin ice silent wait:1
-    zplugin $load mollifier/cd-gitroot
-
-    # direnv
+    ### direnv
     zplugin ice as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
         atpull'%atclone' src"zhook.zsh"
     zplugin $load direnv/direnv
 
-    # exa
-    zplugin ice wait"2" lucid from"gh-r" as"program" mv"exa* -> exa"
-    zplugin $load ogham/exa
-
-    # fd
-    zplugin ice as"command" from"gh-r" mv"fd* -> fd" pick"fd/fd"
-    zplugin light sharkdp/fd
-
-    # fzf
-    zplugin ice from"gh-r" as"program"
-    zplugin $load junegunn/fzf-bin
-
-    # gitignore
-    zplugin ice wait"2" lucid
-    zplugin load voronkovich/gitignore.plugin.zsh
-
-    # resty
-    zplugin ice silent wait:1
-    zplugin $load micha/resty
-
-    # yank
+    ### yank
     zplugin ice as"program" pick"yank" make
     zplugin light mptre/yank
 
-    # z
-    zplugin ice silent wait:1
-    zplugin $load rupa/z
-
+    ### z
+    zplugin ice silent wait:1; zplugin $load rupa/z
 
     ## }}}
 
@@ -160,10 +132,19 @@
   ## settings {{{
 
     ### history
-    zplugin ice wait lucid
-    zplugin snippet OMZ::lib/history.zsh
+    zplugin ice wait lucid; zplugin snippet OMZ::lib/history.zsh
+
+    ###  keybindings {{{
+
+      #### keymap
+      zplugin $load softmoth/zsh-vim-mode
+
+      #### shortcuts
+      zplugin $load mdumitru/fancy-ctrl-z
+
+    # }}}
 
   ## }}}
 
 # }}}
-# vim: fdm=marker
+# vim: fdm=marker ft=zsh

@@ -43,7 +43,7 @@ font-2 = "Font Awesome 5 Brands:size=10;1"
 
 modules-left = i3
 modules-center = date
-modules-right = github pulseaudio date powermenu
+modules-right = github pulseaudio powermenu
 
 separator =
 
@@ -63,7 +63,7 @@ tray-maxsize = 20
 
 tray-background = ${root.background}
 
-tray-offset-x = -258
+tray-offset-x = -148
 tray-offset-y = 0
 
 tray-padding = 2

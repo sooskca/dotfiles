@@ -1,4 +1,5 @@
 {
+  "coc.preferences.formatOnSaveFiletypes": ["elm"],
   "languageserver": {
     "elmLS": {
       "command": "elm-language-server",

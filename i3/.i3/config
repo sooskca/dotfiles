@@ -15,6 +15,7 @@
   exec --no-startup-id mate-power-manager
 
  # Keyboard
+  exec --no-startup-id xmodmap ~/.Xmodmap
   exec setxkbmap -variant altgr-intl
   exec --no-startup-id xcape -e 'Control_L=Escape'
 
