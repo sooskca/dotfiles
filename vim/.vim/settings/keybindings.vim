@@ -110,4 +110,7 @@ xnoremap p "0p
 
 " }}}
 
+" Restore Bindings
+  unmap <C-i>
+
 " }}}

@@ -5,7 +5,7 @@
 
 # = Startup # {{{
   # Display
-  exec_always --no-startup-id xrandr --output DP1 --auto --right-of HDMI1
+  exec_always --no-startup-id xrandr --output DP1 --auto --rate 75 --right-of HDMI1
   exec --no-startup-id nitrogen --restore; sleep 1; compton -b
 
   # Network
@@ -15,12 +15,11 @@
   exec --no-startup-id mate-power-manager
 
  # Keyboard
-  exec --no-startup-id xmodmap ~/.Xmodmap
   exec setxkbmap -variant altgr-intl
   exec --no-startup-id xcape -e 'Control_L=Escape'
+  exec --no-startup-id xmodmap ~/.Xmodmap
 
   # Applications
-  exec --no-startup-id pamac-tray
   exec --no-startup-id clipit
   exec --no-startup-id dunst
   exec_always --no-startup-id $HOME/.config/polybar/launch.sh

@@ -1,76 +1,156 @@
-# vim: fdm=marker ts=2 sts=2 sw=2
-# init.vim - My neovim configuration
+# zshrc - My zsh configuration
 # Maintainer:   José Araújo <sooskca@gmail.com>
 # Version:      0.1
 
-# Options {{{
 
-EDITOR=vim
+# plugins {{{
 
-setopt correct                    # correct spelling for commands
-setopt interactive_comments       # allow # comments in shell; good for copy/paste
-unsetopt correct_all              # do no show 'suggestions'
-export BLOCK_SIZE="'1"            # add commas to file sizes
+  ## setup {{{
 
-typeset -U path                   # keep duplicates out of the path
+  export XDG_CACHE_HOME=${XDG_CACHE_HOME:=~/.cache}
+
+  typeset -A ZPLGM
+  ZPLG_HOME=$XDG_CACHE_HOME/zsh/zplugin
+  ZPLGM[HOME_DIR]=$ZPLG_HOME
+  ZPLGM[ZCOMPDUMP_PATH]=$XDG_CACHE_HOME/zsh/zcompdump
+
+  if [[ ! -f $ZPLG_HOME/bin/zplugin.zsh ]]; then
+      git clone https://github.com/psprint/zplugin $ZPLG_HOME/bin
+        zcompile $ZPLG_HOME/bin/zplugin.zsh
+  fi
+  source $ZPLG_HOME/bin/zplugin.zsh
+  load=light
+
+  ## }}}
+
+  ## dependencies {{{
+
+    ### async
+    zplugin $load mafredri/zsh-async
+
+    ### omz libraries
+    zplugin ice svn pick"completion.zsh" multisrc'git.zsh \
+        functions.zsh {history,grep}.zsh'
+    zplugin snippet OMZ::lib
+
+  ## }}}
+
+  ## essentials {{{
+
+    ### saneopt
+    zplugin $load willghatch/zsh-saneopt
+
+    ### ssh-agent
+    zplugin ice lucid
+    zplugin snippet OMZ::plugins/ssh-agent/ssh-agent.plugin.zsh
+
+    ### zsh-autosuggestions
+    zplugin ice silent wait:1 atload:_zsh_autosuggest_start
+    zplugin $load zsh-users/zsh-autosuggestions
+    bindkey '\e[3~' delete-char
+    bindkey ' '  magic-space
+    bindkey '^ ' autosuggest-accept
+
+    ### zsh-completions
+    zplugin ice blockf; zplugin $load zsh-users/zsh-completions
+
+    ### fast-syntax-highlighting
+    zplugin ice silent wait!1 atload"ZPLGM[COMPINIT_OPTS]=-C; zpcompinit"
+    zplugin $load zdharma/fast-syntax-highlighting
+
+    ### history-search-multi-word
+    zstyle ":history-search-multi-word" page-size "11"
+    zplugin ice wait"1" lucid
+    zplugin load zdharma/history-search-multi-word
+    bindkey '^p' history-search-backward
+    bindkey '^n' history-search-forward
+
+  ## }}}
+
+  ## interface {{{
+
+    ### almostontop
+    zplugin $load Valiev/almostontop
+
+    ### theme
+    PS1="READY > "; zplugin ice wait'!' lucid; zplugin $load sindresorhus/pure
+
+    ### colors
+
+    # manpages
+    zplugin ice wait lucid
+    zplugin snippet OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh
+
+    # gruvbox
+    zplugin ice pick"shell/colors.sh" nocompile'!'
+    zplugin $load morhetz/gruvbox-contrib
 
 
-# History {{{
-HISTFILE=$ZDOTDIR/.zhistory
-HISTSIZE=10000
-SAVEHIST=10000
-export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
+    # lscolors
+    zplugin ice atclone"dircolors -b LS_COLORS > clrs.zsh" \
+        atpull'%atclone' pick"clrs.zsh" nocompile'!' \
+        atload'zstyle ":completion:*" list-colors “${(s.:.)LS_COLORS}”'
+    zplugin $load trapd00r/LS_COLORS
 
-setopt append_history              # allow multiple sessions to append to one history
-setopt bang_hist                   # treat ! special during command expansion
-setopt extended_history            # Write history in :start:elasped;command format
-setopt hist_expire_dups_first      # expire duplicates first when trimming history
-setopt hist_find_no_dups           # When searching history, don't repeat
-setopt hist_ignore_dups            # ignore duplicate entries of previous events
-setopt hist_ignore_space           # prefix command with a space to skip it's recording
-setopt hist_reduce_blanks          # Remove extra blanks from each command added to history
-setopt hist_verify                 # Don't execute immediately upon history expansion
-setopt inc_append_history          # Write to history file immediately, not when shell quits
-setopt share_history               # Share history among all sessions
+  ## }}}
+
+  ## programs {{{
+
+    ### autopair
+    zplugin ice wait:1 lucid; zplugin $load hlissner/zsh-autopair
+
+    ### asdf
+    zplugin ice silent wait:1 pick"asdf.sh" src"completions/asdf.bash"
+    zplugin $load asdf-vm/asdf
+
+    ### cd-gitroot
+    zplugin ice silent wait:1; zplugin $load mollifier/cd-gitroot
+
+    ### direnv
+    zplugin ice as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
+        atpull'%atclone' src"zhook.zsh"
+    zplugin $load direnv/direnv
+
+    ### yank
+    zplugin ice as"program" pick"yank" make
+    zplugin light mptre/yank
+
+    ### z
+    zplugin ice lucid as"command" atload""; zplugin $load clvv/fasd
+      eval "$(fasd --init auto)"
+    zplugin ice silent wait:1; zplugin $load wookayin/fzf-fasd
+
+    ## }}}
+
+  ## aliases {{{
+
+  ### archlinux
+  zplugin ice wait lucid
+  zplugin snippet OMZ::plugins/archlinux/archlinux.plugin.zsh
+
+  ### extract
+  zplugin ice wait lucid
+  zplugin snippet OMZ::plugins/extract/extract.plugin.zsh
+
+  ### git
+  zplugin ice wait atload"unalias grv" lucid
+  zplugin snippet OMZ::plugins/git/git.plugin.zsh
+
+  ## }}}
+
+  ## settings {{{
+
+    ###  keybindings {{{
+
+      #### keymap
+      zplugin $load softmoth/zsh-vim-mode
+
+      #### shortcuts
+      zplugin $load mdumitru/fancy-ctrl-z
+
+    # }}}
+
+  ## }}}
+
 # }}}
-
-# Completion
-autoload -Uz compinit && compinit
-setopt complete_in_word            # cd /ho/sco/tm<TAB> expands to /home/scott/tmp
-setopt auto_menu                   # show completion menu on succesive tab presses
-setopt autocd                      # cd to a folder just by typing it's name
-ZLE_REMOVE_SUFFIX_CHARS=$' \t\n;&' # These "eat" the auto prior space after a tab complete
-# }}}
-
-# Plugins {{{
-
-source <(antibody init)
-
-antibody bundle < $ZDOTDIR/.zshplugins
-
-zstyle :plugin:history-search-multi-word reset-prompt-protect 1
-
-NORMAL_MODE_INDICATOR="%{$FX[italic]$FG[201]%}NORMAL%{$FX[reset]%}"
-
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
-
-bindkey -M emacs '^P' history-substring-search-up
-bindkey -M emacs '^N' history-substring-search-down
-
-bindkey -M vicmd 'k' history-substring-search-up
-bindkey -M vicmd 'j' history-substring-search-down
-# }}}
-
-# Keybindings {{{
-
-bindkey -e
-#bindkey -v
-bindkey '\e[3~' delete-char
-bindkey '^p' history-search-backward
-bindkey '^n' history-search-forward
-bindkey ' '  magic-space
-bindkey '^ ' autosuggest-accept
-
-
-# }}}
+# gvim: fdm=marker ft=zsh

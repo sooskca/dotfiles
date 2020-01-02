@@ -6,9 +6,11 @@
 call plug#begin('~/.cache/plugged')
 
 " Requirements  {{{
+
   Plug 'Shougo/vimproc.vim', {'do' : 'make'}
   Plug 'roxma/nvim-yarp'
   Plug 'prabirshrestha/async.vim'
+
 "}}}
 
 " Editing {{{
@@ -357,7 +359,7 @@ call plug#begin('~/.cache/plugged')
     let g:fzf_nvim_statusline = 0 " disable statusline overwriting
 
     nmap \ [fzf]
-    nnoremap <silent> [fzf]f :Files<CR>
+    nnoremap <silent> [fzf]\ :Files<CR>
     nnoremap <silent> [fzf]<space> :NV<CR>
     nnoremap <silent> [fzf]b :Buffers<CR>
     nnoremap <silent> [fzf]B :Windows<CR>
@@ -464,6 +466,11 @@ call plug#begin('~/.cache/plugged')
   Plug 'konfekt/fastfold'
   Plug 'octref/rootignore'
   Plug 'tpope/vim-unimpaired'
+
+  Plug 'vimwiki/vimwiki' "{{{
+    let g:vimwiki_list = [{'path': '~/Wiki/',
+          \ 'syntax': 'markdown', 'ext': '.md'}]
+  "}}}"
 
   Plug 'mhinz/vim-startify' "{{{
     nnoremap <F1> :Startify<CR>
