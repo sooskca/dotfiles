@@ -3,6 +3,10 @@
 " Maintainer:   José Araújo <sooskca@gmail.com>
 " Version:      1.0
 
+if exists('g:fvim_loaded')
+  source ~/.vim/settings/fvim.vim
+endif
+
 if exists('GuiLoaded')
   GuiFont! Iosevka NF:h12
 else
@@ -14,3 +18,5 @@ set guioptions= " disable all UI options
 set guicursor+=a:blinkon0 " disable blinking cursor
 
 autocmd GUIEnter * set novisualbell t_vb= " be silent
+
+

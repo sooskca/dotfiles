@@ -3,10 +3,14 @@
 " Maintainer:   José Araújo <sooskca@gmail.com>
 " Version:      1.0
 "
+
+
 let mapleader="\<Space>" | let maplocalleader="\\"
 
 let g:is_windows = has('win32') || has('win64')
 let g:is_nvim = has('nvim')
+
+language en
 
 " Setup
 " Install vim-plug

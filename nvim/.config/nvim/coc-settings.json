@@ -1,5 +1,5 @@
 {
-  "coc.preferences.formatOnSaveFiletypes": ["elm"],
+  "coc.preferences.formatOnSaveFiletypes": ["elm","jsx","css","html","Markdown", "javascript"],
   "languageserver": {
     "elmLS": {
       "command": "elm-language-server",

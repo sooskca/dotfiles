@@ -5,21 +5,25 @@
 
 call plug#begin('~/.cache/plugged')
 
-" Requirements  {{{
-
-  Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-  Plug 'roxma/nvim-yarp'
-  Plug 'prabirshrestha/async.vim'
-
-"}}}
-
 " Editing {{{
 
-  Plug 'mbbill/undotree'
+  Plug 'ntpeters/vim-better-whitespace' "{{{
+    let g:better_whitespace_enabled=1
+    let g:strip_whitespace_on_save=1
+  "}}}
+
+  Plug 'mbbill/undotree' "{{{
+    nnoremap <silent> [List]u :UndotreeToggle<cr>
+  "}}}
+
   Plug 'tpope/vim-repeat'
   Plug 'mtth/scratch.vim'
-  Plug 'tpope/vim-surround'
-  Plug 'terryma/vim-expand-region'
+  Plug 'machakann/vim-sandwich'
+
+  Plug 'terryma/vim-expand-region' "{{{
+    map K <Plug>(expand_region_expand)
+    map J <Plug>(expand_region_shrink)
+  "}}}
 
   Plug 'junegunn/vim-easy-align' " {{{
     " Align everything, since by default it doesn't align inside a comment
@@ -51,6 +55,16 @@ call plug#begin('~/.cache/plugged')
   "" Completion {{{
 
   Plug 'neoclide/coc.nvim', {'branch': 'release'} " {{{
+    let g:coc_global_extensions = [
+          \'coc-tsserver',
+          \'coc-emmet',
+          \'coc-css',
+          \'coc-html',
+          \'coc-json',
+          \'coc-pairs',
+          \'coc-yank',
+          \'coc-prettier']
+
     " You will have bad experience for diagnostic messages when it's default 4000.
     set updatetime=300
 
@@ -146,22 +160,24 @@ call plug#begin('~/.cache/plugged')
 
     " Using CocList
     " Show all diagnostics
-    nmap , [CocList]
-    nnoremap <silent> [CocList]a  :<C-u>CocList diagnostics<cr>
+    nmap , [List]
+    nnoremap <silent> [List]a  :<C-u>CocList diagnostics<cr>
     " Manage extensions
-    nnoremap <silent> [CocList]e  :<C-u>CocList extensions<cr>
+    nnoremap <silent> [List]e  :<C-u>CocList extensions<cr>
     " Show commands
-    nnoremap <silent> [CocList]c  :<C-u>CocList commands<cr>
+    nnoremap <silent> [List]c  :<C-u>CocList commands<cr>
     " Find symbol of current document
-    nnoremap <silent> [CocList]o  :<C-u>CocList outline<cr>
+    nnoremap <silent> [List]o  :<C-u>CocList outline<cr>
     " Search workspace symbols
-    nnoremap <silent> [CocList]s  :<C-u>CocList -I symbols<cr>
+    nnoremap <silent> [List]s  :<C-u>CocList -I symbols<cr>
     " Do default action for next item.
-    nnoremap <silent> [CocList]j  :<C-u>CocNext<CR>
+    nnoremap <silent> [List]j  :<C-u>CocNext<CR>
     " Do default action for previous item.
-    nnoremap <silent> [CocList]k  :<C-u>CocPrev<CR>
+    nnoremap <silent> [List]k  :<C-u>CocPrev<CR>
     " Resume latest coc list
-    nnoremap <silent> [CocList]p  :<C-u>CocListResume<CR>
+    nnoremap <silent> [List]p  :<C-u>CocListResume<CR>
+    " Show yanked text
+    nnoremap <silent> [List]y  :<C-u>CocList -A --normal yank<CR>
 
     "}}}
 
@@ -229,7 +245,6 @@ call plug#begin('~/.cache/plugged')
 
       " everything is setup, filetype is set
       " let Codi do the rest :)
-      ALEDisable
       Codi
     endfun
 
@@ -264,33 +279,6 @@ call plug#begin('~/.cache/plugged')
 
 "}}}
 
-  Plug 'w0rp/ale' "{{{
-    " Disable realtime linting due to performance issue
-    let g:ale_lint_on_text_changed = 'never'
-    " Ensure ale use location list
-    let g:ale_set_loclist = 1
-    let g:ale_open_list = 1
-    let g:ale_list_window_size = 8
-    " Check on bufenter
-    let g:ale_lint_on_enter = 1
-    let g:ale_set_signs = 1
-    let g:ale_sign_column_always = 1
-
-    let g:ale_disable_lsp = 1
-
-    " Fixing
-    let g:ale_fixers = {
-          \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-          \   'html': ['prettier'],
-          \   'javascript': ['prettier'],
-          \   'typescript': ['prettier'],
-          \   'css': ['prettier'],
-          \   'elm': ['elm-format'],
-          \}
-
-    let g:ale_fix_on_save = 1
-    "}}}
-
   Plug 'janko-m/vim-test' "{{{
       nmap <silent> t<C-n> :TestNearest<CR>
       nmap <silent> t<C-f> :TestFile<CR>
@@ -305,15 +293,22 @@ call plug#begin('~/.cache/plugged')
 
   "" Languages {{{
     """ Elm {{{
+      Plug 'othree/yajs.vim'
+    """ }}}
+
+    """ Elm {{{
       Plug 'elm-tooling/elm-vim'
       Plug 'andys8/vim-elm-syntax'
     """ }}}
 
-    """ Plug 'sheerun/vim-polyglot' {{{
+    Plug 'sheerun/vim-polyglot' "{{{
       let g:polyglot_disabled = ['elm']
-    """}}}
+    "}}}
 
-
+  "" Libraries & Frameworks {{{
+    """ React {{{
+      Plug 'mxw/vim-jsx'
+    """ }}}
   " }}}
 
 " }}}
@@ -370,15 +365,14 @@ call plug#begin('~/.cache/plugged')
     nnoremap <silent> [fzf]s :execute 'Ag ' . input('Ag/')<CR>
     nnoremap <silent> [fzf]S :AgIn
 
-    nnoremap <silent> K :call SearchWordWithAg()<CR>
-    vnoremap <silent> K :call SearchVisualSelectionWithAg()<CR>
+    nnoremap <silent> [fzf]w :call SearchWordWithAg()<CR>
+    vnoremap <silent> [fzf]V :call SearchVisualSelectionWithAg()<CR>
     nnoremap <silent> [fzf]gl :Commits<CR>
     nnoremap <silent> [fzf]ga :BCommits<CR>
     nnoremap <silent> [fzf]ft :Filetypes<CR>
 
     imap <C-x><C-f> <plug>(fzf-complete-file-ag)
     imap <C-x><C-l> <plug>(fzf-complete-line)
-
 
     function! SearchWordWithAg()
       execute 'Ag' expand('<cword>')
@@ -401,6 +395,13 @@ call plug#begin('~/.cache/plugged')
     endfunction
     command! -nargs=+ -complete=dir AgIn call SearchWithAgInDirectory(<f-args>)
   " }}}
+
+  "Plug 'tpope/vim-vinegar' "{{{
+  "  let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
+
+  "  autocmd FileType netrw setl bufhidden=delete
+
+  ""}}}
 
   Plug 'scrooloose/nerdtree' "{{{
     Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -438,7 +439,7 @@ call plug#begin('~/.cache/plugged')
         autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
       augroup END
     endif
-    " }}}
+    "}}}
 
   "}}}
 
@@ -468,21 +469,18 @@ call plug#begin('~/.cache/plugged')
   Plug 'tpope/vim-unimpaired'
 
   Plug 'vimwiki/vimwiki' "{{{
-    let g:vimwiki_list = [{'path': '~/Wiki/',
-          \ 'syntax': 'markdown', 'ext': '.md'}]
-  "}}}"
+    let g:vimwiki_list = [{
+          \ 'path': '~/Wiki/',
+          \ 'syntax': 'markdown', 'ext': '.md'
+          \ }]
+  " }}}
 
-  Plug 'mhinz/vim-startify' "{{{
-    nnoremap <F1> :Startify<CR>
-  "}}}
-
-  Plug 'Valloric/ListToggle' " {{{
-    let g:lt_location_list_toggle_map = '<leader>Q'
-    let g:lt_quickfix_list_toggle_map = '<leader>q'
-    let g:lt_height = 10
-    " }}}
+  "Plug 'mhinz/vim-startify' "{{{
+  "  nnoremap <F1> :Startify<CR>
+  ""}}}
 
  "" Tmux {{{
+
   Plug 'wellle/tmux-complete.vim'
   Plug 'edkolev/tmuxline.vim'
   Plug 'christoomey/vim-tmux-navigator'
@@ -493,3 +491,5 @@ call plug#begin('~/.cache/plugged')
 " }}}
 
 call plug#end()
+
+runtime macros/sandwich/keymap/surround.vim

@@ -4,7 +4,8 @@
 " Version:      1.0
 
 set runtimepath+=~/.vim,~/.vim/after
-set packpath+=~/.vim
+
+let &packpath=&runtimepath
 
 let g:is_windows = has('win32') || has('win64')
 if !g:is_windows
