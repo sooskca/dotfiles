@@ -13,6 +13,8 @@ else
   call rpcnotify(1, 'Gui', 'Font', 'Iosevka 12')
 endif
 
+set guifont=Iosevka\ NF:h14
+
 set guioptions= " disable all UI options
 
 set guicursor+=a:blinkon0 " disable blinking cursor

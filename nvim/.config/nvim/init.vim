@@ -12,4 +12,6 @@ if !g:is_windows
   set shell=/usr/bin/zsh
 endif
 
+set ffs=unix,dos
+
 source ~/.vimrc

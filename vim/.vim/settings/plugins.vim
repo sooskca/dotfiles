@@ -6,10 +6,11 @@
 call plug#begin('~/.cache/plugged')
 
 " Editing {{{
+  Plug 'arthurxavierx/vim-caser'
 
   Plug 'ntpeters/vim-better-whitespace' "{{{
-    let g:better_whitespace_enabled=1
     let g:strip_whitespace_on_save=1
+    let g:better_whitespace_enabled=1
   "}}}
 
   Plug 'mbbill/undotree' "{{{
@@ -88,7 +89,7 @@ call plug#begin('~/.cache/plugged')
     endfunction
 
     " Use <c-space> to trigger completion.
-    " inoremap <silent><expr> <c-space> coc#refresh()
+    inoremap <silent><expr> <c-space> coc#refresh()
 
     " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
     " Coc only does snippet and additional edit on confirm.  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>" Or use `complete_info` if your vim support it, like:
@@ -195,62 +196,64 @@ call plug#begin('~/.cache/plugged')
     let delimitMate_expand_cr = 1
     " }}}
 
-  Plug 'metakirby5/codi.vim' "{{{
-    " since it is fullscreen, I'd like a 50/50 split
-    let g:codi#width = 50.0
+  if !exists("g:is_windows")
+    Plug 'metakirby5/codi.vim' "{{{
+      " since it is fullscreen, I'd like a 50/50 split
+      let g:codi#width = 50.0
 
-    " instead of destroying buffers, hide them and
-    " index them by filetype into this dictionary
-    let s:codi_filetype_tabs = {}
+      " instead of destroying buffers, hide them and
+      " index them by filetype into this dictionary
+      let s:codi_filetype_tabs = {}
 
-    fun! s:FullscreenScratch()
-      " store filetype and bufnr of current buffer
-      " for later reference
-      let current_buf_ft  = &ft
-      let current_buf_num = bufnr('%')
+      fun! s:FullscreenScratch()
+        " store filetype and bufnr of current buffer
+        " for later reference
+        let current_buf_ft  = &ft
+        let current_buf_num = bufnr('%')
 
-      " check if a scratch buffer for this filetype already exists
-      let saved_scratch = get(s:codi_filetype_tabs, current_buf_ft, -1)
+        " check if a scratch buffer for this filetype already exists
+        let saved_scratch = get(s:codi_filetype_tabs, current_buf_ft, -1)
 
-      " if a tabpage exists for current_buf_ft, go to it instead of
-      " creating a new scratch buffer
-      if saved_scratch != -1
-        if index(map(gettabinfo(), 'v:val.tabnr'), saved_scratch) == -1
-          unlet s:codi_filetype_tabs[current_buf_ft]
-        else
-          exe 'tabn' saved_scratch
-          return
+        " if a tabpage exists for current_buf_ft, go to it instead of
+        " creating a new scratch buffer
+        if saved_scratch != -1
+          if index(map(gettabinfo(), 'v:val.tabnr'), saved_scratch) == -1
+            unlet s:codi_filetype_tabs[current_buf_ft]
+          else
+            exe 'tabn' saved_scratch
+            return
+          endif
         endif
-      endif
 
-      " create a new empty tab, set scratch options and give it a name
-      tabe
-      setlocal buftype=nofile noswapfile modifiable buflisted bufhidden=hide
-      exe ':file scratch::' . current_buf_ft
+        " create a new empty tab, set scratch options and give it a name
+        tabe
+        setlocal buftype=nofile noswapfile modifiable buflisted bufhidden=hide
+        exe ':file scratch::' . current_buf_ft
 
-      " set filetype to that of original source file
-      " e.g. ruby / python / w/e Codi supports
-      let &filetype = current_buf_ft
+        " set filetype to that of original source file
+        " e.g. ruby / python / w/e Codi supports
+        let &filetype = current_buf_ft
 
-      " store the tabpagenr per filetype so we can return
-      " to it later when re-opening from the same filetype
-      let s:codi_filetype_tabs[&filetype] = tabpagenr()
+        " store the tabpagenr per filetype so we can return
+        " to it later when re-opening from the same filetype
+        let s:codi_filetype_tabs[&filetype] = tabpagenr()
 
-      " create a buffer local mapping that overrides the
-      " outer one to delete the current scratch buffer instead
-      " when the buffer is destroyed, this mapping will be
-      " destroyed with it and the next <Leader><Leader>
-      " will spawn a new fullscreen scratch window again
-      nmap <silent><buffer> <Leader><Leader> :tabprevious<Cr>
+        " create a buffer local mapping that overrides the
+        " outer one to delete the current scratch buffer instead
+        " when the buffer is destroyed, this mapping will be
+        " destroyed with it and the next <Leader><Leader>
+        " will spawn a new fullscreen scratch window again
+        nmap <silent><buffer> <Leader><Leader> :tabprevious<Cr>
 
-      " everything is setup, filetype is set
-      " let Codi do the rest :)
-      Codi
-    endfun
+        " everything is setup, filetype is set
+        " let Codi do the rest :)
+        Codi
+      endfun
 
-    " create a mapping to call the fullscreen scratch wrapper
-    nmap <silent> <leader><leader>f :call <SID>FullscreenScratch()<Cr>"}}}
+      " create a mapping to call the fullscreen scratch wrapper
+      nmap <silent> <leader><leader>f :call <SID>FullscreenScratch()<Cr>"}}}
 
+  endif
 
   "" Source Control {{{
 
@@ -292,7 +295,7 @@ call plug#begin('~/.cache/plugged')
   " }}}
 
   "" Languages {{{
-    """ Elm {{{
+    """ JavaScript {{{
       Plug 'othree/yajs.vim'
     """ }}}
 
@@ -307,7 +310,7 @@ call plug#begin('~/.cache/plugged')
 
   "" Libraries & Frameworks {{{
     """ React {{{
-      Plug 'mxw/vim-jsx'
+      " Plug 'mxw/vim-jsx'
     """ }}}
   " }}}
 
@@ -365,30 +368,12 @@ call plug#begin('~/.cache/plugged')
     nnoremap <silent> [fzf]s :execute 'Ag ' . input('Ag/')<CR>
     nnoremap <silent> [fzf]S :AgIn
 
-    nnoremap <silent> [fzf]w :call SearchWordWithAg()<CR>
-    vnoremap <silent> [fzf]V :call SearchVisualSelectionWithAg()<CR>
     nnoremap <silent> [fzf]gl :Commits<CR>
     nnoremap <silent> [fzf]ga :BCommits<CR>
     nnoremap <silent> [fzf]ft :Filetypes<CR>
 
     imap <C-x><C-f> <plug>(fzf-complete-file-ag)
     imap <C-x><C-l> <plug>(fzf-complete-line)
-
-    function! SearchWordWithAg()
-      execute 'Ag' expand('<cword>')
-    endfunction
-
-    function! SearchVisualSelectionWithAg() range
-      let old_reg = getreg('"')
-      let old_regtype = getregtype('"')
-      let old_clipboard = &clipboard
-      set clipboard&
-      normal! ""gvy
-      let selection = getreg('"')
-      call setreg('"', old_reg, old_regtype)
-      let &clipboard = old_clipboard
-      execute 'Ag' selection
-    endfunction
 
     function! SearchWithAgInDirectory(...)
       call fzf#vim#ag(join(a:000[1:], ' '), extend({'dir': a:1}, g:fzf#vim#default_layout))
@@ -469,27 +454,37 @@ call plug#begin('~/.cache/plugged')
   Plug 'tpope/vim-unimpaired'
 
   Plug 'vimwiki/vimwiki' "{{{
+
+    let g:vimwiki_diary_months = {
+          \ 1: 'Janeiro', 2: 'Fevereiro', 3: 'Março',
+          \ 4: 'Abril', 5: 'Maio', 6: 'Junho',
+          \ 7: 'Julho', 8: 'Agosto', 9: 'Setembro',
+          \ 10: 'Outubro', 11: 'Novembro', 12: 'Dezembro'
+          \ }
     let g:vimwiki_list = [{
           \ 'path': '~/Wiki/',
-          \ 'syntax': 'markdown', 'ext': '.md'
+          \ 'syntax': 'markdown', 'ext': '.md',
+          \ 'auto_diary_index': 1
           \ }]
   " }}}
 
-  "Plug 'mhinz/vim-startify' "{{{
-  "  nnoremap <F1> :Startify<CR>
-  ""}}}
+  Plug 'mhinz/vim-startify' "{{{
+    nnoremap <F4> :Startify<CR>
+  "}}}
 
  "" Tmux {{{
 
-  Plug 'wellle/tmux-complete.vim'
-  Plug 'edkolev/tmuxline.vim'
-  Plug 'christoomey/vim-tmux-navigator'
+  if executable('tmux')
+    Plug 'wellle/tmux-complete.vim'
+    Plug 'edkolev/tmuxline.vim'
 
-  let g:tmux_navigator_save_on_switch = 1
+    Plug 'christoomey/vim-tmux-navigator' "{{{
+      let g:tmux_navigator_save_on_switch = 1
+    "}}}
+  endif
+
   "" }}}
 
 " }}}
 
 call plug#end()
-
-runtime macros/sandwich/keymap/surround.vim
