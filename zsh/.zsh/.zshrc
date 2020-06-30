@@ -9,16 +9,16 @@
 
   export XDG_CACHE_HOME=${XDG_CACHE_HOME:=~/.cache}
 
-  typeset -A ZPLGM
-  ZPLG_HOME=$XDG_CACHE_HOME/zsh/zplugin
-  ZPLGM[HOME_DIR]=$ZPLG_HOME
-  ZPLGM[ZCOMPDUMP_PATH]=$XDG_CACHE_HOME/zsh/zcompdump
+  declare -A ZINIT
+  ZINIT_HOME=$XDG_CACHE_HOME/zsh/zinit
+  ZINIT[HOME_DIR]=$ZINIT_HOME
+  ZINIT[ZCOMPDUMP_PATH]=$XDG_CACHE_HOME/zsh/zcompdump
 
-  if [[ ! -f $ZPLG_HOME/bin/zplugin.zsh ]]; then
-      git clone https://github.com/psprint/zplugin $ZPLG_HOME/bin
-        zcompile $ZPLG_HOME/bin/zplugin.zsh
+  if [[ ! -f $ZINIT_HOME/bin/zinit.zsh ]]; then
+      git clone https://github.com/zdharma/zinit $ZINIT_HOME/bin
+        zcompile $ZINIT_HOME/bin/zinit.zsh
   fi
-  source $ZPLG_HOME/bin/zplugin.zsh
+  source $ZINIT_HOME/bin/zinit.zsh
   load=light
 
   ## }}}
@@ -26,42 +26,42 @@
   ## dependencies {{{
 
     ### async
-    zplugin $load mafredri/zsh-async
+    zinit $load mafredri/zsh-async
 
     ### omz libraries
-    zplugin ice svn pick"completion.zsh" multisrc'git.zsh \
+    zinit ice svn pick"completion.zsh" multisrc'git.zsh \
         functions.zsh {history,grep}.zsh'
-    zplugin snippet OMZ::lib
+    zinit snippet OMZ::lib
 
   ## }}}
 
   ## essentials {{{
 
     ### saneopt
-    zplugin $load willghatch/zsh-saneopt
+    zinit $load willghatch/zsh-saneopt
 
     ### ssh-agent
-    zplugin ice lucid
-    zplugin snippet OMZ::plugins/ssh-agent/ssh-agent.plugin.zsh
+    zinit ice lucid
+    zinit snippet OMZ::plugins/ssh-agent/ssh-agent.plugin.zsh
 
     ### zsh-autosuggestions
-    zplugin ice silent wait:1 atload:_zsh_autosuggest_start
-    zplugin $load zsh-users/zsh-autosuggestions
+    zinit ice silent wait:1 atload:_zsh_autosuggest_start
+    zinit $load zsh-users/zsh-autosuggestions
     bindkey '\e[3~' delete-char
     bindkey ' '  magic-space
     bindkey '^ ' autosuggest-accept
 
     ### zsh-completions
-    zplugin ice blockf; zplugin $load zsh-users/zsh-completions
+    zinit ice blockf; zinit $load zsh-users/zsh-completions
 
     ### fast-syntax-highlighting
-    zplugin ice silent wait!1 atload"ZPLGM[COMPINIT_OPTS]=-C; zpcompinit"
-    zplugin $load zdharma/fast-syntax-highlighting
+    zinit ice silent wait!1 atload"ZINITM[COMPINIT_OPTS]=-C; zpcompinit"
+    zinit $load zdharma/fast-syntax-highlighting
 
     ### history-search-multi-word
     zstyle ":history-search-multi-word" page-size "11"
-    zplugin ice wait"1" lucid
-    zplugin load zdharma/history-search-multi-word
+    zinit ice wait"1" lucid
+    zinit load zdharma/history-search-multi-word
     bindkey '^p' history-search-backward
     bindkey '^n' history-search-forward
 
@@ -70,71 +70,71 @@
   ## interface {{{
 
     ### almostontop
-    zplugin $load Valiev/almostontop
+    zinit $load Valiev/almostontop
 
     ### theme
-    PS1="READY > "; zplugin ice wait'!' lucid; zplugin $load sindresorhus/pure
+    PS1="READY > "; zinit ice wait'!' lucid; zinit $load sindresorhus/pure
 
     ### colors
 
     # manpages
-    zplugin ice wait lucid
-    zplugin snippet OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh
+    zinit ice wait lucid
+    zinit snippet OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh
 
     # gruvbox
-    zplugin ice pick"shell/colors.sh" nocompile'!'
-    zplugin $load morhetz/gruvbox-contrib
+    zinit ice pick"shell/colors.sh" nocompile'!'
+    zinit $load morhetz/gruvbox-contrib
 
 
     # lscolors
-    zplugin ice atclone"dircolors -b LS_COLORS > clrs.zsh" \
+    zinit ice atclone"dircolors -b LS_COLORS > clrs.zsh" \
         atpull'%atclone' pick"clrs.zsh" nocompile'!' \
         atload'zstyle ":completion:*" list-colors “${(s.:.)LS_COLORS}”'
-    zplugin $load trapd00r/LS_COLORS
+    zinit $load trapd00r/LS_COLORS
 
   ## }}}
 
   ## programs {{{
 
     ### autopair
-    zplugin ice wait:1 lucid; zplugin $load hlissner/zsh-autopair
+    zinit ice wait:1 lucid; zinit $load hlissner/zsh-autopair
 
     ### asdf
-    zplugin ice silent wait:1 pick"asdf.sh" src"completions/asdf.bash"
-    zplugin $load asdf-vm/asdf
+    zinit ice silent wait:1 pick"asdf.sh" src"completions/asdf.bash"
+    zinit $load asdf-vm/asdf
 
     ### cd-gitroot
-    zplugin ice silent wait:1; zplugin $load mollifier/cd-gitroot
+    zinit ice silent wait:1; zinit $load mollifier/cd-gitroot
 
     ### direnv
-    zplugin ice as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
+    zinit ice as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
         atpull'%atclone' src"zhook.zsh"
-    zplugin $load direnv/direnv
+    zinit $load direnv/direnv
 
     ### yank
-    zplugin ice as"program" pick"yank" make
-    zplugin light mptre/yank
+    zinit ice as"program" pick"yank" make
+    zinit light mptre/yank
 
     ### z
-    zplugin ice lucid as"command" atload""; zplugin $load clvv/fasd
+    zinit ice lucid as"command" atload""; zinit $load clvv/fasd
       eval "$(fasd --init auto)"
-    zplugin ice silent wait:1; zplugin $load wookayin/fzf-fasd
+    zinit ice silent wait:1; zinit $load wookayin/fzf-fasd
 
     ## }}}
 
   ## aliases {{{
 
   ### archlinux
-  zplugin ice wait lucid
-  zplugin snippet OMZ::plugins/archlinux/archlinux.plugin.zsh
+  zinit ice wait lucid
+  zinit snippet OMZ::plugins/archlinux/archlinux.plugin.zsh
 
   ### extract
-  zplugin ice wait lucid
-  zplugin snippet OMZ::plugins/extract/extract.plugin.zsh
+  zinit ice wait lucid
+  zinit snippet OMZ::plugins/extract/extract.plugin.zsh
 
   ### git
-  zplugin ice wait atload"unalias grv" lucid
-  zplugin snippet OMZ::plugins/git/git.plugin.zsh
+  zinit ice wait atload"unalias grv" lucid
+  zinit snippet OMZ::plugins/git/git.plugin.zsh
 
   ## }}}
 
@@ -143,10 +143,10 @@
     ###  keybindings {{{
 
       #### keymap
-      zplugin $load softmoth/zsh-vim-mode
+      zinit $load softmoth/zsh-vim-mode
 
       #### shortcuts
-      zplugin $load mdumitru/fancy-ctrl-z
+      zinit $load mdumitru/fancy-ctrl-z
 
     # }}}
 
