@@ -6,3 +6,5 @@ ZDOTDIR=$HOME/.zsh
 source $ZDOTDIR/.aliases
 
 source $HOME/.secrets
+
+xmodmap ~/.Xmodmap

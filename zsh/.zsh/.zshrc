@@ -72,6 +72,22 @@
     ### almostontop
     zinit $load Valiev/almostontop
 
+    ### autopair
+    zinit ice wait:1 lucid; zinit $load hlissner/zsh-autopair
+
+    ### cd-gitroot
+    zinit ice silent wait:1; zinit $load mollifier/cd-gitroot
+
+    ### direnv
+    zinit ice as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
+        atpull'%atclone' src"zhook.zsh"
+    zinit $load direnv/direnv
+
+    ### fasd
+    zinit ice lucid as"command" atload""; zinit $load clvv/fasd
+      eval "$(fasd --init auto)"
+    zinit ice silent wait:1; zinit $load wookayin/fzf-fasd
+
     ### theme
     PS1="READY > "; zinit ice wait'!' lucid; zinit $load sindresorhus/pure
 
@@ -85,7 +101,6 @@
     zinit ice pick"shell/colors.sh" nocompile'!'
     zinit $load morhetz/gruvbox-contrib
 
-
     # lscolors
     zinit ice atclone"dircolors -b LS_COLORS > clrs.zsh" \
         atpull'%atclone' pick"clrs.zsh" nocompile'!' \
@@ -96,29 +111,30 @@
 
   ## programs {{{
 
-    ### autopair
-    zinit ice wait:1 lucid; zinit $load hlissner/zsh-autopair
+    ### bat
+    zinit ice as"command" from"gh-r" mv"bat* -> bat" pick"bat/bat"
+    zinit $load sharkdp/bat
 
-    ### asdf
-    zinit ice silent wait:1 pick"asdf.sh" src"completions/asdf.bash"
-    zinit $load asdf-vm/asdf
+    ### exa
+    zinit ice as"command" from"gh-r" mv"exa* -> exa"
+    zinit $load ogham/exa
 
-    ### cd-gitroot
-    zinit ice silent wait:1; zinit $load mollifier/cd-gitroot
+    ### fd
+    zinit ice as"command" from"gh-r" mv"fd* -> fd" pick"fd/fd"
+    zinit $load sharkdp/fd
 
-    ### direnv
-    zinit ice as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
-        atpull'%atclone' src"zhook.zsh"
-    zinit $load direnv/direnv
+    ### fzf
+    zinit ice from"gh-r" as"program"
+    zinit $load junegunn/fzf-bin
+
+    ### ripgrep
+    zinit ice as"command" from"gh-r" mv"ripgrep* -> ripgrep" pick"ripgrep/rg"
+    zinit $load BurntSushi/ripgrep
 
     ### yank
     zinit ice as"program" pick"yank" make
-    zinit light mptre/yank
+    zinit $load mptre/yank
 
-    ### z
-    zinit ice lucid as"command" atload""; zinit $load clvv/fasd
-      eval "$(fasd --init auto)"
-    zinit ice silent wait:1; zinit $load wookayin/fzf-fasd
 
     ## }}}
 

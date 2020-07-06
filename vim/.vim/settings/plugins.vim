@@ -474,14 +474,12 @@ call plug#begin('~/.cache/plugged')
 
  "" Tmux {{{
 
-  if executable('tmux')
-    Plug 'wellle/tmux-complete.vim'
-    Plug 'edkolev/tmuxline.vim'
+  Plug 'wellle/tmux-complete.vim'
+  Plug 'edkolev/tmuxline.vim'
 
-    Plug 'christoomey/vim-tmux-navigator' "{{{
-      let g:tmux_navigator_save_on_switch = 1
-    "}}}
-  endif
+  Plug 'christoomey/vim-tmux-navigator' "{{{
+    let g:tmux_navigator_save_on_switch = 1
+  "}}}
 
   "" }}}
 
