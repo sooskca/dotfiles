@@ -10,8 +10,6 @@ let mapleader="\<Space>" | let maplocalleader="\\"
 let g:is_windows = has('win32') || has('win64')
 let g:is_nvim = has('nvim')
 
-language en
-
 " Setup
 " Install vim-plug
 if empty(glob('~/.vim/autoload/plug.vim'))

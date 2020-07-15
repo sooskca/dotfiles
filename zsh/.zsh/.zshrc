@@ -79,9 +79,9 @@
     zinit ice silent wait:1; zinit $load mollifier/cd-gitroot
 
     ### direnv
-    zinit ice as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
-        atpull'%atclone' src"zhook.zsh"
-    zinit $load direnv/direnv
+    zinit as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
+    atpull'%atclone' pick"direnv" src"zhook.zsh" for \
+        direnv/direnv
 
     ### fasd
     zinit ice lucid as"command" atload""; zinit $load clvv/fasd
@@ -114,6 +114,10 @@
     ### bat
     zinit ice as"command" from"gh-r" mv"bat* -> bat" pick"bat/bat"
     zinit $load sharkdp/bat
+
+    ### bat
+    zinit ice from"gh-r" as"program" mv"docker* -> docker-compose"
+    zinit light docker/compose
 
     ### exa
     zinit ice as"command" from"gh-r" mv"exa* -> exa"
