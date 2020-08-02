@@ -3,15 +3,7 @@ skip_global_compinit=1
 
 ZDOTDIR=$HOME/.zsh
 
-source $ZDOTDIR/.aliases
-
-source $HOME/.secrets
-
 path+=('/opt/android-studio/bin')
-
-xmodmap ~/.Xmodmap
-
-eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 
 ANDROID_HOME=$HOME/Coding/android/sdk
 

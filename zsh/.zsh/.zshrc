@@ -101,12 +101,6 @@
     zinit ice pick"shell/colors.sh" nocompile'!'
     zinit $load morhetz/gruvbox-contrib
 
-    # lscolors
-    zinit ice atclone"dircolors -b LS_COLORS > clrs.zsh" \
-        atpull'%atclone' pick"clrs.zsh" nocompile'!' \
-        atload'zstyle ":completion:*" list-colors “${(s.:.)LS_COLORS}”'
-    zinit $load trapd00r/LS_COLORS
-
   ## }}}
 
   ## programs {{{
@@ -115,7 +109,7 @@
     zinit ice as"command" from"gh-r" mv"bat* -> bat" pick"bat/bat"
     zinit $load sharkdp/bat
 
-    ### bat
+    ### compose
     zinit ice from"gh-r" as"program" mv"docker* -> docker-compose"
     zinit light docker/compose
 
@@ -132,7 +126,7 @@
     zinit $load junegunn/fzf-bin
 
     ### ripgrep
-    zinit ice as"command" from"gh-r" mv"ripgrep* -> ripgrep" pick"ripgrep/rg"
+    zinit ice as"program" from"gh-r" mv"ripgrep-* -> ripgrep" pick"ripgrep/rg"
     zinit $load BurntSushi/ripgrep
 
     ### yank
