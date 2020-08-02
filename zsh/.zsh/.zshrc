@@ -114,7 +114,7 @@
     zinit light docker/compose
 
     ### exa
-    zinit ice as"command" from"gh-r" mv"exa* -> exa"
+    zinit ice as"program" from"gh-r" mv"exa* -> exa"
     zinit $load ogham/exa
 
     ### fd
@@ -124,6 +124,10 @@
     ### fzf
     zinit ice from"gh-r" as"program"
     zinit $load junegunn/fzf-bin
+
+    ### git-town
+    zinit ice as"program" from"gh-r" bpick"*tar*" mv"git-town-* -> git-town" pick"git-town/git-town"
+    zinit $load git-town/git-town
 
     ### ripgrep
     zinit ice as"program" from"gh-r" mv"ripgrep-* -> ripgrep" pick"ripgrep/rg"
