@@ -21,3 +21,5 @@ if has('patch-7.4.2201') | set signcolumn=yes | endif
 
 filetype plugin indent on
 syntax on
+
+set viminfo='100,n$HOME/.vim/files/info/viminfo
