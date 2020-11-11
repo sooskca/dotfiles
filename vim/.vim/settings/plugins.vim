@@ -6,25 +6,25 @@
 call plug#begin('~/.cache/plugged')
 
 " Editing {{{
+
   Plug 'arthurxavierx/vim-caser'
-
-  Plug 'ntpeters/vim-better-whitespace' "{{{
-    let g:strip_whitespace_on_save=1
-    let g:better_whitespace_enabled=1
-  "}}}
-
-  Plug 'mbbill/undotree' "{{{
-    nnoremap <silent> [List]u :UndotreeToggle<cr>
-  "}}}
-
   Plug 'tpope/vim-repeat'
   Plug 'mtth/scratch.vim'
   Plug 'machakann/vim-sandwich'
 
-  Plug 'terryma/vim-expand-region' "{{{
+  Plug 'ntpeters/vim-better-whitespace' " {{{
+    let g:strip_whitespace_on_save=1
+    let g:better_whitespace_enabled=1
+  " }}}
+
+  Plug 'raimondi/delimitmate' " {{{
+    let delimitMate_expand_cr = 1
+  " }}}
+
+  Plug 'terryma/vim-expand-region' " {{{
     map K <Plug>(expand_region_expand)
     map J <Plug>(expand_region_shrink)
-  "}}}
+  " }}}
 
   Plug 'junegunn/vim-easy-align' " {{{
     " Align everything, since by default it doesn't align inside a comment
@@ -33,25 +33,22 @@ call plug#begin('~/.cache/plugged')
           \ ';': { 'pattern': ';', 'left_margin': 0, 'stick_to_left': 1 } }
     xmap gl <">(LiveEasyAlign)
     nmap gl <">(LiveEasyAlign)
-    "}}}
+  " }}}
 
   Plug 'terryma/vim-multiple-cursors' " {{{
     let g:multi_cursor_exit_from_insert_mode = 0
-    " }}}
+  " }}}
 
-  Plug 'alok/notational-fzf-vim' "{{{
-    let g:nv_search_paths = ['~/Wiki', './Notes.md']
-  "}}}
-  "
   Plug 'thaerkh/vim-workspace' " {{{
     nnoremap <leader>s :ToggleWorkspace<CR>
-    " }}}
+  " }}}
 
   Plug 'kana/vim-textobj-user' "{{{
     Plug 'saaguero/vim-textobj-pastedtext'
-    "}}}
-    "
+  " }}}
+
   Plug 'wellle/targets.vim'
+
 
   "" Completion {{{
 
@@ -192,243 +189,171 @@ call plug#begin('~/.cache/plugged')
   Plug 'tpope/vim-commentary'
   Plug 'mattn/emmet-vim'
 
-  Plug 'raimondi/delimitmate' " {{{
-    let delimitMate_expand_cr = 1
-    " }}}
-
-  if !exists("g:is_windows")
-    Plug 'metakirby5/codi.vim' "{{{
-      " since it is fullscreen, I'd like a 50/50 split
-      let g:codi#width = 50.0
-
-      " instead of destroying buffers, hide them and
-      " index them by filetype into this dictionary
-      let s:codi_filetype_tabs = {}
-
-      fun! s:FullscreenScratch()
-        " store filetype and bufnr of current buffer
-        " for later reference
-        let current_buf_ft  = &ft
-        let current_buf_num = bufnr('%')
-
-        " check if a scratch buffer for this filetype already exists
-        let saved_scratch = get(s:codi_filetype_tabs, current_buf_ft, -1)
-
-        " if a tabpage exists for current_buf_ft, go to it instead of
-        " creating a new scratch buffer
-        if saved_scratch != -1
-          if index(map(gettabinfo(), 'v:val.tabnr'), saved_scratch) == -1
-            unlet s:codi_filetype_tabs[current_buf_ft]
-          else
-            exe 'tabn' saved_scratch
-            return
-          endif
-        endif
-
-        " create a new empty tab, set scratch options and give it a name
-        tabe
-        setlocal buftype=nofile noswapfile modifiable buflisted bufhidden=hide
-        exe ':file scratch::' . current_buf_ft
-
-        " set filetype to that of original source file
-        " e.g. ruby / python / w/e Codi supports
-        let &filetype = current_buf_ft
-
-        " store the tabpagenr per filetype so we can return
-        " to it later when re-opening from the same filetype
-        let s:codi_filetype_tabs[&filetype] = tabpagenr()
-
-        " create a buffer local mapping that overrides the
-        " outer one to delete the current scratch buffer instead
-        " when the buffer is destroyed, this mapping will be
-        " destroyed with it and the next <Leader><Leader>
-        " will spawn a new fullscreen scratch window again
-        nmap <silent><buffer> <Leader><Leader> :tabprevious<Cr>
-
-        " everything is setup, filetype is set
-        " let Codi do the rest :)
-        Codi
-      endfun
-
-      " create a mapping to call the fullscreen scratch wrapper
-      nmap <silent> <leader><leader>f :call <SID>FullscreenScratch()<Cr>"}}}
-
-  endif
-
   "" Source Control {{{
 
-  Plug 'tpope/vim-fugitive' " {{{
-    noremap <Leader>ga :Gwrite<CR>
-    noremap <Leader>gc :Gcommit<CR>
-    noremap <Leader>gsh :Gpush<CR>
-    noremap <Leader>gll :Gpull<CR>
-    noremap <Leader>gs :Gstatus<CR>
-    noremap <Leader>gb :Gblame<CR>
-    noremap <Leader>gd :Gvdiff<CR>
-    noremap <Leader>gr :Gremove<CR>
+    Plug 'tpope/vim-fugitive' " {{{
+      noremap <Leader>ga :Gwrite<CR>
+      noremap <Leader>gc :Gcommit<CR>
+      noremap <Leader>gsh :Gpush<CR>
+      noremap <Leader>gll :Gpull<CR>
+      noremap <Leader>gs :Gstatus<CR>
+      noremap <Leader>gb :Gblame<CR>
+      noremap <Leader>gd :Gvdiff<CR>
+      noremap <Leader>gr :Gremove<CR>
 
-    autocmd BufReadPost fugitive://* set bufhidden=delete
-    " }}}
+      autocmd BufReadPost fugitive://* set bufhidden=delete
+      " }}}
 
-  Plug 'mhinz/vim-signify' " {{{
-    let g:signify_realtime = 1
+    Plug 'mhinz/vim-signify' " {{{
+      let g:signify_realtime = 1
     " }}}
 
   " }}}
 
   "" Code Quality {{{
 
-  Plug 'editorconfig/editorconfig-vim'
-
-"}}}
-
-  Plug 'janko-m/vim-test' "{{{
-      nmap <silent> t<C-n> :TestNearest<CR>
-      nmap <silent> t<C-f> :TestFile<CR>
-      nmap <silent> t<C-s> :TestSuite<CR>
-      nmap <silent> t<C-l> :TestLast<CR>
-      nmap <silent> t<C-g> :TestVisit<CR>
+    Plug 'janko-m/vim-test' " {{{
+        nmap <silent> t<C-n> :TestNearest<CR>
+        nmap <silent> t<C-f> :TestFile<CR>
+        nmap <silent> t<C-s> :TestSuite<CR>
+        nmap <silent> t<C-l> :TestLast<CR>
+        nmap <silent> t<C-g> :TestVisit<CR>
     "}}}
 
-  Plug 'tpope/vim-dispatch'
+    Plug 'editorconfig/editorconfig-vim'
+
+    Plug 'tpope/vim-dispatch'
 
   " }}}
 
   "" Languages {{{
+
     """ JavaScript {{{
       Plug 'othree/yajs.vim'
     """ }}}
 
-    """ Elm {{{
-      Plug 'elm-tooling/elm-vim'
-      Plug 'andys8/vim-elm-syntax'
+    """ Markdown {{{
+      Plug 'godlygeek/tabular'
+      Plug 'plasticboy/vim-markdown'
     """ }}}
 
-    Plug 'sheerun/vim-polyglot' "{{{
+    Plug 'sheerun/vim-polyglot' " {{{
       let g:polyglot_disabled = ['elm']
-    "}}}
+    " }}}
 
-  "" Libraries & Frameworks {{{
-    """ React {{{
-      " Plug 'mxw/vim-jsx'
-    """ }}}
   " }}}
 
 " }}}
 
 " Interface {{{
 
-  " Appearance {{{
-    Plug 'morhetz/gruvbox'
-    "}}}
+  Plug 'mbbill/undotree' " {{{
+    nnoremap <silent> [List]u :UndotreeToggle<cr>
+  " }}}
 
-  " Status Line "{{{
-    Plug 'vim-airline/vim-airline' "{{{
+  "" Appearance {{{
+
+    Plug 'morhetz/gruvbox'
+
+    Plug 'vim-airline/vim-airline' " {{{
       Plug 'vim-airline/vim-airline-themes'
 
       let g:airline#extensions#tabline#enabled = 1
       let g:airline_powerline_fonts = 1
       let g:airline_theme='base16_gruvbox_dark_hard'
-    "}}}
-
-  "}}}
-
-  " File Navigation "{{{
-
-  Plug 'farmergreg/vim-lastplace'
-
-  Plug 'majutsushi/tagbar' "{{{
-    let g:tagbar_type_elm = {
-          \ 'kinds' : [
-          \ 'f:function:0:0',
-          \ 'm:modules:0:0',
-          \ 'i:imports:1:0',
-          \ 't:types:1:0',
-          \ 'a:type aliases:0:0',
-          \ 'c:type constructors:0:0',
-          \ 'p:ports:0:0',
-          \ 's:functions:0:0',
-          \ ]
-          \}
-  """ }}}
-
-  Plug 'junegunn/fzf.vim' " {{{
-    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-    let g:fzf_nvim_statusline = 0 " disable statusline overwriting
-
-    nmap \ [fzf]
-    nnoremap <silent> [fzf]\ :Files<CR>
-    nnoremap <silent> [fzf]<space> :NV<CR>
-    nnoremap <silent> [fzf]b :Buffers<CR>
-    nnoremap <silent> [fzf]B :Windows<CR>
-    nnoremap <silent> [fzf]l :BLines<CR>
-    nnoremap <silent> [fzf]t :BTags<CR>
-    nnoremap <silent> [fzf]T :Tags<CR>
-    nnoremap <silent> [fzf]h :History<CR>
-    nnoremap <silent> [fzf]s :execute 'Ag ' . input('Ag/')<CR>
-    nnoremap <silent> [fzf]S :AgIn
-
-    nnoremap <silent> [fzf]gl :Commits<CR>
-    nnoremap <silent> [fzf]ga :BCommits<CR>
-    nnoremap <silent> [fzf]ft :Filetypes<CR>
-
-    imap <C-x><C-f> <plug>(fzf-complete-file-ag)
-    imap <C-x><C-l> <plug>(fzf-complete-line)
-
-    function! SearchWithAgInDirectory(...)
-      call fzf#vim#ag(join(a:000[1:], ' '), extend({'dir': a:1}, g:fzf#vim#default_layout))
-    endfunction
-    command! -nargs=+ -complete=dir AgIn call SearchWithAgInDirectory(<f-args>)
   " }}}
 
-  "Plug 'tpope/vim-vinegar' "{{{
-  "  let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
+  "" }}}
 
-  "  autocmd FileType netrw setl bufhidden=delete
+  "" Navigation {{{
 
-  ""}}}
+    Plug 'farmergreg/vim-lastplace'
 
-  Plug 'scrooloose/nerdtree' "{{{
-    Plug 'Xuyuanp/nerdtree-git-plugin'
+    Plug 'majutsushi/tagbar' " {{{
+      let g:tagbar_type_elm = {
+            \ 'kinds' : [
+            \ 'f:function:0:0',
+            \ 'm:modules:0:0',
+            \ 'i:imports:1:0',
+            \ 't:types:1:0',
+            \ 'a:type aliases:0:0',
+            \ 'c:type constructors:0:0',
+            \ 'p:ports:0:0',
+            \ 's:functions:0:0',
+            \ ]
+            \}
+    " }}}
 
-    let NERDTreeShowHidden=1
-    let NERDTreeQuitOnOpen=0
-    let NERDTreeShowLineNumbers=1
-    let NERDTreeChDirMode=0
-    let NERDTreeIgnore=['\.git','\.hg']
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " {{{
+      let g:fzf_nvim_statusline = 0 " disable statusline overwriting
 
-    nnoremap <F2> :NERDTreeToggle<CR>
-    nnoremap <F3> :NERDTreeFind<CR>
+      nmap \ [fzf]
+      nnoremap <silent> [fzf]\ :Files<CR>
+      nnoremap <silent> [fzf]<space> :NV<CR>
+      nnoremap <silent> [fzf]b :Buffers<CR>
+      nnoremap <silent> [fzf]B :Windows<CR>
+      nnoremap <silent> [fzf]l :BLines<CR>
+      nnoremap <silent> [fzf]t :BTags<CR>
+      nnoremap <silent> [fzf]T :Tags<CR>
+      nnoremap <silent> [fzf]h :History<CR>
+      nnoremap <silent> [fzf]s :execute 'Ag ' . input('Ag/')<CR>
+      nnoremap <silent> [fzf]S :AgIn
 
-    let g:NERDTreeWinSize=40
+      nnoremap <silent> [fzf]gl :Commits<CR>
+      nnoremap <silent> [fzf]ga :BCommits<CR>
+      nnoremap <silent> [fzf]ft :Filetypes<CR>
 
-    " Disable display of '?' text and 'Bookmarks' label.
-    let g:NERDTreeMinimalUI=1
+      imap <C-x><C-f> <plug>(fzf-complete-file-ag)
+      imap <C-x><C-l> <plug>(fzf-complete-line)
 
-    " Single-click to toggle directory nodes, double-click to open non-directory
-    " nodes.
-    let g:NERDTreeMouseMode=2
+      function! SearchWithAgInDirectory(...)
+        call fzf#vim#ag(join(a:000[1:], ' '), extend({'dir': a:1}, g:fzf#vim#default_layout))
+      endfunction
+      command! -nargs=+ -complete=dir AgIn call SearchWithAgInDirectory(<f-args>)
+    " }}}
 
-    if has('autocmd')
-      augroup settings-plugin-nerdtree
-        autocmd!
+    Plug 'scrooloose/nerdtree' "{{{
+      Plug 'Xuyuanp/nerdtree-git-plugin'
 
-        " Shows at startup (if a directory is opened)
-        autocmd StdinReadPre * let s:std_in=1
-        autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+      let NERDTreeShowHidden=1
+      let NERDTreeQuitOnOpen=0
+      let NERDTreeShowLineNumbers=1
+      let NERDTreeChDirMode=0
+      let NERDTreeIgnore=['\.git','\.hg']
 
-        " Tries to select last file
-        autocmd User NERDTreeInit call functions#SelectLastFile()
+      nnoremap <F2> :NERDTreeToggle<CR>
+      nnoremap <F3> :NERDTreeFind<CR>
 
-        " Exits when is the only window shown
-        autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-      augroup END
-    endif
-    "}}}
+      let g:NERDTreeWinSize=40
 
-  "}}}
+      " Disable display of '?' text and 'Bookmarks' label.
+      let g:NERDTreeMinimalUI=1
 
-"}}}
+      " Single-click to toggle directory nodes, double-click to open non-directory
+      " nodes.
+      let g:NERDTreeMouseMode=2
+
+      if has('autocmd')
+        augroup settings-plugin-nerdtree
+          autocmd!
+
+          " Shows at startup (if a directory is opened)
+          autocmd StdinReadPre * let s:std_in=1
+          autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+
+          " Tries to select last file
+          autocmd User NERDTreeInit call functions#SelectLastFile()
+
+          " Exits when is the only window shown
+          autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+        augroup END
+      endif
+      "}}}
+
+    "" }}}
+
+
+  "" }}}
 
 " Motion {{{
 
@@ -453,35 +378,10 @@ call plug#begin('~/.cache/plugged')
   Plug 'octref/rootignore'
   Plug 'tpope/vim-unimpaired'
 
-  Plug 'vimwiki/vimwiki' "{{{
-
-    let g:vimwiki_diary_months = {
-          \ 1: 'Janeiro', 2: 'Fevereiro', 3: 'Março',
-          \ 4: 'Abril', 5: 'Maio', 6: 'Junho',
-          \ 7: 'Julho', 8: 'Agosto', 9: 'Setembro',
-          \ 10: 'Outubro', 11: 'Novembro', 12: 'Dezembro'
-          \ }
-    let g:vimwiki_list = [{
-          \ 'path': '~/Wiki/',
-          \ 'syntax': 'markdown', 'ext': '.md',
-          \ 'auto_diary_index': 1
-          \ }]
-  " }}}
-
   Plug 'mhinz/vim-startify' "{{{
     nnoremap <F4> :Startify<CR>
   "}}}
 
- "" Tmux {{{
-
-  Plug 'wellle/tmux-complete.vim'
-  Plug 'edkolev/tmuxline.vim'
-
-  Plug 'christoomey/vim-tmux-navigator' "{{{
-    let g:tmux_navigator_save_on_switch = 1
-  "}}}
-
-  "" }}}
 
 " }}}
 
