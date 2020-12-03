@@ -16,6 +16,21 @@ set hidden " hide buffers, not close them
 set switchbuf=useopen " use existing buffers
 
 " use global clipboard
+
+set clipboard+=unnamedplus
+let g:clipboard = {
+          \   'name': 'win32yank-wsl',
+          \   'copy': {
+          \      '+': 'win32yank.exe -i --crlf',
+          \      '*': 'win32yank.exe -i --crlf',
+          \    },
+          \   'paste': {
+          \      '+': 'win32yank.exe -o --lf',
+          \      '*': 'win32yank.exe -o --lf',
+          \   },
+          \   'cache_enabled': 0,
+          \ }
+
 if has('unnamedplus')
   set clipboard& clipboard=unnamedplus
 else

@@ -1,32 +1,38 @@
 " vim: fdm=marker ts=2 sts=2 sw=2
-" vim-plug.vim - My vim-plug setup
+" settings/plugins.vim - My plugin settings
 " Maintainer:   José Araújo <sooskca@gmail.com>
 " Version:      1.0
 
-call plug#begin('~/.cache/plugged')
-
 " Editing {{{
 
-  Plug 'arthurxavierx/vim-caser'
-  Plug 'tpope/vim-repeat'
-  Plug 'mtth/scratch.vim'
-  Plug 'machakann/vim-sandwich'
+  " 'bfredl/nvim-miniyank' " {{{
 
-  Plug 'ntpeters/vim-better-whitespace' " {{{
+    map p <Plug>(miniyank-autoput)
+    map P <Plug>(miniyank-autoPut)
+
+    map <leader>p <Plug>(miniyank-startput)
+    map <leader>P <Plug>(miniyank-startPut)
+
+    map <leader>n <Plug>(miniyank-cycle)
+    map <leader>N <Plug>(miniyank-cycleback)
+
+  " }}}
+
+  " 'ntpeters/vim-better-whitespace' " {{{
     let g:strip_whitespace_on_save=1
     let g:better_whitespace_enabled=1
   " }}}
 
-  Plug 'raimondi/delimitmate' " {{{
+  " 'raimondi/delimitmate' " {{{
     let delimitMate_expand_cr = 1
   " }}}
 
-  Plug 'terryma/vim-expand-region' " {{{
+  " 'terryma/vim-expand-region' " {{{
     map K <Plug>(expand_region_expand)
     map J <Plug>(expand_region_shrink)
   " }}}
 
-  Plug 'junegunn/vim-easy-align' " {{{
+  " 'junegunn/vim-easy-align' " {{{
     " Align everything, since by default it doesn't align inside a comment
     let g:easy_align_ignore_groups = []
     let g:easy_align_delimiters = {
@@ -35,24 +41,25 @@ call plug#begin('~/.cache/plugged')
     nmap gl <">(LiveEasyAlign)
   " }}}
 
-  Plug 'terryma/vim-multiple-cursors' " {{{
+  " 'terryma/vim-multiple-cursors' " {{{
     let g:multi_cursor_exit_from_insert_mode = 0
   " }}}
 
-  Plug 'thaerkh/vim-workspace' " {{{
+  " 'thaerkh/vim-workspace' " {{{
     nnoremap <leader>s :ToggleWorkspace<CR>
   " }}}
 
-  Plug 'kana/vim-textobj-user' "{{{
-    Plug 'saaguero/vim-textobj-pastedtext'
-  " }}}
-
-  Plug 'wellle/targets.vim'
-
-
   "" Completion {{{
+" Trigger configuration. You need to change this to something other than <tab> if you use one of the following:
+" - https://github.com/Valloric/YouCompleteMe
+" - https://github.com/nvim-lua/completion-nvim
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
-  Plug 'neoclide/coc.nvim', {'branch': 'release'} " {{{
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
+  " 'neoclide/coc.nvim', {'branch': 'release'} " {{{
     let g:coc_global_extensions = [
           \'coc-tsserver',
           \'coc-emmet',
@@ -61,6 +68,8 @@ call plug#begin('~/.cache/plugged')
           \'coc-json',
           \'coc-pairs',
           \'coc-yank',
+          \'coc-phpactor',
+          \'coc-snippets',
           \'coc-prettier']
 
     " You will have bad experience for diagnostic messages when it's default 4000.
@@ -75,15 +84,16 @@ call plug#begin('~/.cache/plugged')
     " Use tab for trigger completion with characters ahead and navigate.
     " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
     inoremap <silent><expr> <TAB>
-          \ pumvisible() ? "\<C-n>" :
+          \ pumvisible() ? coc#_select_confirm() :
+          \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
           \ <SID>check_back_space() ? "\<TAB>" :
           \ coc#refresh()
-    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
     function! s:check_back_space() abort
       let col = col('.') - 1
       return !col || getline('.')[col - 1]  =~# '\s'
     endfunction
+
 
     " Use <c-space> to trigger completion.
     inoremap <silent><expr> <c-space> coc#refresh()
@@ -185,13 +195,10 @@ call plug#begin('~/.cache/plugged')
 
 " Programming {{{
 
-  Plug 'honza/vim-snippets'
-  Plug 'tpope/vim-commentary'
-  Plug 'mattn/emmet-vim'
-
   "" Source Control {{{
 
-    Plug 'tpope/vim-fugitive' " {{{
+    " 'tpope/vim-fugitive' " {{{
+
       noremap <Leader>ga :Gwrite<CR>
       noremap <Leader>gc :Gcommit<CR>
       noremap <Leader>gsh :Gpush<CR>
@@ -202,9 +209,10 @@ call plug#begin('~/.cache/plugged')
       noremap <Leader>gr :Gremove<CR>
 
       autocmd BufReadPost fugitive://* set bufhidden=delete
+
       " }}}
 
-    Plug 'mhinz/vim-signify' " {{{
+    " 'mhinz/vim-signify' " {{{
       let g:signify_realtime = 1
     " }}}
 
@@ -212,34 +220,67 @@ call plug#begin('~/.cache/plugged')
 
   "" Code Quality {{{
 
-    Plug 'janko-m/vim-test' " {{{
-        nmap <silent> t<C-n> :TestNearest<CR>
-        nmap <silent> t<C-f> :TestFile<CR>
-        nmap <silent> t<C-s> :TestSuite<CR>
-        nmap <silent> t<C-l> :TestLast<CR>
-        nmap <silent> t<C-g> :TestVisit<CR>
-    "}}}
+    """   'neomake/neomake' {{{
+      call neomake#configure#automake('nrwi', 500)
+    """ }}}
 
-    Plug 'editorconfig/editorconfig-vim'
+    """ 'janko-m/vim-test' " {{{
+      nmap <silent> t<C-n> :TestNearest<CR>
+      nmap <silent> t<C-f> :TestFile<CR>
+      nmap <silent> t<C-s> :TestSuite<CR>
+      nmap <silent> t<C-l> :TestLast<CR>
+      nmap <silent> t<C-g> :TestVisit<CR>
+    """ }}}
 
-    Plug 'tpope/vim-dispatch'
-
-  " }}}
+  "" }}}
 
   "" Languages {{{
 
-    """ JavaScript {{{
-      Plug 'othree/yajs.vim'
-    """ }}}
+    """ PHP {{{
 
-    """ Markdown {{{
-      Plug 'godlygeek/tabular'
-      Plug 'plasticboy/vim-markdown'
-    """ }}}
+      """" 'tobyS/pdv' {{{
 
-    Plug 'sheerun/vim-polyglot' " {{{
-      let g:polyglot_disabled = ['elm']
-    " }}}
+        let g:pdv_template_dir = $HOME ."/.vim/snipets/pdv"
+
+        nnoremap <buffer> <C-p> :call pdv#DocumentWithSnip()<CR>
+
+      """" }}}
+
+      """" 'tobyS/pdv' {{{
+        " augroup PhpactorMappings
+        "   au!
+        "   au FileType php nmap <buffer> <Leader>u :PhpactorImportClass<CR>
+        "   au FileType php nmap <buffer> <Leader>e :PhpactorClassExpand<CR>
+        "   au FileType php nmap <buffer> <Leader>ua :PhpactorImportMissingClasses<CR>
+        "   au FileType php nmap <buffer> <Leader>mm :PhpactorContextMenu<CR>
+        "   au FileType php nmap <buffer> <Leader>nn :PhpactorNavigate<CR>
+        "   au FileType php,cucumber nmap <buffer> <Leader>o
+        "       \ :PhpactorGotoDefinition<CR>
+        "   au FileType php,cucumber nmap <buffer> <Leader>Oh
+        "       \ :PhpactorGotoDefinitionHsplit<CR>
+        "   au FileType php,cucumber nmap <buffer> <Leader>Ov
+        "       \ :PhpactorGotoDefinitionVsplit<CR>
+        "   au FileType php,cucumber nmap <buffer> <Leader>Ot
+        "       \ :PhpactorGotoDefinitionTab<CR>
+        "   au FileType php nmap <buffer> <Leader>K :PhpactorHover<CR>
+        "   au FileType php nmap <buffer> <Leader>tt :PhpactorTransform<CR>
+        "   au FileType php nmap <buffer> <Leader>cc :PhpactorClassNew<CR>
+        "   au FileType php nmap <buffer> <Leader>ci :PhpactorClassInflect<CR>
+        "   au FileType php nmap <buffer> <Leader>fr :PhpactorFindReferences<CR>
+        "   au FileType php nmap <buffer> <Leader>mf :PhpactorMoveFile<CR>
+        "   au FileType php nmap <buffer> <Leader>cf :PhpactorCopyFile<CR>
+        "   au FileType php nmap <buffer> <silent> <Leader>ee
+        "       \ :PhpactorExtractExpression<CR>
+        "   au FileType php vmap <buffer> <silent> <Leader>ee
+        "       \ :<C-u>PhpactorExtractExpression<CR>
+        "   au FileType php vmap <buffer> <silent> <Leader>em
+        "       \ :<C-u>PhpactorExtractMethod<CR>
+        " augroup END
+
+
+      """" }}}
+
+    """ }}}
 
   " }}}
 
@@ -247,44 +288,34 @@ call plug#begin('~/.cache/plugged')
 
 " Interface {{{
 
-  Plug 'mbbill/undotree' " {{{
-    nnoremap <silent> [List]u :UndotreeToggle<cr>
-  " }}}
+  "" 'moll/vim-bbye' {{{
 
-  "" Appearance {{{
-
-    Plug 'morhetz/gruvbox'
-
-    Plug 'vim-airline/vim-airline' " {{{
-      Plug 'vim-airline/vim-airline-themes'
-
-      let g:airline#extensions#tabline#enabled = 1
-      let g:airline_powerline_fonts = 1
-      let g:airline_theme='base16_gruvbox_dark_hard'
-  " }}}
+    noremap <Leader>c :Bdelete<CR>
 
   "" }}}
 
+  "" 'mbbill/undotree' " {{{
+
+    nnoremap <silent> [List]u :UndotreeToggle<cr>
+
+  "" }}}
+
+  "" Appearance {{{
+
+  """ 'vim-airline/vim-airline' {{{
+
+    let g:airline#extensions#tabline#enabled = 1
+    let g:airline_powerline_fonts = 1
+    let g:airline_theme='base16_gruvbox_dark_hard'
+
+  """ }}}
+
+"" }}}
+
   "" Navigation {{{
 
-    Plug 'farmergreg/vim-lastplace'
+    """ 'junegunn/fzf' {{{
 
-    Plug 'majutsushi/tagbar' " {{{
-      let g:tagbar_type_elm = {
-            \ 'kinds' : [
-            \ 'f:function:0:0',
-            \ 'm:modules:0:0',
-            \ 'i:imports:1:0',
-            \ 't:types:1:0',
-            \ 'a:type aliases:0:0',
-            \ 'c:type constructors:0:0',
-            \ 'p:ports:0:0',
-            \ 's:functions:0:0',
-            \ ]
-            \}
-    " }}}
-
-    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " {{{
       let g:fzf_nvim_statusline = 0 " disable statusline overwriting
 
       nmap \ [fzf]
@@ -312,8 +343,7 @@ call plug#begin('~/.cache/plugged')
       command! -nargs=+ -complete=dir AgIn call SearchWithAgInDirectory(<f-args>)
     " }}}
 
-    Plug 'scrooloose/nerdtree' "{{{
-      Plug 'Xuyuanp/nerdtree-git-plugin'
+    """ 'scrooloose/nerdtree' {{{
 
       let NERDTreeShowHidden=1
       let NERDTreeQuitOnOpen=0
@@ -348,41 +378,23 @@ call plug#begin('~/.cache/plugged')
           autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
         augroup END
       endif
-      "}}}
+
+    """ }}}
 
     "" }}}
 
-
-  "" }}}
-
-" Motion {{{
-
-  Plug 'easymotion/vim-easymotion'
-  Plug 'vim-scripts/matchit.zip'
-  Plug 'justinmk/vim-sneak'
-
-"}}}
-
-" Highlighting {{{
-
-  Plug 'psychollama/further.vim'
-  Plug 'yggdroot/indentline'
-  Plug 'vasconcelloslf/vim-interestingwords'
-  Plug 'xtal8/traces.vim'
-
-"}}}
-
 " Utilities {{{
 
-  Plug 'konfekt/fastfold'
-  Plug 'octref/rootignore'
-  Plug 'tpope/vim-unimpaired'
-
-  Plug 'mhinz/vim-startify' "{{{
+  "" 'mhinz/vim-startify' {{{
     nnoremap <F4> :Startify<CR>
-  "}}}
+
+    let g:startify_bookmarks = [
+                \ {'1': '~/dev/simple-example-plugin/README.md'},
+                \]
+
+  "" }}}
 
 
 " }}}
 
-call plug#end()
+" }}}

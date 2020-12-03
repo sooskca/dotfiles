@@ -109,10 +109,6 @@
     zinit ice as"command" from"gh-r" mv"bat* -> bat" pick"bat/bat"
     zinit $load sharkdp/bat
 
-    ### compose
-    zinit ice from"gh-r" as"program" mv"docker* -> docker-compose"
-    zinit light docker/compose
-
     ### exa
     zinit ice as"program" from"gh-r" mv"exa* -> exa"
     zinit $load ogham/exa
@@ -169,6 +165,8 @@
     # }}}
 
   ## }}}
+
+  source ~/.zsh/.aliases
 
 # }}}
 # gvim: fdm=marker ft=zsh

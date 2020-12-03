@@ -24,4 +24,6 @@ path+=(${FLUTTER_HOME}/tools)
 
 path+=(${HOME}/.yarn/bin)
 
+path+=(${HOME}/bin)
+
 export PATH

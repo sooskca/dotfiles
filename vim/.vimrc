@@ -17,6 +17,8 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
+source ~/.vim/plugins.vim
+
 " Global Settings
 source ~/.vim/settings/base.vim
 source ~/.vim/settings/plugins.vim
