@@ -5,6 +5,8 @@
 
 call plug#begin('~/.cache/plugged')
 
+  Plug 'thinca/vim-localrc'
+
 " Editing {{{
 
   Plug 'tpope/vim-repeat'
@@ -34,7 +36,6 @@ call plug#begin('~/.cache/plugged')
 
 " Programming {{{
 
-  Plug 'honza/vim-snippets'
   Plug 'tpope/vim-commentary'
   Plug 'mattn/emmet-vim'
 
@@ -57,24 +58,16 @@ call plug#begin('~/.cache/plugged')
   "" Languages {{{
 
     """ JavaScript {{{
+
       Plug 'othree/yajs.vim', {'for': 'javascript'}
+
     """ }}}
 
-    """ PHP {{{
-
-      Plug 'StanAngeloff/php.vim'
-      Plug 'phpactor/phpactor', {'for': 'php', 'branch': 'master', 'do': 'composer install --no-dev -o'}
-      Plug 'camilledejoye/phpactor-mappings'
-      Plug 'shawncplus/phpcomplete.vim'
-      Plug '2072/PHP-Indenting-for-VIm'
-      Plug 'tobyS/pdv'
-      Plug 'tobyS/vmustache'
-
-      " }}}
-
     """ Markdown {{{
+
       Plug 'godlygeek/tabular'
       Plug 'plasticboy/vim-markdown'
+
     """ }}}
 
     Plug 'sheerun/vim-polyglot'
