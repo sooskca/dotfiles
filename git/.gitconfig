@@ -1,6 +1,7 @@
 [user]
   name = José Araújo
   email = sooskca@gmail.com
+	signingkey = DD5296C24FF3C3B7
 [apply]
   whitespace = nowarn
 [branch]
@@ -31,6 +32,7 @@
   pager = less
   editor = nvim
   autocrlf = false
+	eol = =
 [alias]
   graph = log --graph --color --pretty=format:%C(yellow)%H%C(green)%d%C(reset)%n%x20%cd%n%x20%cn%x20(%ce)%n%x20%s%n
   stat = status -sb
@@ -70,6 +72,7 @@
   autoStash = false
 [commit]
   template = ~/.gitmessage
+	gpgsign = true
 [filter "lfs"]
   clean = git-lfs clean -- %f
   smudge = git-lfs smudge -- %f
@@ -80,3 +83,9 @@
 [gui]
   encoding = UTF-8
   editor = nvim
+[credential]
+	helper = manager-core
+[init]
+	defaultBranch = main
+[gpg]
+	program = C:\\Users\\Jack\\scoop\\apps\\gpg\\current\\bin\\gpg.exe
