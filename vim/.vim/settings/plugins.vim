@@ -50,14 +50,12 @@
   " }}}
 
   "" Completion {{{
-" Trigger configuration. You need to change this to something other than <tab> if you use one of the following:
-" - https://github.com/Valloric/YouCompleteMe
-" - https://github.com/nvim-lua/completion-nvim
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
+  "'SirVer/ultisnips' {{{
+      let g:UltiSnipsJumpForwardTrigger="<c-j>"
+      let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+      let g:UltiSnipsEditSplit="vertical"
+  " }}}
 
   " 'neoclide/coc.nvim', {'branch': 'release'} " {{{
     let g:coc_global_extensions = [
@@ -68,7 +66,6 @@ let g:UltiSnipsEditSplit="vertical"
           \'coc-json',
           \'coc-pairs',
           \'coc-yank',
-          \'coc-phpactor',
           \'coc-snippets',
           \'coc-prettier']
 
@@ -221,7 +218,7 @@ let g:UltiSnipsEditSplit="vertical"
   "" Code Quality {{{
 
     """   'neomake/neomake' {{{
-      call neomake#configure#automake('nrwi', 500)
+      call neomake#configure#automake('w')
     """ }}}
 
     """ 'janko-m/vim-test' " {{{
@@ -233,54 +230,6 @@ let g:UltiSnipsEditSplit="vertical"
     """ }}}
 
   "" }}}
-
-  "" Languages {{{
-
-    """ PHP {{{
-
-      """" 'tobyS/pdv' {{{
-
-        let g:pdv_template_dir = $HOME ."/.vim/snipets/pdv"
-
-        nnoremap <buffer> <C-p> :call pdv#DocumentWithSnip()<CR>
-
-      """" }}}
-
-      """" 'tobyS/pdv' {{{
-        " augroup PhpactorMappings
-        "   au!
-        "   au FileType php nmap <buffer> <Leader>u :PhpactorImportClass<CR>
-        "   au FileType php nmap <buffer> <Leader>e :PhpactorClassExpand<CR>
-        "   au FileType php nmap <buffer> <Leader>ua :PhpactorImportMissingClasses<CR>
-        "   au FileType php nmap <buffer> <Leader>mm :PhpactorContextMenu<CR>
-        "   au FileType php nmap <buffer> <Leader>nn :PhpactorNavigate<CR>
-        "   au FileType php,cucumber nmap <buffer> <Leader>o
-        "       \ :PhpactorGotoDefinition<CR>
-        "   au FileType php,cucumber nmap <buffer> <Leader>Oh
-        "       \ :PhpactorGotoDefinitionHsplit<CR>
-        "   au FileType php,cucumber nmap <buffer> <Leader>Ov
-        "       \ :PhpactorGotoDefinitionVsplit<CR>
-        "   au FileType php,cucumber nmap <buffer> <Leader>Ot
-        "       \ :PhpactorGotoDefinitionTab<CR>
-        "   au FileType php nmap <buffer> <Leader>K :PhpactorHover<CR>
-        "   au FileType php nmap <buffer> <Leader>tt :PhpactorTransform<CR>
-        "   au FileType php nmap <buffer> <Leader>cc :PhpactorClassNew<CR>
-        "   au FileType php nmap <buffer> <Leader>ci :PhpactorClassInflect<CR>
-        "   au FileType php nmap <buffer> <Leader>fr :PhpactorFindReferences<CR>
-        "   au FileType php nmap <buffer> <Leader>mf :PhpactorMoveFile<CR>
-        "   au FileType php nmap <buffer> <Leader>cf :PhpactorCopyFile<CR>
-        "   au FileType php nmap <buffer> <silent> <Leader>ee
-        "       \ :PhpactorExtractExpression<CR>
-        "   au FileType php vmap <buffer> <silent> <Leader>ee
-        "       \ :<C-u>PhpactorExtractExpression<CR>
-        "   au FileType php vmap <buffer> <silent> <Leader>em
-        "       \ :<C-u>PhpactorExtractMethod<CR>
-        " augroup END
-
-
-      """" }}}
-
-    """ }}}
 
   " }}}
 

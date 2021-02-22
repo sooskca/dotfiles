@@ -66,12 +66,3 @@ set t_ut= " look properly in tmux
 set t_BE= " disable bracketed-paste mode
 let &t_Co = 256 " terminal colors
 set termguicolors
-
-if g:is_windows " support 256 colors and scroll in conemu
-  let &t_AF="\e[38;5;%dm"
-  let &t_AB="\e[48;5;%dm"
-  inoremap <esc>[62~ <c-x><c-e>
-  inoremap <esc>[63~ <c-x><c-y>
-  nnoremap <esc>[62~ 3<c-e>
-  nnoremap <esc>[63~ 3<c-y>
-endif
