@@ -70,6 +70,11 @@ call plug#begin('~/.cache/plugged')
 
     """ }}}
 
+    """ Dart {{{
+
+      Plug 'dart-lang/dart-vim-plugin'
+
+    """ }}}
     Plug 'sheerun/vim-polyglot'
 
     " }}}

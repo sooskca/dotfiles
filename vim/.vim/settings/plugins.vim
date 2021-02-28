@@ -60,6 +60,7 @@
   " 'neoclide/coc.nvim', {'branch': 'release'} " {{{
     let g:coc_global_extensions = [
           \'coc-tsserver',
+          \'coc-flutter',
           \'coc-emmet',
           \'coc-css',
           \'coc-html',
